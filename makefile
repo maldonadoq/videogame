@@ -1,5 +1,6 @@
 SRCS	= main.cpp src/cuarto.cpp src/mapa.cpp src/juego.cpp \
-			src/tmanager.cpp
+			src/tmanager.cpp src/jugador.cpp src/utils.cpp \
+			src/gestor.cpp
 CC		= g++ -std=c++17
 OPTS	= -O3
 INCD	= inc
