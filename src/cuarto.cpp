@@ -1,17 +1,15 @@
 #include "../inc/cuarto.h"
 
 TCuarto::TCuarto(){
-
+	this->m_centro = glm::vec3(0,0,0);
+	this->m_dim = glm::vec3(10,5,10);
+	this->m_escala = m_dim/5.0f;
 }
 
 TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
 	this->m_centro = _centro;
 	this->m_dim = m_dim;
-	// this->m_escala = glm::vec3((float)m_dim.x/10,(float)m_dim.y/10,(float)m_dim.z/10);
 	this->m_escala = m_dim/10.0f;
-}
-
-TCuarto::~TCuarto(){
 }
 
 void TCuarto::dibujar_paredes(){
@@ -106,4 +104,20 @@ void TCuarto::dibujar(int *_tid){
 
 	glBindTexture(GL_TEXTURE_2D, _tid[1]);
 	dibujar_paredes();
+}
+
+bool TCuarto::colision_paredes(glm::vec3 _pos){
+	if(
+		((_pos.x > (m_centro.x-m_dim.x)) and (_pos.x < (m_centro.x+m_dim.x))) and
+		((_pos.y > (m_centro.y-m_dim.y)) and (_pos.y < (m_centro.y+m_dim.y))) and
+		((_pos.z > (m_centro.z-m_dim.z)) and (_pos.z < (m_centro.z+m_dim.z)))
+	){
+		return true;
+	}
+
+	return false;
+}
+
+TCuarto::~TCuarto(){
+
 }
