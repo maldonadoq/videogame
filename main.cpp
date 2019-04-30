@@ -20,7 +20,15 @@ int main(int argc, char *argv[]){
     });
 
     glutKeyboardFunc([](unsigned char c, int x, int y) {
-        juego->tecla_presionada(c, x, y);
+        juego->presionar_tecla(c, x, y);
+    });
+
+    glutSpecialUpFunc([](int c, int x, int y){
+        juego->soltar_tecla_especial(c,x,y);
+    });
+
+    glutSpecialFunc([](int c, int x, int y) {
+        juego->presionar_tecla_especial(c, x, y);
     });
 
     glutMouseFunc([](int b, int s, int x, int y){
@@ -29,7 +37,7 @@ int main(int argc, char *argv[]){
 
 	glutMotionFunc([](int x, int y){
 		juego->mouse_motion(x,y);
-	});
+	});    
 
 	glutMainLoop();
 
