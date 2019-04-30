@@ -1,7 +1,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-#include <glm/gtc/type_ptr.hpp>
+#include <GL/glut.h>
 #include <glm/glm.hpp>
 
 struct TLuz
@@ -20,5 +20,7 @@ struct TMaterial
 	glm::vec3 m_specular;
 	float m_shininess;
 };
+
+void dibujar_luz(TLuz, float);
 
 #endif
