@@ -20,9 +20,9 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->set_mapa(this->m_mapa);    
 
     this->m_luz = {
-		glm::vec4(0.0f, 10.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 10.0f, 0.0f, 1.0f),
 		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),
-		glm::vec4(0.8f, 0.8f, 0.8f , 1.0f),
+		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f),
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)
 	};
 
@@ -57,10 +57,10 @@ void TJuego::initGL(){
 	glEnable(GL_LIGHT0);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glm::value_ptr(m_luz.m_ambient));
 
+	glLightfv(GL_LIGHT0, GL_POSITION, glm::value_ptr(m_luz.m_position));
 	glLightfv(GL_LIGHT0, GL_AMBIENT , glm::value_ptr(m_luz.m_ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE , glm::value_ptr(m_luz.m_diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));
-	glLightfv(GL_LIGHT0, GL_POSITION, glm::value_ptr(m_luz.m_position));	
+	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));	
 }
 
 void TJuego::dibujar(){
@@ -119,7 +119,7 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
     glMatrixMode(GL_MODELVIEW);
 }
 
-void TJuego::mouse(int button, int state, int x, int y){
+void TJuego::mouse(int button, int state, int x, int y){	
 	if (/*state == GLUT_DOWN &&*/button == GLUT_LEFT_BUTTON){
 		if(state == GLUT_UP){
 			m_camara->m_angulo += m_camara->m_delta_mangle;
@@ -128,6 +128,12 @@ void TJuego::mouse(int button, int state, int x, int y){
 		else{
 			m_origen = x;
 		}
+	}
+	else if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON){
+		TBala tb = {1.0f, m_jugador->m_posicion, m_camara->m_direccion};
+		// std::cout << "crear bala\n";
+		std::cout << "balas: " << m_jugador->m_balas.size() << "\n";
+		m_jugador->anhadir_bala(tb);
 	}
 }
 
