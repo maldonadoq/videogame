@@ -36,6 +36,33 @@ void TGestor::saltar_jugador(float _dt){
 	}
 }
 
+void TGestor::dibujar_balas_jugador(){
+	unsigned i;
+
+	// dibujar las balas
+	glColor3f(0.0f, 1.0f, 0.0f);
+	for(i=0; i<m_jugador->m_balas.size(); i++){
+		glPushMatrix();
+			glTranslatef(
+				m_jugador->m_balas[i].m_posicion.x,
+				m_jugador->m_balas[i].m_posicion.y,
+				m_jugador->m_balas[i].m_posicion.z
+			);
+
+			glutSolidSphere(m_jugador->m_balas[i].m_radio,8,8);
+		glPopMatrix();
+
+		m_jugador->m_balas[i].m_posicion += m_jugador->m_balas[i].m_direccion;
+
+		if(!m_mapa->m_cuarto_actual->colision_paredes(
+			m_jugador->m_balas[i].m_posicion)){
+			
+			m_jugador->m_balas.erase(m_jugador->m_balas.begin()+i);
+			i--;
+		}
+	}
+}
+
 void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 	if(m_jugador->m_mover){
 		mover_jugador(_dir*m_jugador->m_mover);
@@ -45,6 +72,7 @@ void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 		saltar_jugador(_dt);
 	}
 
+	dibujar_balas_jugador();
 	this->m_jugador->dibujar();
 }
 
