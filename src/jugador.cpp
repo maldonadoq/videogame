@@ -31,3 +31,7 @@ void TJugador::set_posicion_inicial(){
 glm::vec3 TJugador::get_posicion(){
 	return this->m_posicion;
 }
+
+void TJugador::anhadir_bala(TBala _bala){
+	this->m_balas.push_back(_bala);
+}
