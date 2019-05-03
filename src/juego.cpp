@@ -31,6 +31,8 @@ TJuego::TJuego(int &argc, char **argv){
 
 	this->m_origen = -1;
 
+	this->m_audio = new TAudio();
+
     initGL();
 }
 
@@ -94,9 +96,11 @@ void TJuego::dibujar(){
 
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
-        case ESC:
+        case ESC:{
+        	delete this->m_audio;
             exit(0);
             break;
+		}
         case SPACE:{
 			m_jugador->m_saltar = true;
 			m_jugador->set_posicion_inicial();
@@ -130,9 +134,10 @@ void TJuego::mouse(int button, int state, int x, int y){
 		}
 	}
 	else if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON){
-		TBala tb = {1.0f, m_jugador->m_posicion, m_camara->m_direccion};
+		TBala tb = {0.4f, m_jugador->m_posicion, m_camara->m_direccion};
 		// std::cout << "crear bala\n";
-		std::cout << "balas: " << m_jugador->m_balas.size() << "\n";
+		// std::cout << "balas: " << m_jugador->m_balas.size() << "\n";
+		m_audio->play_sound(0);
 		m_jugador->anhadir_bala(tb);
 	}
 }

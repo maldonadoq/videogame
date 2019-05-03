@@ -4,10 +4,12 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 #include "mapa.h"
 #include "camara.h"
 #include "utils.h"
 #include "gestor.h"
+#include "audio.h"
 
 #include <iostream>
 
@@ -21,6 +23,7 @@ class TJuego{
 private:
 	void initGL();
 
+	TAudio *m_audio;
 	glm::vec3 m_etime;
 	// glm::vec3 m_delta;
 	glm::vec3 m_mouse;
