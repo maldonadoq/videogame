@@ -9,8 +9,9 @@ private:
 	sf::Sound audio;
 public:
 	TAudio(){
-		m_buffers.resize(1),
+		m_buffers.resize(2),
 		m_buffers[0].loadFromFile("data/audio/explosion.wav");
+		m_buffers[1].loadFromFile("data/audio/footstep-dirt.wav");
 	}
 
 	~TAudio(){
