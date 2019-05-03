@@ -11,9 +11,24 @@
 #include "cuarto.h"
 #include "jugador.h"
 
+enum textures_name{
+	tfloor,
+	twall,
+	tfront,
+	tback,
+	tleft,
+	tright,
+	tup,
+	tdown
+};
+
 class TMapa{
 private:
-	int texturas_id[2];
+	int texturas_id[8];
+	glm::vec3 m_mundo_dim;
+	glm::vec3 m_cuarto_dim;
+	glm::vec3 m_centro;
+	glm::vec3 m_temp;
 public:
 	TCuarto *m_cuarto_actual;
 
@@ -21,6 +36,7 @@ public:
 	TMapa();
 
 	void dibujar();
+	void dibujar_mundo();
 
 	~TMapa();
 };
