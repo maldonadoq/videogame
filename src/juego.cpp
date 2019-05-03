@@ -11,7 +11,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutCreateWindow("Juego!");    
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
-    this->m_jugador = new TJugador(glm::vec3(0,0,1));
+    this->m_jugador = new TJugador(glm::vec3(0,0,0));
     this->m_mapa = new TMapa();
 
     this->m_gestor = new TGestor();
@@ -20,7 +20,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->set_mapa(this->m_mapa);    
 
     this->m_luz = {
-		glm::vec4(0.0f, 10.0f, 0.0f, 1.0f),
+		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),
 		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),
 		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f),
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)
