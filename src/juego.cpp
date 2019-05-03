@@ -158,11 +158,13 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 		case GLUT_KEY_UP:{
 			m_jugador->m_mover = 0.5f;
 			// std::cout << "up\n";
+			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
 			m_jugador->m_mover = -0.5f;
 			// std::cout << "down\n";
+			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_LEFT:{
