@@ -6,7 +6,7 @@ OPTS	= -O3
 INCD	= inc
 
 OBJS	= $(SRCS:.cpp=.o)
-LIBS	= -lGL -lglut -lGLU -lfreeimage
+LIBS	= -lGL -lglut -lGLU -lfreeimage -lsfml-system -lsfml-audio
 
 all: main
 
