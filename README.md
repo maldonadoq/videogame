@@ -13,11 +13,12 @@
 - Glut (OpenGL Utility Toolkit)
 - GLU (GLU is the OpenGL Utility Library)
 - GLM (OpenGL Mathematics (GLM) is a header only C++ mathematics library for graphics software)
+- SFML (Simple and Fast Multimedia Library)
 
 ### Makefile
 
 ```
 $ cd videogame	// ir a la carpeta del juego
 $ make			// correr la sentencia make
-$ ./main		  // ejecutar el programa
+$ ./main		// ejecutar el programa
 ```
