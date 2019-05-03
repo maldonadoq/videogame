@@ -27,8 +27,7 @@ void TGestor::saltar_jugador(float _dt){
 			(m_jugador->m_velocidad_inicial*m_jugador->m_time) + 
 			(m_aceleracion*(float)pow(m_jugador->m_time,2)*0.5f);
 
-		if(m_jugador->m_posicion.y <
-			(m_mapa->m_cuarto_actual->m_centro.y + m_jugador->m_piso)){
+		if(m_jugador->m_posicion.y < m_jugador->m_piso){
 			m_jugador->m_saltar = false;
 			m_jugador->m_time = 0;
 			m_jugador->m_posicion.y = m_jugador->m_piso;
