@@ -13,8 +13,9 @@ TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
 }
 
 void TCuarto::dibujar_paredes(){
+	glColor3f(1,0,0);
 	glBegin(GL_QUADS);
-		glNormal3f(1.0f, 0.0f, 0.0f);
+		// glNormal3f(1.0f, 0.0f, 0.0f);
 		// z-y
 		// glTexCoord2f(1.0f, 1.0f);
 		glTexCoord2f(m_escala.z, m_escala.y);
@@ -31,7 +32,7 @@ void TCuarto::dibujar_paredes(){
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glNormal3f(-1.0f, 0.0f, 0.0f);
+		// glNormal3f(-1.0f, 0.0f, 0.0f);
 		
 		glTexCoord2f(m_escala.z, m_escala.y);
 		glVertex3f(m_centro.x + m_dim.x, m_centro.y + m_dim.y, m_centro.z + m_dim.z);
@@ -48,7 +49,7 @@ void TCuarto::dibujar_paredes(){
 
 	// x-y
 	glBegin(GL_QUADS);
-		glNormal3f(0.0f, 0.0f, 1.0f);
+		// glNormal3f(0.0f, 0.0f, 1.0f);
 		
 		glTexCoord2f(m_escala.x, m_escala.y);
 		glVertex3f(m_centro.x + m_dim.x, m_centro.y + m_dim.y, m_centro.z -m_dim.z);
@@ -64,7 +65,7 @@ void TCuarto::dibujar_paredes(){
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glNormal3f(0.0f, 0.0f, -1.0f);
+		// glNormal3f(0.0f, 0.0f, -1.0f);
 		
 		glTexCoord2f(m_escala.x, m_escala.y);
 		glVertex3f(m_centro.x - m_dim.x, m_centro.y + m_dim.y, m_centro.z +m_dim.z);
