@@ -11,6 +11,7 @@
 #include "gestor.h"
 #include "audio.h"
 #include "jugador.h"
+#include "enemigo.h"
 
 #include <iostream>
 
@@ -35,7 +36,10 @@ private:
 	int   m_origen;
 
 	int filas, columnas;	
-	TJugador *m_jugador;	
+	
+	TJugador *m_jugador;
+	TEnemigo *m_enemigo;
+
 	TGestor *m_gestor;
 	TMapa *m_mapa;
 public:
