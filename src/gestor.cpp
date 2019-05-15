@@ -14,10 +14,6 @@ void TGestor::set_jugador(TJugador *_jugador){
 	this->m_jugador = _jugador;
 }
 
-void TGestor::set_enemigo(TEnemigo *_enemigo){
-	this->m_enemigo= _enemigo;
-}
-
 void TGestor::dibujar_mapa(){
 	this->m_mapa->dibujar();
 }
@@ -79,37 +75,24 @@ void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 	this->m_jugador->dibujar();
 }
 
-void TGestor::dibujar_enemigo(glm::vec3 _dir,float _dt){
-	mover_enemigo(_dir*m_enemigo->m_mover);
-}
-
 void TGestor::mover_jugador(glm::vec3 _dir){
 	glm::vec3 _pos = m_jugador->m_posicion+_dir;
 	if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
 		m_jugador->mover(_pos);
-	}	
+	}
 }
 
-void TGestor::mover_enemigo(glm::vec3 _dir){
-	m_enemigo->m_posicion += _dir;
-	glColor3f(1.0f, 1.0f, 1.0f);
+void TGestor::crear_enemigos(unsigned _n){
+	for(unsigned i=0; i<_n; i++){
+		m_enemigos.push_back(new TEnemigo(RandomPosition(m_mapa->m_cuarto_dim.x,
+														 -5, m_mapa->m_cuarto_dim.z)));
+	}
+}
 
-	//glTranslatef(0,-5,-20);//posición
-	glTranslatef(m_enemigo->m_posicion.x,m_enemigo->m_posicion.y,m_enemigo->m_posicion.z);
-	//cuerpo	
-	glTranslatef(0.0f ,0.0f, 0.0f);
-	glutSolidSphere(4,20,20);
-
-	//cabeza
-	glTranslatef(0.0f, 5.5f, 0.0f);
-	glutSolidSphere(2,20,20);
-
-	//nariz
-	glColor3f(1.0f, 0.5f , 0.5f);
-	glTranslatef(0.0f, 0.0f, 2.0f);
-	glRotatef(0.0f,1.0f, 0.0f, 0.0f);
-	glutSolidCone(0.5f, 2.0f,10,2);
-
+void TGestor::dibujar_enemigos(){
+	for(unsigned i=0; i<m_enemigos.size(); i++){
+		m_enemigos[i]->dibujar();
+	}
 }
 
 TGestor::~TGestor(){
