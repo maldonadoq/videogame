@@ -8,7 +8,7 @@
 #include "persona.h"
 
 class TJugador: public TPersona{	
-public:	
+public:
 	TJugador(glm::vec3);
 	TJugador();
 	~TJugador();
