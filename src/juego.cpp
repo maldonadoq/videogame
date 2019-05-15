@@ -89,6 +89,7 @@ void TJuego::dibujar(){
     dibujar_luz(m_luz, 1);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion, m_etime[0]);
+	m_gestor->dibujar_enemigo(m_camara->m_direccion, m_etime[0]);
 
     glutSwapBuffers();
     glFlush();
