@@ -4,12 +4,8 @@ TEnemigo::TEnemigo(){
 
 }
 
-TEnemigo::TEnemigo(glm::vec3 _pos){
-	this->m_posicion = _pos;
+TEnemigo::TEnemigo(glm::vec3 _pos): TPersona(_pos){
 	this->m_velocidad_inicial = glm::vec3(0.0f, 5.0f, 0.0f);
-
-	this->m_piso = m_posicion.y;
-	this->m_time = 0.0f;
     this->m_vida = 5;
 }
 
