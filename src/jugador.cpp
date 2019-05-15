@@ -4,7 +4,7 @@ TJugador::TJugador(){
 
 }
 
-TJugador::TJugador(glm::vec3 _pos){
+TJugador::TJugador(glm::vec3 _pos): TPersona(_pos){
 	this->m_posicion = _pos;
 	this->m_velocidad_inicial = glm::vec3(0.0f, 15.0f, 0.0f);
 

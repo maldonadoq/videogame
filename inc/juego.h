@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "gestor.h"
 #include "audio.h"
+#include "jugador.h"
 
 #include <iostream>
 
