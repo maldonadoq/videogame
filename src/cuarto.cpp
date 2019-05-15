@@ -103,8 +103,8 @@ void TCuarto::dibujar(int *_tid){
 	glBindTexture(GL_TEXTURE_2D, _tid[0]);
 	dibujar_piso();	
 
-	glBindTexture(GL_TEXTURE_2D, _tid[1]);
-	dibujar_paredes();
+	// glBindTexture(GL_TEXTURE_2D, _tid[1]);
+	// dibujar_paredes();
 }
 
 bool TCuarto::colision_paredes(glm::vec3 _pos){

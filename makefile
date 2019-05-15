@@ -1,6 +1,6 @@
 SRCS	= main.cpp src/cuarto.cpp src/mapa.cpp src/juego.cpp \
 			src/tmanager.cpp src/jugador.cpp src/utils.cpp \
-			src/gestor.cpp src/enemigo.cpp
+			src/gestor.cpp src/enemigo.cpp src/random.cpp
 CC		= g++ -std=c++17
 OPTS	= -O3
 INCD	= inc
