@@ -22,7 +22,17 @@ public:
     int m_vida;
     bool m_saltar;
     
-    virtual ~TPersona();
+    TPersona(glm::vec3 _pos){
+    	this->m_posicion = _pos;
+		this->m_piso = m_posicion.y;
+		this->m_time = 0.0f;
+    }
+
+    TPersona(){
+
+    }
+
+    ~TPersona(){};
 
 	virtual void mover(glm::vec3) = 0;
 	virtual void anhadir_bala(TBala) = 0;
