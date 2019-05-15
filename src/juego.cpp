@@ -12,11 +12,15 @@ TJuego::TJuego(int &argc, char **argv){
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
     this->m_jugador = new TJugador(glm::vec3(0,0,0));
+    this->m_enemigo = new TEnemigo(glm::vec3(0,-5,-50));
+
     this->m_mapa = new TMapa();
 
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
+    this->m_gestor->set_enemigo(this->m_enemigo);
+
     this->m_gestor->set_mapa(this->m_mapa);    
 
     this->m_luz = {
