@@ -80,9 +80,7 @@ void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 }
 
 void TGestor::dibujar_enemigo(glm::vec3 _dir,float _dt){
-	if(m_enemigo->m_mover){
-		mover_enemigo(_dir*m_enemigo->m_mover);
-	}
+	mover_enemigo(_dir*m_enemigo->m_mover);
 }
 
 void TGestor::mover_jugador(glm::vec3 _dir){
@@ -93,11 +91,11 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 }
 
 void TGestor::mover_enemigo(glm::vec3 _dir){
-	glm::vec3 _pos = m_jugador->m_posicion+_dir;
+	m_enemigo->m_posicion += _dir;
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	//glTranslatef(0,-5,-20);//posición
-	glTranslatef(m_jugador->m_posicion.x,m_jugador->m_posicion.y,m_jugador->m_posicion.z-50);
+	glTranslatef(m_enemigo->m_posicion.x,m_enemigo->m_posicion.y,m_enemigo->m_posicion.z);
 	//cuerpo	
 	glTranslatef(0.0f ,0.0f, 0.0f);
 	glutSolidSphere(4,20,20);
