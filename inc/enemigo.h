@@ -1,17 +1,19 @@
-#ifndef _JUGADOR_H_
-#define _JUGADOR_H_
+#ifndef _ENEMIGO_H_
+#define _ENEMIGO_H_
 
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>
+#include "bala.h"
 #include "persona.h"
 
-class TJugador: public TPersona{	
-public:	
-	TJugador(glm::vec3);
-	TJugador();
-	~TJugador();
+
+class TEnemigo: public TPersona{
+public:
+    TEnemigo(glm::vec3);
+    TEnemigo();
+    ~TEnemigo();
 
 	void mover(glm::vec3);
 	void anhadir_bala(TBala);
