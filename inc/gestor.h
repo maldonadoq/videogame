@@ -22,7 +22,7 @@ public:
 	void crear_enemigos(unsigned);
 
 	void mover_jugador(glm::vec3);
-	void mover_enemigo(glm::vec3);
+	void mover_enemigos();
 
 	void saltar_jugador(float);
 	

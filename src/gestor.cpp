@@ -85,11 +85,26 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 void TGestor::crear_enemigos(unsigned _n){
 	for(unsigned i=0; i<_n; i++){
 		m_enemigos.push_back(new TEnemigo(RandomPosition(m_mapa->m_cuarto_dim.x,
-														 -5, m_mapa->m_cuarto_dim.z)));
+														 -6, m_mapa->m_cuarto_dim.z)));
+		// std::cout << *m_enemigos[i] << "\n";
+	}
+}
+
+void TGestor::mover_enemigos(){
+	glm::vec3 _pos;
+	for(unsigned i=0; i<m_enemigos.size(); i++){
+		_pos = m_enemigos[i]->m_posicion + m_enemigos[i]->m_direccion;
+		if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
+			m_enemigos[i]->mover(_pos);
+		}
+		else{
+			m_enemigos[i]->m_direccion = RandomVect();
+		}
 	}
 }
 
 void TGestor::dibujar_enemigos(){
+	mover_enemigos();
 	for(unsigned i=0; i<m_enemigos.size(); i++){
 		m_enemigos[i]->dibujar();
 	}
