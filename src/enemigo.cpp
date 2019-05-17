@@ -7,6 +7,17 @@ TEnemigo::TEnemigo(){
 TEnemigo::TEnemigo(glm::vec3 _pos): TPersona(_pos){
 	this->m_velocidad_inicial = glm::vec3(0.0f, 5.0f, 0.0f);
     this->m_vida = 5;
+    this->m_material = {
+		glm::vec3(0.0f,0.2f,0.2f),
+		RandomColor(),
+		glm::vec3(1.0f,1.0f,1.0f),
+		0.6f
+	};
+
+	this->m_direccion = RandomVect();	
+	this->m_color = RandomColor();
+
+	// std::cout << "[" << m_color.x << "," << m_color.y << "," << m_color.z << "]\n";
 }
 
 TEnemigo::~TEnemigo(){
@@ -17,22 +28,30 @@ void TEnemigo::mover(glm::vec3 _pos){
 }
 
 void TEnemigo::dibujar(){
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-	
-	//cuerpo	
-	glTranslatef(0.0f ,0.0f, 0.0f);
-	glutSolidSphere(4,20,20);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT  , glm::value_ptr(m_material.m_ambient));
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE  , glm::value_ptr(m_material.m_diffuse));
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR , glm::value_ptr(m_material.m_specular));
+	glMaterialf(GL_FRONT_AND_BACK , GL_SHININESS, m_material. m_shininess);
 
-	//cabeza
-	glTranslatef(0.0f, 5.5f, 0.0f);
-	glutSolidSphere(2,20,20);
+	glPushMatrix();		
+		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
+		
+		//cuerpo
+		//glColor3f(m_color.x, m_color.y, m_color.z);
+		glTranslatef(0.0f ,0.0f, 0.0f);
+		glutSolidSphere(4,20,20);
 
-	//nariz
-	glColor3f(1.0f, 0.5f , 0.5f);
-	glTranslatef(0.0f, 0.0f, 2.0f);
-	glRotatef(0.0f,1.0f, 0.0f, 0.0f);
-	glutSolidCone(0.5f, 2.0f,10,2);
+		//cabeza
+		glTranslatef(0.0f, 5.5f, 0.0f);
+		glutSolidSphere(2,20,20);
+
+		//nariz
+		//glColor3f(1.0f, 0.5f , 0.5f);
+		glTranslatef(0.0f, 0.0f, 2.0f);
+		glRotatef(0.0f,1.0f, 0.0f, 0.0f);
+		glutSolidCone(0.5f, 2.0f,10,2);
+
+	glPopMatrix();
 }
 
 void TEnemigo::set_posicion_inicial(){
