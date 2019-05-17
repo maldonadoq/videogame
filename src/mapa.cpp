@@ -92,6 +92,8 @@ void TMapa::dibujar_mundo(){
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z); 
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void TMapa::dibujar(){
