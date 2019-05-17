@@ -5,5 +5,21 @@ int RandomInt(int _a, int _b){
 }
 
 glm::vec3 RandomPosition(int _x, int _y, int _z){	
-	return glm::vec3(RandomInt(0,_x), _y, RandomInt(0,_z));
+	return glm::vec3(RandomInt(-_x,_x), _y, RandomInt(-_z,_z));
+}
+
+float Random(){
+	return (float)rand()/(float)RAND_MAX;
+}
+
+glm::vec3 RandomVect(){
+	float x = (Random()*2.0f)-1;
+	float y = 0;
+	float z = (Random()*2.0f)-1;
+
+	return glm::vec3(x,y,z);
+}
+
+glm::vec3 RandomColor(){
+	return glm::vec3(Random(), Random(), Random());
 }
