@@ -12,23 +12,28 @@ TJuego::TJuego(int &argc, char **argv){
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
     this->m_jugador = new TJugador(glm::vec3(0,0,0));
-    this->m_enemigo = new TEnemigo(glm::vec3(0,-5,-50));
 
     this->m_mapa = new TMapa();
-
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_enemigo(this->m_enemigo);
-
     this->m_gestor->set_mapa(this->m_mapa);    
 
+    this->m_gestor->crear_enemigos(5);
+
     this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),
-		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),
-		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f),
-		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)
+		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
+		glm::vec4(0.0f, 0.0f, 0.0f , 1.0f),	// ambient
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
 	};
+
+	/*this->m_luz = {
+		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
+		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),	// ambient
+		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f), // diffuse
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
+	};*/
 
 	this->m_etime = glm::vec3(0,0,0);
 	this->m_mouse = glm::vec3(0,0,0);
@@ -45,7 +50,6 @@ TJuego::~TJuego(){
 }
 
 void TJuego::initGL(){
-
 	glClearColor(0, 0, 0, 0);
 
 	glEnable(GL_TEXTURE_2D);
@@ -66,7 +70,9 @@ void TJuego::initGL(){
 	glLightfv(GL_LIGHT0, GL_POSITION, glm::value_ptr(m_luz.m_position));
 	glLightfv(GL_LIGHT0, GL_AMBIENT , glm::value_ptr(m_luz.m_ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE , glm::value_ptr(m_luz.m_diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));	
+	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));
+
+	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
 void TJuego::dibujar(){
@@ -93,7 +99,7 @@ void TJuego::dibujar(){
     dibujar_luz(m_luz, 1);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion, m_etime[0]);
-	m_gestor->dibujar_enemigo(m_camara->m_direccion, m_etime[0]);
+	m_gestor->dibujar_enemigos();
 
     glutSwapBuffers();
     glFlush();
