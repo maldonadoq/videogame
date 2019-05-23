@@ -20,9 +20,9 @@ void TGestor::dibujar_mapa(){
 	this->m_mapa->dibujar();
 }
 
-void TGestor::saltar_jugador(float _dt){
+void TGestor::saltar_jugador(){
 	if(m_jugador->m_saltar){
-		m_jugador->m_time += _dt;
+		m_jugador->m_time += m_dt;
 
 		m_jugador->m_posicion = 
 			m_jugador->m_posicion_inicial +
@@ -64,13 +64,13 @@ void TGestor::dibujar_balas_jugador(){
 	}
 }
 
-void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
+void TGestor::dibujar_jugador(glm::vec3 _dir){
 	if(m_jugador->m_mover){
-		mover_jugador(_dt*_dir*m_jugador->m_mover);
+		mover_jugador(m_dt*_dir*m_jugador->m_mover);
 	}
 
 	if(m_jugador->m_saltar){
-		saltar_jugador(_dt);
+		saltar_jugador();
 	}
 
 	dibujar_balas_jugador();
@@ -95,12 +95,12 @@ void TGestor::crear_enemigos(unsigned _n){
 void TGestor::mover_enemigos(){
 	glm::vec3 _pos;
 	for(unsigned i=0; i<m_enemigos.size(); i++){
-		_pos = m_enemigos[i]->m_posicion + m_enemigos[i]->m_direccion;
+		_pos = m_enemigos[i]->m_posicion + (m_enemigos[i]->m_direccion*m_dt);
 		if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
 			m_enemigos[i]->mover(_pos);
 		}
 		else{
-			m_enemigos[i]->m_direccion = RandomVect();
+			m_enemigos[i]->m_direccion = 10.0f*RandomVect();
 		}
 	}
 }
@@ -124,6 +124,10 @@ void TGestor::dibujar_enemigos(){
 	    glPopMatrix();
 	    */
 	}
+}
+
+void TGestor::set_dt(float _dt){
+	this->m_dt = _dt;
 }
 
 TGestor::~TGestor(){
