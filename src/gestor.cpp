@@ -4,6 +4,8 @@ TGestor::TGestor(){
 	this->m_jugador = NULL;
 	this->m_mapa = NULL;
 	this->m_aceleracion = glm::vec3(0.0f, -9.81f, 0.0f);
+
+	m_modelos.push_back(TModelo::get_modelo("pikachu"));
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -64,7 +66,7 @@ void TGestor::dibujar_balas_jugador(){
 
 void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 	if(m_jugador->m_mover){
-		mover_jugador(_dir*m_jugador->m_mover);
+		mover_jugador(_dt*_dir*m_jugador->m_mover);
 	}
 
 	if(m_jugador->m_saltar){
@@ -107,9 +109,26 @@ void TGestor::dibujar_enemigos(){
 	mover_enemigos();
 	for(unsigned i=0; i<m_enemigos.size(); i++){
 		m_enemigos[i]->dibujar();
+		/*
+		glPushMatrix();
+			glTranslatef(m_enemigos[i]->m_posicion.x, m_enemigos[i]->m_posicion.y, m_enemigos[i]->m_posicion.z);
+
+			glColor3f(0.7f, 0.7f, 0.2f);
+	        glMaterialfv(GL_FRONT,GL_AMBIENT, glm::value_ptr(m_enemigos[i]->m_material.m_ambient));
+	        glMaterialfv(GL_FRONT,GL_DIFFUSE, glm::value_ptr(m_enemigos[i]->m_material.m_diffuse));
+
+	        glScalef(.35f, .35f, .35f);
+	        // glRotatef(angle * 57.2957f, 0, 1, 0);
+	        // glRotated(90, 1, 0, 0);
+	        m_modelos[m_random[i]]->dibujar();
+	    glPopMatrix();
+	    */
 	}
 }
 
 TGestor::~TGestor(){
-	
+	m_mapa = NULL;
+	m_jugador = NULL;
+	m_enemigos.clear();
+	m_modelos.clear();
 }

@@ -6,13 +6,17 @@
 #include "enemigo.h"
 #include "mapa.h"
 #include "random.h"
+#include "modelo.h"
+#include <glm/gtc/type_ptr.hpp>
 
 class TGestor{
 private:
 	TPersona *m_jugador;
 	std::vector<TPersona *> m_enemigos;
-
 	TMapa *m_mapa;
+
+	std::vector<TModelo *> m_modelos;
+
 	glm::vec3 m_aceleracion;
 public:
 	TGestor();
