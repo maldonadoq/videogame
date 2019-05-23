@@ -11,7 +11,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutCreateWindow("Juego!");    
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
-    this->m_jugador = new TJugador(glm::vec3(0,0,0));
+    this->m_jugador = new TJugador(glm::vec3(0,-2,0));
 
     this->m_mapa = new TMapa();
     this->m_gestor = new TGestor();
@@ -81,7 +81,7 @@ void TJuego::dibujar(){
 	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
 	m_etime[1] = m_etime[2];
 
-	m_camara->actualizar();
+	m_camara->actualizar(m_etime[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -167,25 +167,25 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 
 	switch(c){
 		case GLUT_KEY_UP:{
-			m_jugador->m_mover = 0.5f;
+			m_jugador->m_mover = 15.0f;
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
-			m_jugador->m_mover = -0.5f;
+			m_jugador->m_mover = -15.0f;
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = -0.005f;
+			m_camara->m_delta_tangle = -0.5f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = 0.005f;
+			m_camara->m_delta_tangle = 0.5f;
 			break;
 		}		
 		default:
