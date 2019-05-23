@@ -7,9 +7,9 @@
 #include "utils.h"
 
 class TPersona{
-protected:
-	TMaterial m_material;
+protected:	
 public:
+	TMaterial m_material;
 	glm::vec3 m_direccion;
 
     std::vector<TBala> m_balas;
