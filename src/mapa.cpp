@@ -6,7 +6,7 @@
 #include <iostream>
 
 TMapa::TMapa(){
-	this->m_cuarto_dim = glm::vec3(80,20,80);
+	this->m_cuarto_dim = glm::vec3(50,20,50);
 	this->m_mundo_dim = glm::vec3(300,300,300);
 	this->m_centro = glm::vec3(0.0f,-10.0f, 0.0f);
 
@@ -15,7 +15,8 @@ TMapa::TMapa(){
 	this->m_cuarto_actual = new TCuarto(m_centro, m_cuarto_dim);
 	
 	this->texturas_id[tfloor] = TextureManager::Inst()->LoadTexture("data/texturas/floor.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[twall]  = TextureManager::Inst()->LoadTexture("data/texturas/walld.jpg",  GL_BGR_EXT, GL_RGB);
+	this->texturas_id[twall]  = TextureManager::Inst()->LoadTexture("data/texturas/walld.jpg",  GL_BGR_EXT, GL_RGB, true);
+	// this->texturas_id[twall]  = TextureManager::Inst()->LoadTexture("data/texturas/walld.jpg",  GL_BGR_EXT, GL_RGB);
 
 	this->texturas_id[tfront] = TextureManager::Inst()->LoadTexture("data/sky/four/front.jpg", GL_BGR_EXT, GL_RGB);
 	this->texturas_id[tback]  = TextureManager::Inst()->LoadTexture("data/sky/four/back.jpg",  GL_BGR_EXT, GL_RGB);
@@ -92,6 +93,8 @@ void TMapa::dibujar_mundo(){
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z); 
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void TMapa::dibujar(){

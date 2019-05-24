@@ -24,7 +24,8 @@ public:
 		GLenum image_format = GL_RGB,		//format the image is in
 		GLint internal_format = GL_RGB,		//format to store the image in
 		GLint level = 0,					//mipmapping level
-		GLint border = 0);					//border size
+		GLint border = 0,					//border size
+		bool type = false);					//mipmapping
 
 
 protected:

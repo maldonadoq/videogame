@@ -38,8 +38,6 @@ private:
 	int filas, columnas;	
 	
 	TJugador *m_jugador;
-	TEnemigo *m_enemigo;
-
 	TGestor *m_gestor;
 	TMapa *m_mapa;
 public:

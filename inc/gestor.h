@@ -5,29 +5,39 @@
 #include "jugador.h"
 #include "enemigo.h"
 #include "mapa.h"
+#include "random.h"
+#include "modelo.h"
+#include <glm/gtc/type_ptr.hpp>
 
 class TGestor{
 private:
-	TJugador *m_jugador;
-	TEnemigo *m_enemigo;
+	TPersona *m_jugador;
+	std::vector<TPersona *> m_enemigos;
 	TMapa *m_mapa;
+
+	std::vector<TModelo *> m_modelos;
+
 	glm::vec3 m_aceleracion;
 public:
 	TGestor();
 
 	void set_mapa(TMapa *);
 	void set_jugador(TJugador *);
-	void set_enemigo(TEnemigo *);
+	void crear_enemigos(unsigned);
 
 	void mover_jugador(glm::vec3);
-	void mover_enemigo(glm::vec3);
+	void mover_enemigos();
 
 	void saltar_jugador(float);
+	
 	void dibujar_mapa();
 	void dibujar_balas_jugador();
-	void dibujar_balas_enemigo();
-	void dibujar_jugador(glm::vec3, float);
-	void dibujar_enemigo(glm::vec3,float);
+  
+	void dibujar_jugador(glm::vec3, float);	
+	void dibujar_enemigos();
+  
+  void dibujar_balas_enemigo();
+  void dibujar_enemigo(glm::vec3,float);
 
 	~TGestor();
 };

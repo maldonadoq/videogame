@@ -35,10 +35,10 @@ public:
 		this->m_direccion = glm::vec3(0,0,0);
 	}
 
-	void actualizar(){
+	void actualizar(float _dt){
 		if(m_delta_tangle){
-			m_direccion.x = sin(m_angulo += m_delta_tangle);
-			m_direccion.z = -cos(m_angulo += m_delta_tangle);
+			m_direccion.x = sin(m_angulo += (m_delta_tangle*_dt));
+			m_direccion.z = -cos(m_angulo += (m_delta_tangle*_dt));
 		}
 	}
 

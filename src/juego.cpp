@@ -11,24 +11,29 @@ TJuego::TJuego(int &argc, char **argv){
     glutCreateWindow("Juego!");    
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
-    this->m_jugador = new TJugador(glm::vec3(0,0,0));
-    this->m_enemigo = new TEnemigo(glm::vec3(0,-5,-50));
+    this->m_jugador = new TJugador(glm::vec3(0,-2,0));
 
     this->m_mapa = new TMapa();
-
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_enemigo(this->m_enemigo);
-
     this->m_gestor->set_mapa(this->m_mapa);    
 
+    this->m_gestor->crear_enemigos(5);
+
     this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),
-		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),
-		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f),
-		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)
+		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
+		glm::vec4(0.0f, 0.0f, 0.0f , 1.0f),	// ambient
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
 	};
+
+	/*this->m_luz = {
+		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
+		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),	// ambient
+		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f), // diffuse
+		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
+	};*/
 
 	this->m_etime = glm::vec3(0,0,0);
 	this->m_mouse = glm::vec3(0,0,0);
@@ -45,7 +50,6 @@ TJuego::~TJuego(){
 }
 
 void TJuego::initGL(){
-
 	glClearColor(0, 0, 0, 0);
 
 	glEnable(GL_TEXTURE_2D);
@@ -66,7 +70,9 @@ void TJuego::initGL(){
 	glLightfv(GL_LIGHT0, GL_POSITION, glm::value_ptr(m_luz.m_position));
 	glLightfv(GL_LIGHT0, GL_AMBIENT , glm::value_ptr(m_luz.m_ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE , glm::value_ptr(m_luz.m_diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));	
+	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));
+
+	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
 void TJuego::dibujar(){
@@ -75,7 +81,7 @@ void TJuego::dibujar(){
 	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
 	m_etime[1] = m_etime[2];
 
-	m_camara->actualizar();
+	m_camara->actualizar(m_etime[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -93,10 +99,12 @@ void TJuego::dibujar(){
     dibujar_luz(m_luz, 1);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion, m_etime[0]);
+
 	if(m_enemigo->m_vida>0){
 		m_gestor->dibujar_enemigo(m_camara->m_direccion, m_etime[0]);
 	}
-	
+
+	m_gestor->dibujar_enemigos();
 
     glutSwapBuffers();
     glFlush();
@@ -164,25 +172,25 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 
 	switch(c){
 		case GLUT_KEY_UP:{
-			m_jugador->m_mover = 0.5f;
+			m_jugador->m_mover = 15.0f;
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
-			m_jugador->m_mover = -0.5f;
+			m_jugador->m_mover = -15.0f;
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = -0.005f;
+			m_camara->m_delta_tangle = -0.5f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = 0.005f;
+			m_camara->m_delta_tangle = 0.5f;
 			break;
 		}		
 		default:
