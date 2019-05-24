@@ -12,7 +12,8 @@
 #include "random.h"
 
 class TEnemigo: public TPersona{
-private:	
+private:
+  float m_tiempo_disparar;
 public:	
     TEnemigo(glm::vec3);
     TEnemigo();
@@ -24,6 +25,7 @@ public:
 	void dibujar();
 	void set_posicion_inicial();
 	glm::vec3 get_posicion();
+	void disparar(float, glm::vec3);
 };
 
 #endif

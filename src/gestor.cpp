@@ -1,5 +1,6 @@
 #include "../inc/gestor.h"
-
+#include <iostream>
+#include <math.h>
 TGestor::TGestor(){
 	this->m_jugador = NULL;
 	this->m_mapa = NULL;
@@ -37,9 +38,9 @@ void TGestor::saltar_jugador(float _dt){
 	}
 }
 
+
 void TGestor::dibujar_balas_jugador(){
 	unsigned i;
-
 	// dibujar las balas
 	glColor3f(0.0f, 1.0f, 0.0f);
 	for(i=0; i<m_jugador->m_balas.size(); i++){
@@ -54,6 +55,15 @@ void TGestor::dibujar_balas_jugador(){
 		glPopMatrix();
 
 		m_jugador->m_balas[i].m_posicion += m_jugador->m_balas[i].m_direccion;
+		
+		float distancia=sqrt(pow(m_jugador->m_balas[i].m_posicion.x-m_enemigo->m_posicion.x,2)+pow(m_jugador->m_balas[i].m_posicion.z-m_enemigo->m_posicion.z,2));
+		
+		//std::cout<<distancia<<std::endl;
+		if (distancia<2){
+			m_enemigo->m_vida--;
+			std::cout<<"VIDAA:"<<m_enemigo->m_vida<<std::endl;
+			m_jugador->m_balas.erase(m_jugador->m_balas.begin()+i);
+		}
 
 		if(!m_mapa->m_cuarto_actual->colision_paredes(
 			m_jugador->m_balas[i].m_posicion)){
@@ -61,6 +71,45 @@ void TGestor::dibujar_balas_jugador(){
 			m_jugador->m_balas.erase(m_jugador->m_balas.begin()+i);
 			i--;
 		}
+	}
+}
+
+void TGestor::dibujar_balas_enemigo(){
+	unsigned i;
+	// dibujar las balas
+	glColor3f(0.0f, 1.0f, 0.0f);
+	//std::cout<<m_enemigo->m_balas.size()<<std::endl;
+	for(i=0; i<m_enemigo->m_balas.size(); i++){
+		glPushMatrix();
+			glTranslatef(
+				m_enemigo->m_balas[i].m_posicion.x,
+				m_enemigo->m_balas[i].m_posicion.y,
+				m_enemigo->m_balas[i].m_posicion.z
+			);
+
+			glutSolidSphere(m_enemigo->m_balas[i].m_radio,8,8);
+		glPopMatrix();
+
+		m_enemigo->m_balas[i].m_posicion += m_enemigo->m_balas[i].m_direccion;
+		// std::cout<<"enemigo dispara"<<std::endl;
+		/*float distancia=sqrt(pow(m_enemigo->m_balas[i].m_posicion.x-m_jugador->m_posicion.x,2)+pow(m_enemigo->m_balas[i].m_posicion.z-m_jugador->m_posicion.z,2));
+		
+		//std::cout<<distancia<<std::endl;
+		if (distancia<2){
+			m_jugador->m_vida--;
+			std::cout<<"VIDAA persona:"<<m_jugador->m_vida<<std::endl;
+			m_enemigo->m_balas.erase(m_enemigo->m_balas.begin()+i);
+			if(m_jugador->m_vida==0){
+				std::cout<<"he muertoooooooo, ñooo"<<std::endl;
+			}
+		}
+
+		if(!m_mapa->m_cuarto_actual->colision_paredes(
+			m_enemigo->m_balas[i].m_posicion)){
+			
+			m_enemigo->m_balas.erase(m_enemigo->m_balas.begin()+i);
+			i--;
+		}*/
 	}
 }
 
@@ -77,11 +126,23 @@ void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 	this->m_jugador->dibujar();
 }
 
+void TGestor::dibujar_enemigo(glm::vec3 _dir,float _dt){
+	// mover_enemigo(_dir*m_enemigo->m_mover);
+	dibujar_balas_enemigo();
+	m_enemigo->disparar(_dt, (m_jugador->m_posicion-m_enemigo->m_posicion)/100.0f);
+
+	m_enemigo->dibujar();
+}
+
 void TGestor::mover_jugador(glm::vec3 _dir){
 	glm::vec3 _pos = m_jugador->m_posicion+_dir;
 	if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
 		m_jugador->mover(_pos);
 	}
+}
+
+void TGestor::mover_enemigo(glm::vec3 _dir){
+	m_enemigo->m_posicion += _dir;
 }
 
 void TGestor::crear_enemigos(unsigned _n){

@@ -32,8 +32,12 @@ public:
 	
 	void dibujar_mapa();
 	void dibujar_balas_jugador();
+  
 	void dibujar_jugador(glm::vec3, float);	
 	void dibujar_enemigos();
+  
+  void dibujar_balas_enemigo();
+  void dibujar_enemigo(glm::vec3,float);
 
 	~TGestor();
 };
