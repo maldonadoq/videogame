@@ -77,9 +77,11 @@ void TGestor::dibujar_jugador(glm::vec3 _dir, float _dt){
 
 void TGestor::mover_jugador(glm::vec3 _dir){
 	glm::vec3 _pos = m_jugador->m_posicion+_dir;
+	/*
 	if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
 		m_jugador->mover(_pos);
-	}
+	}*/
+	m_jugador->mover(_pos);
 }
 
 void TGestor::crear_enemigos(unsigned _n){
