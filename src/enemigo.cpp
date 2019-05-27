@@ -7,6 +7,7 @@ TEnemigo::TEnemigo(){
 TEnemigo::TEnemigo(glm::vec3 _pos): TPersona(_pos){
 	this->m_velocidad_inicial = glm::vec3(0.0f, 5.0f, 0.0f);
     this->m_vida = 5;
+	this->m_tiempo_disparar = 0;
     this->m_material = {
 		glm::vec3(0.0f,0.2f,0.2f),
 		RandomColor(),
@@ -64,4 +65,14 @@ glm::vec3 TEnemigo::get_posicion(){
 
 void TEnemigo::anhadir_bala(TBala _bala){
 	this->m_balas.push_back(_bala);
+}
+
+void TEnemigo::disparar(float _dt, glm::vec3 _dir){
+	this->m_tiempo_disparar += _dt;
+
+	if(m_tiempo_disparar > 2.5f){
+		TBala tb = {0.4f, m_posicion, _dir};
+		m_balas.push_back(tb);
+		m_tiempo_disparar = 0;
+	}
 }
