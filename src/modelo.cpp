@@ -62,23 +62,14 @@ TModelo::TModelo(std::string _filename){
 void TModelo::dibujar() const{
 
 	glm::vec3 tvertice;
-	glm::vec3 tnormal;
+	// glm::vec3 tnormal;
 
 	glBegin(GL_TRIANGLES);
 		for(unsigned i=0; i<m_vertice_idx.size(); i++){
 			tvertice = m_vertice[m_vertice_idx[i]];
-			tnormal  = m_normal[m_normal_idx[i]];
+			// tnormal  = m_normal[m_normal_idx[i]];
 			glVertex3f(tvertice.x, tvertice.y, tvertice.z);
-			glVertex3f(tnormal.x, tnormal.y, tnormal.z);
+			// glNormal3f(tnormal.x, tnormal.y, tnormal.z);
 		}
 	glEnd();
 }
-
-TModelo* TModelo::get_modelo(std::string _name){
-	if(m_modelos.find(_name) == m_modelos.end())
-		return m_modelos[_name] = new TModelo("data/modelo/"+_name+".obj");
-
-	return m_modelos[_name];
-}
-
-std::map<std::string, TModelo *> TModelo::m_modelos;
