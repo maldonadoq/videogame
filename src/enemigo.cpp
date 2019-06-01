@@ -15,7 +15,7 @@ TEnemigo::TEnemigo(glm::vec3 _pos): TPersona(_pos){
 		0.6f
 	};
 
-	this->m_direccion = RandomVect();	
+	this->m_direccion = RandomVect()/10.0f;	
 	this->m_color = RandomColor();
 
 	// std::cout << "[" << m_color.x << "," << m_color.y << "," << m_color.z << "]\n";

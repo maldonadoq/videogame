@@ -100,11 +100,8 @@ void TJuego::dibujar(){
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion, m_etime[0]);
 
-	if(m_enemigo->m_vida>0){
-		m_gestor->dibujar_enemigo(m_camara->m_direccion, m_etime[0]);
-	}
-
 	m_gestor->dibujar_enemigos();
+	//m_gestor->dibujar_enemigo(m_jugador->m_direccion,m_etime[0]);
 
     glutSwapBuffers();
     glFlush();
