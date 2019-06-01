@@ -33,6 +33,10 @@ glm::vec3 TJugador::get_posicion(){
 	return this->m_posicion;
 }
 
+void TJugador::disparar(float _x, glm::vec3 _v){
+
+}
+
 void TJugador::anhadir_bala(TBala _bala){
 	this->m_balas.push_back(_bala);
 }
