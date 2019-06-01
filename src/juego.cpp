@@ -10,7 +10,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutInitWindowSize(m_ancho, m_alto);
     glutCreateWindow("Juego!");    
 
-    this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 500);
+    this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
     this->m_jugador = new TJugador(glm::vec3(0,-2,0));
 
     this->m_mapa = new TMapa();
@@ -19,7 +19,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->set_jugador(this->m_jugador);
     this->m_gestor->set_mapa(this->m_mapa);    
 
-    this->m_gestor->crear_enemigos(5);
+    this->m_gestor->crear_enemigos(3);
 
     this->m_luz = {
 		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
@@ -90,15 +90,25 @@ void TJuego::dibujar(){
     gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
 					m_camara->m_perspective[2], m_camara->m_perspective[3]);
     
-    gluLookAt(
-    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
-    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
-    	0, 1, 0
-    );
+    if(!m_camara->m_up){
+    	gluLookAt(
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
+	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
+	    	0, 1, 0
+	    );
+    }
+    else{
+    	gluLookAt(
+	    	m_camara->m_posicion.x, m_camara->m_posicion.y, m_camara->m_posicion.z,
+	    	m_camara->m_posicion.x+m_camara->m_direccion.x, m_camara->m_posicion.y+m_camara->m_direccion.y, m_camara->m_posicion.z+m_camara->m_direccion.z,
+	    	0, 1, 0
+	    );
+    }
 
     dibujar_luz(m_luz, 1);
+    m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
-    m_gestor->dibujar_jugador(m_camara->m_direccion, m_etime[0]);
+    m_gestor->dibujar_jugador(m_camara->m_direccion);
 
 	m_gestor->dibujar_enemigos();
 	//m_gestor->dibujar_enemigo(m_jugador->m_direccion,m_etime[0]);
@@ -112,6 +122,18 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
         case ESC:{
         	delete this->m_audio;
             exit(0);
+            break;
+		}
+		case UP:{
+			m_camara->m_up = true;
+			m_camara->m_posicion = m_jugador->m_posicion;
+			m_camara->m_posicion.y = 500;
+			m_camara->m_direccion = glm::vec3(0,-1,0);
+            break;
+		}
+		case FIRST:{
+			m_camara->m_up = false;
+			m_camara->m_direccion = glm::vec3(0,0,0);
             break;
 		}
         case SPACE:{
@@ -170,12 +192,14 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 	switch(c){
 		case GLUT_KEY_UP:{
 			m_jugador->m_mover = 15.0f;
+			m_camara->m_posicion.x += 2;
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
 			m_jugador->m_mover = -15.0f;
+			m_camara->m_posicion.x -= 2;
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
 			break;

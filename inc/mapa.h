@@ -6,37 +6,40 @@
 #include <FreeImage.h>
 #include <iostream>
 #include <vector>
+#include <random>
+#include <list>
 
 #include "../inc/tmanager.h"
+#include "../inc/generar_nivel.h"
 #include "cuarto.h"
 #include "jugador.h"
 
-enum textures_name{
-	tfloor,
-	twall,
-	tfront,
-	tback,
-	tleft,
-	tright,
-	tup,
-	tdown
-};
-
 class TMapa{
 private:
-	int texturas_id[8];
+	int texturas_id[12];
 	glm::vec3 m_mundo_dim;	
 	glm::vec3 m_centro;
-	glm::vec3 m_temp;
+	//glm::vec3 m_temp;
+	
+	std::vector<std::vector<int> > m_cuartos;
+    std::list<ParCoord2D> m_puertas;
+
+	int m_num_niveles = 3;
+    int m_anchura = 9;
+    int m_altura = 11;
+    int m_num_cuartos = 7;
+    int m_num_tesoros = 2;
 public:
 	glm::vec3 m_cuarto_dim;
 	TCuarto *m_cuarto_actual;
+	std::vector<TCuarto> m_vec_tcuartos;
 
 	TMapa(int, int);
 	TMapa();
 
 	void dibujar();
-	void dibujar_mundo();
+	//void dibujar_mundo();
+	void dibujar_cuartos();
 
 	~TMapa();
 };
