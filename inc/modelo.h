@@ -23,11 +23,7 @@ public:
 	TModelo();
 
 	void dibujar() const;
-	static TModelo *get_modelo(std::string);
 	~TModelo();
-
-private:
-	static std::map<std::string, TModelo*> m_modelos;
 };
 
 #endif
