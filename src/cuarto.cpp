@@ -1,3 +1,10 @@
+/*
+Contiene toda la informacion relacionada con un cuarto,
+como dibujarlo, las posiciones de las paredes y suelo, y
+tambien una funcion para detectar colision del personaje con
+el cuarto.
+*/
+
 #include "../inc/cuarto.h"
 
 TCuarto::TCuarto(){

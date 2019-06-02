@@ -1,3 +1,9 @@
+/*
+Clase que gestiona los componentes del juego que van a dibujarse y actualizarse,
+como son: el mapa, el jugador, los enemigos, y
+dibujar todos los anteriores.
+*/
+
 #include "../inc/gestor.h"
 
 TGestor::TGestor(){

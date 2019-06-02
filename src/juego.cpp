@@ -17,7 +17,8 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_mapa(this->m_mapa);    
+    this->m_gestor->set_mapa(this->m_mapa);   
+	
 
     this->m_gestor->crear_enemigos(5);
 

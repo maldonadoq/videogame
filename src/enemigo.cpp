@@ -1,3 +1,9 @@
+/*
+Contiene el codigo sobre un enemigo, su posicion,
+su movimiento, asi como una funcion para dibujarlo
+y disparar.
+*/
+
 #include "../inc/enemigo.h"
 
 TEnemigo::TEnemigo(){

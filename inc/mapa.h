@@ -13,6 +13,7 @@
 #include "../inc/generar_nivel.h"
 #include "cuarto.h"
 #include "jugador.h"
+#include "puerta.h"
 
 enum textures_name{
 	tfloor,
@@ -22,7 +23,8 @@ enum textures_name{
 	tleft,
 	tright,
 	tup,
-	tdown
+	tdown,
+	tpuerta
 };
 
 class TMapa{
@@ -44,6 +46,7 @@ public:
 	glm::vec3 m_cuarto_dim;
 	TCuarto *m_cuarto_actual;
 	std::vector<TCuarto> m_vec_tcuartos;
+	std::vector<TPuerta> m_vec_tpuertas;
 
 	TMapa(int, int);
 	TMapa();
