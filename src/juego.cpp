@@ -17,7 +17,8 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_mapa(this->m_mapa);    
+    this->m_gestor->set_mapa(this->m_mapa);   
+	
 
     this->m_gestor->crear_enemigos(3);
 
@@ -105,11 +106,18 @@ void TJuego::dibujar(){
 	    );
     }
 
+	//imprimir posicion del jugador
+	/*
+	std::cout << "Posicion del jugador: " << m_jugador->m_posicion.x << ", "; 
+	std::cout << m_jugador->m_posicion.z << "\n";*/
+
     dibujar_luz(m_luz, 1);
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
+
 	m_gestor->dibujar_enemigos();
+	//m_gestor->dibujar_enemigo(m_jugador->m_direccion,m_etime[0]);
 
     glutSwapBuffers();
     glFlush();
