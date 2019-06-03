@@ -13,10 +13,12 @@
 #include "../inc/generar_nivel.h"
 #include "cuarto.h"
 #include "jugador.h"
+#include "puerta.h"
+
 
 class TMapa{
 private:
-	int texturas_id[12];
+	int texturas_id[15];
 	glm::vec3 m_mundo_dim;	
 	glm::vec3 m_centro;
 	//glm::vec3 m_temp;
@@ -33,6 +35,7 @@ public:
 	glm::vec3 m_cuarto_dim;
 	TCuarto *m_cuarto_actual;
 	std::vector<TCuarto> m_vec_tcuartos;
+	std::vector<TPuerta> m_vec_tpuertas;
 
 	TMapa(int, int);
 	TMapa();

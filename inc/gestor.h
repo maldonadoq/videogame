@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include "jugador.h"
-#include "enemigo.h"	
+#include "enemigo.h"
 #include "mapa.h"
 #include "random.h"
 #include "modelo.h"
@@ -13,7 +13,7 @@ class TGestor{
 private:
 	float m_dt;
 	TPersona *m_jugador;
-	std::vector<TEnemigo *> m_enemigos;
+	std::vector<TPersona *> m_enemigos;
 	TMapa *m_mapa;
 
 	std::vector<TModelo *> m_modelos;
@@ -36,13 +36,7 @@ public:
 	void dibujar_jugador(glm::vec3);
 	void dibujar_enemigos();
 
-
 	void set_dt(float);
-
-  
-  	void dibujar_balas_enemigo();
-  	void dibujar_enemigo(glm::vec3,float);
-
 
 	~TGestor();
 };

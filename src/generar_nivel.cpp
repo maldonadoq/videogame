@@ -1,3 +1,10 @@
+/*
+Contiene el codigo necesario para generar un nivel
+aleatorio consistente (con una sala final, una inicial,
+un numero especifico de tesoros, y llaves de tesoros, y una 
+sala para la llave de la salida)
+*/
+
 #include "../inc/generar_nivel.h"
 
 #include <iostream>
@@ -41,6 +48,10 @@ bool Coord2D::operator==(Coord2D c)
 
 
 
+ParCoord2D::ParCoord2D()
+{
+    
+}
 
 ParCoord2D::ParCoord2D(Coord2D c1, Coord2D c2)
 {

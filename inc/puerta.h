@@ -1,0 +1,42 @@
+#ifndef _PUERTA_H_
+#define _PUERTA_H_
+
+#include <glm/glm.hpp>
+#include <assert.h>
+#include <FreeImage.h>
+#include <iostream>
+#include <vector>
+#include <random>
+#include <list>
+
+#include "../inc/tmanager.h"
+#include "../inc/generar_nivel.h"
+#include "cuarto.h"
+#include "jugador.h"
+#include "puerta.h"
+
+
+enum Orientacion{
+	x,
+    z
+};
+
+enum Lado{
+    primero,
+    segundo
+};
+
+class TPuerta{
+public:
+    glm::vec3 m_centro;
+    glm::vec2 m_dim;
+    Orientacion m_orient;
+    Lado m_lado;
+
+	TPuerta(glm::vec3, glm::vec2, Orientacion, Lado);
+	TPuerta();
+
+	void dibujar(int *t_id);
+};
+
+#endif

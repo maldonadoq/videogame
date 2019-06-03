@@ -17,6 +17,7 @@ struct Coord2D
 
 struct ParCoord2D
 {
+    ParCoord2D();
     ParCoord2D(Coord2D c1, Coord2D c2);
     void imprimir();
 

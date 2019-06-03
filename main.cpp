@@ -1,3 +1,8 @@
+/*
+Tenemos un objeto juego que va a tener todas las funcionalidades,
+como son: dibujar, remodelar, detectar eventos del teclado y mouse.
+*/
+
 #include <iostream>
 #include <GL/glut.h>
 #include <FreeImage.h>
