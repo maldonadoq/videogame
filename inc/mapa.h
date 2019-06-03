@@ -15,21 +15,10 @@
 #include "jugador.h"
 #include "puerta.h"
 
-enum textures_name{
-	tfloor,
-	twall,
-	tfront,
-	tback,
-	tleft,
-	tright,
-	tup,
-	tdown,
-	tpuerta
-};
 
 class TMapa{
 private:
-	int texturas_id[8];
+	int texturas_id[15];
 	glm::vec3 m_mundo_dim;	
 	glm::vec3 m_centro;
 	//glm::vec3 m_temp;
@@ -40,7 +29,7 @@ private:
 	int m_num_niveles = 3;
     int m_anchura = 9;
     int m_altura = 11;
-    int m_num_cuartos = 17;
+    int m_num_cuartos = 7;
     int m_num_tesoros = 2;
 public:
 	glm::vec3 m_cuarto_dim;

@@ -19,7 +19,7 @@ TPuerta::TPuerta(glm::vec3 _centro, glm::vec2 _dim, Orientacion _orient, Lado _l
 
 void TPuerta::dibujar(int *t_id)
 {
-    glBindTexture(GL_TEXTURE_2D, t_id[tpuerta]);
+    glBindTexture(GL_TEXTURE_2D, t_id[14]);
 
     glBegin(GL_QUADS);
         if (m_lado == primero)
@@ -47,31 +47,67 @@ void TPuerta::dibujar(int *t_id)
 
         if (m_orient == x)
         {
-            glTexCoord2f(0, 1);
-            glVertex3f(m_centro.x + m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
-        
-            glTexCoord2f(1, 1);
-            glVertex3f(m_centro.x - m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
+            if (m_lado == primero)
+            {
+                glTexCoord2f(0, 1);
+                glVertex3f(m_centro.x + m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
+            
+                glTexCoord2f(1, 1);
+                glVertex3f(m_centro.x - m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
 
-            glTexCoord2f(1, 0);
-            glVertex3f(m_centro.x - m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
-        
-            glTexCoord2f(0, 0);
-            glVertex3f(m_centro.x + m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
+                glTexCoord2f(1, 0);
+                glVertex3f(m_centro.x - m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
+            
+                glTexCoord2f(0, 0);
+                glVertex3f(m_centro.x + m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
+            }
+            else
+            {
+                glTexCoord2f(0, 0);
+                glVertex3f(m_centro.x + m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
+
+                glTexCoord2f(1, 0);
+                glVertex3f(m_centro.x - m_dim.x/2, m_centro.y - m_dim.y/2, m_centro.z);
+
+                glTexCoord2f(1, 1);
+                glVertex3f(m_centro.x - m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
+
+                glTexCoord2f(0, 1);
+                glVertex3f(m_centro.x + m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
+            }
+            
+            
         }
         else if (m_orient == z)
         {
-            glTexCoord2f(0, 1);
-            glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z + m_dim.x/2);
-        
-            glTexCoord2f(1, 1);
-            glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z - m_dim.x/2);
+            if (m_lado == segundo)
+            {
+                glTexCoord2f(0, 1);
+                glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z + m_dim.x/2);
+            
+                glTexCoord2f(1, 1);
+                glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z - m_dim.x/2);
 
-            glTexCoord2f(1, 0);
-            glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z - m_dim.x/2);
+                glTexCoord2f(1, 0);
+                glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z - m_dim.x/2);
 
-            glTexCoord2f(0, 0);
-            glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z + m_dim.x/2);
+                glTexCoord2f(0, 0);
+                glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z + m_dim.x/2);
+            }
+            else
+            {
+                glTexCoord2f(0, 0);
+                glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z + m_dim.x/2);
+
+                glTexCoord2f(1, 0);
+                glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z - m_dim.x/2);
+
+                glTexCoord2f(1, 1);
+                glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z - m_dim.x/2);
+
+                glTexCoord2f(0, 1);
+                glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z + m_dim.x/2);
+            }
         }
     glEnd();   
 }

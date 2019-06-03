@@ -18,6 +18,8 @@
 enum teclas{
 	ESC = 27,
 	SPACE = ' ',
+	UP = 'u',
+	FIRST = 'f',
 	A = 'a'
 };
 

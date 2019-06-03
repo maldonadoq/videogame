@@ -17,7 +17,7 @@ public:
 	virtual ~TCuarto();
 
 	void actualizar();
-	void dibujar(int *);
+	void dibujar(int, int);
 
 	void dibujar_paredes();
 	void dibujar_piso();
