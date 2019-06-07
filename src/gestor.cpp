@@ -55,18 +55,6 @@ void TGestor::dibujar_balas_jugador(){
 
 		m_jugador->m_balas[i].m_posicion += m_jugador->m_balas[i].m_direccion;
 
-
-		
-		for (int j = 0; j < m_enemigos.size(); j++){
-			float distancia=sqrt(pow(m_jugador->m_balas[i].m_posicion.x-m_enemigos[j]->m_posicion.x,2)+pow(m_jugador->m_balas[i].m_posicion.z-m_enemigos[j]->m_posicion.z,2));
-			//std::cout<<distancia<<std::endl;
-			if (distancia<2){
-				m_enemigos[j]->m_vida--;
-				//std::cout<<"ENEMIGO: "<<m_enemigos[i]<<" VIDAA:"<<m_enemigos[j]->m_vida<<std::endl;
-				m_jugador->m_balas.erase(m_jugador->m_balas.begin()+i);
-			}
-		}
-
 		if(!m_mapa->m_cuarto_actual->colision_paredes(
 			m_jugador->m_balas[i].m_posicion)){
 			
@@ -75,7 +63,6 @@ void TGestor::dibujar_balas_jugador(){
 		}
 	}
 }
-
 
 void TGestor::dibujar_balas_enemigo(TEnemigo* m_enemigo){
 	unsigned i;
@@ -136,7 +123,6 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 	// }
 }
 
-
 void TGestor::crear_enemigos(unsigned _n){
 	for(unsigned i=0; i<_n; i++){
 		m_enemigos.push_back(new TEnemigo(RandomPosition(m_mapa->m_cuarto_dim.x/2,
@@ -175,9 +161,8 @@ void TGestor::dibujar_enemigo(glm::vec3 _dir){
 void TGestor::dibujar_enemigos(){
 	mover_enemigos();
 	for(unsigned i=0; i<m_enemigos.size(); i++){
-
+		// m_enemigos[i]->dibujar();
 		
-
 		if(m_enemigos[i]->m_vida>0){
 			m_enemigos[i]->dibujar();
 			m_enemigos[i]->barra_vida();
