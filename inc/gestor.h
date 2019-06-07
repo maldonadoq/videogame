@@ -13,7 +13,7 @@ class TGestor{
 private:
 	float m_dt;
 	TPersona *m_jugador;
-	std::vector<TPersona *> m_enemigos;
+	std::vector<TEnemigo *> m_enemigos;
 	TMapa *m_mapa;
 
 	std::vector<TModelo *> m_modelos;

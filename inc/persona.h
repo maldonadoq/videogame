@@ -46,6 +46,7 @@ public:
 	virtual void set_posicion_inicial() = 0;
 	virtual glm::vec3 get_posicion() = 0;
 	virtual void disparar(float, glm::vec3) = 0;
+	virtual void barra_vida()=0;
 
 	friend std::ostream& operator<< (std::ostream & out, const TPersona &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";
