@@ -37,6 +37,10 @@ public:
 	void dibujar_enemigos();
 
 	void set_dt(float);
+  
+  void dibujar_balas_enemigo(TEnemigo *);
+  void dibujar_enemigo(glm::vec3);
+
 
 	~TGestor();
 };

@@ -26,6 +26,7 @@ public:
 	void set_posicion_inicial();
 	glm::vec3 get_posicion();
 	void disparar(float, glm::vec3);
+	void barra_vida();
 };
 
 #endif

@@ -64,6 +64,45 @@ void TGestor::dibujar_balas_jugador(){
 	}
 }
 
+void TGestor::dibujar_balas_enemigo(TEnemigo* m_enemigo){
+	unsigned i;
+	// dibujar las balas
+	glColor3f(0.0f, 1.0f, 0.0f);
+	//std::cout<<m_enemigo->m_balas.size()<<std::endl;
+	for(i=0; i<m_enemigo->m_balas.size(); i++){
+		glPushMatrix();
+			glTranslatef(
+				m_enemigo->m_balas[i].m_posicion.x,
+				m_enemigo->m_balas[i].m_posicion.y,
+				m_enemigo->m_balas[i].m_posicion.z
+			);
+
+			glutSolidSphere(m_enemigo->m_balas[i].m_radio,8,8);
+		glPopMatrix();
+
+		m_enemigo->m_balas[i].m_posicion += m_enemigo->m_balas[i].m_direccion;
+		// std::cout<<"enemigo dispara"<<std::endl;
+		/*float distancia=sqrt(pow(m_enemigo->m_balas[i].m_posicion.x-m_jugador->m_posicion.x,2)+pow(m_enemigo->m_balas[i].m_posicion.z-m_jugador->m_posicion.z,2));
+		
+		//std::cout<<distancia<<std::endl;
+		if (distancia<2){
+			m_jugador->m_vida--;
+			std::cout<<"VIDAA persona:"<<m_jugador->m_vida<<std::endl;
+			m_enemigo->m_balas.erase(m_enemigo->m_balas.begin()+i);
+			if(m_jugador->m_vida==0){
+				std::cout<<"he muertoooooooo, ñooo"<<std::endl;
+			}
+		}
+
+		if(!m_mapa->m_cuarto_actual->colision_paredes(
+			m_enemigo->m_balas[i].m_posicion)){
+			
+			m_enemigo->m_balas.erase(m_enemigo->m_balas.begin()+i);
+			i--;
+		}*/
+	}
+}
+
 void TGestor::dibujar_jugador(glm::vec3 _dir){
 	if(m_jugador->m_mover){
 		mover_jugador(m_dt*_dir*m_jugador->m_mover);
@@ -105,11 +144,31 @@ void TGestor::mover_enemigos(){
 	}
 }
 
+void TGestor::dibujar_enemigo(glm::vec3 _dir){
+	// mover_enemigo(_dir*m_enemigo->m_mover);
+	
+
+	for(int i=0;i<m_enemigos.size();i++){
+		dibujar_balas_enemigo(m_enemigos[i]);
+
+//		m_enemigos[i]->disparar(m_dt, (m_jugador->m_posicion-m_enemigos[i]->m_posicion)/100.0f);	
+		
+	}
+
+	//m_enemigo->dibujar();
+}
+
 void TGestor::dibujar_enemigos(){
 	mover_enemigos();
 	for(unsigned i=0; i<m_enemigos.size(); i++){
 		// m_enemigos[i]->dibujar();
 		
+		if(m_enemigos[i]->m_vida>0){
+			m_enemigos[i]->dibujar();
+			m_enemigos[i]->barra_vida();
+			dibujar_enemigo(m_jugador->m_direccion);
+		}
+		/*
 		glPushMatrix();
 			glTranslatef(m_enemigos[i]->m_posicion.x, m_enemigos[i]->m_posicion.y, m_enemigos[i]->m_posicion.z);
 
@@ -122,6 +181,7 @@ void TGestor::dibujar_enemigos(){
 	        // glRotated(90, 1, 0, 0);
 	        m_modelos[0]->dibujar();
 	    glPopMatrix();
+	*/
 	}
 }
 
