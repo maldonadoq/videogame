@@ -19,9 +19,7 @@
 class TMapa{
 private:
 	int texturas_id[15];
-	glm::vec3 m_mundo_dim;	
 	glm::vec3 m_centro;
-	//glm::vec3 m_temp;
 	
 	std::vector<std::vector<int> > m_cuartos;
     std::list<ParCoord2D> m_puertas;
@@ -41,7 +39,6 @@ public:
 	TMapa();
 
 	void dibujar();
-	//void dibujar_mundo();
 	void dibujar_cuartos();
 
 	~TMapa();
