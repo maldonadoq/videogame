@@ -11,7 +11,7 @@ TEnemigo::TEnemigo(){
 }
 
 TEnemigo::TEnemigo(glm::vec3 _pos): TPersona(_pos){
-	this->m_velocidad_inicial = glm::vec3(0.0f, 5.0f, 0.0f);
+	this->m_velocidad = glm::vec3(0.0f, 5.0f, 0.0f);
     this->m_vida = 5;
 	this->m_tiempo_disparar = 0;
     this->m_material = {
