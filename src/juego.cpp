@@ -2,8 +2,8 @@
 
 TJuego::TJuego(int &argc, char **argv){
 
-	this->m_ancho = 600;
-	this->m_alto  = 600;
+	this->m_ancho = 700;
+	this->m_alto  = 700;
 
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -11,7 +11,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutCreateWindow("Juego!");    
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
-    this->m_jugador = new TJugador(glm::vec3(0,-2,0));
+    this->m_jugador = new TJugador(glm::vec3(0,5,0));
 
     this->m_mapa = new TMapa();
     this->m_gestor = new TGestor();
@@ -28,13 +28,6 @@ TJuego::TJuego(int &argc, char **argv){
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
 	};
-
-	/*this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
-		glm::vec4(0.2f, 0.2f, 0.2f , 1.0f),	// ambient
-		glm::vec4(0.5f, 0.5f, 0.5f , 1.0f), // diffuse
-		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
-	};*/
 
 	this->m_etime = glm::vec3(0,0,0);
 	this->m_mouse = glm::vec3(0,0,0);
