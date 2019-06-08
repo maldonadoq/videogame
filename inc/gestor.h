@@ -13,7 +13,7 @@ class TGestor{
 private:
 	float m_dt;
 	TPersona *m_jugador;
-	std::vector<TPersona *> m_enemigos;
+	std::vector<TEnemigo *> m_enemigos;
 	TMapa *m_mapa;
 
 	std::vector<TModelo *> m_modelos;
@@ -37,6 +37,10 @@ public:
 	void dibujar_enemigos();
 
 	void set_dt(float);
+  
+  void dibujar_balas_enemigo(TEnemigo *);
+  void dibujar_enemigo(glm::vec3);
+
 
 	~TGestor();
 };

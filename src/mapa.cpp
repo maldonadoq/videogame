@@ -18,7 +18,7 @@ TMapa::TMapa(){
 
 	this->texturas_id[0] = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[1] = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[2] = TextureManager::Inst()->LoadTexture("data/texturas/floor3.jpg",  GL_BGR_EXT, GL_RGB);
+	this->texturas_id[2] = TextureManager::Inst()->LoadTexture("data/texturas/floor3.png",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[3] = TextureManager::Inst()->LoadTexture("data/texturas/floor4.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[4] = TextureManager::Inst()->LoadTexture("data/texturas/floor5.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[5] = TextureManager::Inst()->LoadTexture("data/texturas/floor6.jpg",  GL_BGR_EXT, GL_RGB);
@@ -26,11 +26,11 @@ TMapa::TMapa(){
 
 	this->texturas_id[7]  = TextureManager::Inst()->LoadTexture("data/texturas/wall1.jpg",  GL_BGR_EXT, GL_RGB, true);
 	this->texturas_id[8]  = TextureManager::Inst()->LoadTexture("data/texturas/wall2.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[9]  = TextureManager::Inst()->LoadTexture("data/texturas/wall3.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[10]  = TextureManager::Inst()->LoadTexture("data/texturas/wall5.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[11]  = TextureManager::Inst()->LoadTexture("data/texturas/wall4.jpg",  GL_BGR_EXT, GL_RGB, true);
+	this->texturas_id[9]  = TextureManager::Inst()->LoadTexture("data/texturas/wall3.png",  GL_BGR_EXT, GL_RGB, true);
+	this->texturas_id[10]  = TextureManager::Inst()->LoadTexture("data/texturas/wall4.jpg",  GL_BGR_EXT, GL_RGB, true);
+	this->texturas_id[11]  = TextureManager::Inst()->LoadTexture("data/texturas/wall5.jpg",  GL_BGR_EXT, GL_RGB, true);
 	this->texturas_id[12]  = TextureManager::Inst()->LoadTexture("data/texturas/wall6.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[13]  = TextureManager::Inst()->LoadTexture("data/texturas/wall7.jpg",  GL_BGR_EXT, GL_RGB, true);
+	this->texturas_id[13]  = TextureManager::Inst()->LoadTexture("data/texturas/wall7.png",  GL_BGR_EXT, GL_RGB, true);
 
 	this->texturas_id[14]  = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
