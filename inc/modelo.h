@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <iostream>
+#include "../inc/tmanager.h"
 
 #include <glm/glm.hpp>
 #include <GL/glut.h>
@@ -17,9 +18,11 @@ private:
 
 	std::vector<unsigned> m_vertice_idx;
 	std::vector<unsigned> m_uv_idx;
-	std::vector<unsigned> m_normal_idx;	
+	std::vector<unsigned> m_normal_idx;
+
+	int m_texture;
 public:
-	TModelo(std::string);
+	TModelo(std::string, std::string);
 	TModelo();
 
 	void dibujar() const;
