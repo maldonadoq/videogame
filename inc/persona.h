@@ -13,11 +13,11 @@ public:
 	glm::vec3 m_direccion;
 
     std::vector<TBala> m_balas;
-	glm::vec3 m_posicion;
 	glm::vec3 m_dim;
 
 	glm::vec3 m_posicion_inicial;
-	glm::vec3 m_velocidad_inicial;
+	glm::vec3 m_velocidad;
+	glm::vec3 m_posicion;
 
 	glm::vec3 m_color;
 
