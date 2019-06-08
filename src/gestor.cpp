@@ -5,7 +5,8 @@ TGestor::TGestor(){
 	this->m_mapa = NULL;
 	this->m_aceleracion = glm::vec3(0.0f, -9.81f, 0.0f);
 
-	m_modelos.push_back(new TModelo("data/modelo/pikachu.obj"));
+	m_modelos.push_back(new TModelo("data/modelo/cat/cat.obj", "data/modelo/cat/cat.jpg"));
+	// this->texturas_id[6] = TextureManager::Inst()->LoadTexture("data/texturas/floor7.jpg",  GL_BGR_EXT, GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -94,7 +95,7 @@ void TGestor::crear_enemigos(unsigned _n){
 
 void TGestor::mover_enemigos(){
 	glm::vec3 _pos;
-	for(unsigned i=0; i<m_enemigos.size(); i++){
+	/*for(unsigned i=0; i<m_enemigos.size(); i++){
 		_pos = m_enemigos[i]->m_posicion + (m_enemigos[i]->m_direccion*m_dt);
 		if(m_mapa->m_cuarto_actual->colision_paredes(_pos)){
 			m_enemigos[i]->mover(_pos);
@@ -102,7 +103,7 @@ void TGestor::mover_enemigos(){
 		else{
 			m_enemigos[i]->m_direccion = 10.0f*RandomVect();
 		}
-	}
+	}*/
 }
 
 void TGestor::dibujar_enemigos(){
@@ -117,8 +118,8 @@ void TGestor::dibujar_enemigos(){
 	        glMaterialfv(GL_FRONT,GL_AMBIENT, glm::value_ptr(m_enemigos[i]->m_material.m_ambient));
 	        glMaterialfv(GL_FRONT,GL_DIFFUSE, glm::value_ptr(m_enemigos[i]->m_material.m_diffuse));
 
-	        glScalef(.35f, .35f, .35f);
-	        // glRotatef(angle * 57.2957f, 0, 1, 0);
+	        glScalef(.2f, .2f, .2f);
+	        glRotatef(-90, 1, 0, 0);
 	        // glRotated(90, 1, 0, 0);
 	        m_modelos[0]->dibujar();
 	    glPopMatrix();
