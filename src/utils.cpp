@@ -12,3 +12,17 @@ void dibujar_luz(TLuz _l, float _r){
      	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, no_emit);  
 	glPopMatrix();
 }
+
+bool cuarto_colision(glm::vec3 _dim, glm::vec3 _centro, glm::vec3 _pos){
+	float tx = _dim.x/2;
+	float tz = _dim.z/2;
+	if(
+		((_pos.x > (_centro.x-tx)) and (_pos.x < (_centro.x+tx))) and
+		((_pos.y > (_centro.y-_dim.y)) and (_pos.y < (_centro.y+_dim.y))) and
+		((_pos.z > (_centro.z-tz)) and (_pos.z < (_centro.z+tz)))
+	){
+		return true;
+	}
+
+	return false;
+}
