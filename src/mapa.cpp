@@ -13,7 +13,7 @@ TMapa::TMapa(){
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	this->m_cuarto_actual = new TCuarto(m_centro, m_cuarto_dim);
-	
+	this->m_cuarto_actual->m_state = true;
 
 	this->texturas_id[0] = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[1] = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
@@ -136,7 +136,7 @@ TMapa::TMapa(){
 		dy2 = pc2d.c2.y - i_inicio;
 		centro1 = glm::vec2(dx1 * m_cuarto_dim.x, dy1 * m_cuarto_dim.z);
 		centro2 = glm::vec2(dx2 * m_cuarto_dim.x, dy2 * m_cuarto_dim.z);
-		centro_puerta = glm::vec3((centro1.x + centro2.x)/2, -12.5, (centro1.y + centro2.y)/2);
+		centro_puerta = glm::vec3((centro1.x + centro2.x)/2, 0, (centro1.y + centro2.y)/2);
 		if (centro1.x - centro2.x == 0)
 		{
 			orient = x;
@@ -182,7 +182,7 @@ void TMapa::dibujar(){
 	}	
 	for (int i = 0; i < m_vec_tpuertas.size(); ++i)
 	{
-		m_vec_tpuertas[i].dibujar(texturas_id);
+		m_vec_tpuertas[i].dibujar(texturas_id[14]);
 	}
 }
 
