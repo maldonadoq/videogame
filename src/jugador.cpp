@@ -4,13 +4,12 @@ TJugador::TJugador(){
 
 }
 
-TJugador::TJugador(glm::vec3 _pos): TPersona(_pos){
+TJugador::TJugador(glm::vec3 _pos){
 	this->m_posicion = _pos;
-	this->m_velocidad = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->m_vida = 5;
-
 	this->m_piso = m_posicion.y;
-	this->m_time = 0.0f;
+	this->m_dim = 5;
+	this->m_mover = 0.0f;
 }
 
 TJugador::~TJugador(){
@@ -29,8 +28,10 @@ void TJugador::barra_vida(){
 	
 }
 
-void TJugador::set_posicion_inicial(){
+void TJugador::restart(){
 	this->m_posicion_inicial = m_posicion;
+	this->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+
 }
 
 glm::vec3 TJugador::get_posicion(){
