@@ -15,12 +15,13 @@ struct TLuz
 
 struct TMaterial
 {
-	glm::vec3 m_ambient;
-	glm::vec3 m_diffuse;
-	glm::vec3 m_specular;
+	glm::vec4 m_ambient;
+	glm::vec4 m_diffuse;
+	glm::vec4 m_specular;
 	float m_shininess;
 };
 
 void dibujar_luz(TLuz, float);
+bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3);
 
 #endif

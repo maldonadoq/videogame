@@ -7,18 +7,22 @@
 #include "mapa.h"
 #include "random.h"
 #include "modelo.h"
+#include "ovni.h"
+#include "monstruo.h"
 #include <glm/gtc/type_ptr.hpp>
+
+using std::cout;
+using std::vector;
 
 class TGestor{
 private:
 	float m_dt;
-	TPersona *m_jugador;
-	std::vector<TEnemigo *> m_enemigos;
+	TJugador *m_jugador;
+	vector<TEnemigo *> m_enemigos;
+	vector<TModelo *> m_muebles;
 	TMapa *m_mapa;
 
-	std::vector<TModelo *> m_modelos;
-
-	glm::vec3 m_aceleracion;
+	glm::vec3 m_fuerza;
 public:
 	TGestor();
 
@@ -27,8 +31,6 @@ public:
 	void crear_enemigos(unsigned);
 
 	void mover_jugador(glm::vec3);
-	void mover_enemigos();
-
 	void saltar_jugador();
 	
 	void dibujar_mapa();
@@ -37,11 +39,6 @@ public:
 	void dibujar_enemigos();
 
 	void set_dt(float);
-  
-  void dibujar_balas_enemigo(TEnemigo *);
-  void dibujar_enemigo(glm::vec3);
-
-
 	~TGestor();
 };
 

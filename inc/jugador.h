@@ -5,10 +5,26 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>
-#include "persona.h"
+#include "modelo.h"
+#include "bala.h"
 
-class TJugador: public TPersona{	
+class TJugador{
 public:
+	TModelo * m_modelo;
+	glm::vec3 m_direccion;
+
+    std::vector<TBala> m_balas;
+	float m_dim;
+
+	glm::vec3 m_posicion_inicial;
+	glm::vec3 m_velocidad;
+	glm::vec3 m_posicion;
+
+	float m_mover;
+    int m_vida;
+    bool m_saltar;
+	float m_piso;
+
 	TJugador(glm::vec3);
 	TJugador();
 	~TJugador();
@@ -17,9 +33,15 @@ public:
 	void anhadir_bala(TBala);
 
 	void dibujar();
-	void set_posicion_inicial();
+	void restart();
 	glm::vec3 get_posicion();
 	void disparar(float, glm::vec3);
+	void barra_vida();
+
+	friend std::ostream& operator<< (std::ostream & out, const TJugador &p){
+       out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";
+       return out;
+   	}
 };
 
 #endif

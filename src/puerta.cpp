@@ -1,5 +1,4 @@
 #include "../inc/puerta.h"
-#include "../inc/mapa.h"
 
 TPuerta::TPuerta()
 {
@@ -17,9 +16,9 @@ TPuerta::TPuerta(glm::vec3 _centro, glm::vec2 _dim, Orientacion _orient, Lado _l
     this->m_lado = _lado;
 }
 
-void TPuerta::dibujar(int *t_id)
+void TPuerta::dibujar(int _tid)
 {
-    glBindTexture(GL_TEXTURE_2D, t_id[14]);
+    glBindTexture(GL_TEXTURE_2D, _tid);
 
     glBegin(GL_QUADS);
         if (m_lado == primero)
