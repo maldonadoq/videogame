@@ -12,6 +12,8 @@
 
 class TModelo{
 private:
+	int m_type;
+
 	std::vector<glm::vec3> m_vertice;
 	std::vector<glm::vec2> m_uv;
 	std::vector<glm::vec3> m_normal;
@@ -22,7 +24,9 @@ private:
 
 	int m_texture;
 public:
-	TModelo(std::string, std::string);
+	float m_dim;
+	
+	TModelo(int, std::string, std::string, int, int);
 	TModelo();
 
 	void dibujar() const;
