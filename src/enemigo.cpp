@@ -6,6 +6,8 @@ y disparar.
 
 #include "../inc/enemigo.h"
 
+GLfloat tno_emit[] = {1.0, 1.0, 1.0, 1.0};
+
 TEnemigo::TEnemigo(glm::vec3 _pos){
 	this->m_posicion = _pos;
 }
@@ -14,10 +16,12 @@ void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
 		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-		glLineWidth(3);
-		glColor3f(0.0f, 1.0f, 0.0f);
-
-		glutWireSphere(m_modelo->m_dim, 8, 8);
+		
+		float emit[]    = {0.0, 1.0, 0.0, 1.0};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+			glColor3f(0,1,0);
+			glutWireSphere(m_modelo->m_dim, 8, 8);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
 		// glutSolidSphere(m_dim, 8, 8);
 
 		// glScalef(0.2f, 0.2f, 0.2f);
@@ -37,7 +41,10 @@ void TEnemigo::cargar(float _dt){
 void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	int i;
 	// std::cout << m_balas.size() << "| ";
-	glColor3f(0.0f, 1.0f, 0.0f);
+	float emit[]    = {0.0, 0.0, 1.0, 1.0};
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+	glColor3f(0,0,1);
+
 	for(i=0; i<(int)m_balas.size(); i++){
 		glPushMatrix();
 			glTranslatef(
@@ -55,6 +62,7 @@ void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 			i--;
 		}
 	}
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
 }
 
 int TEnemigo::colision(glm::vec3 _pos, float _r){

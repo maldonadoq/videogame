@@ -116,11 +116,11 @@ void TCuarto::dibujar_piso(){
 
 void TCuarto::dibujar(int _tf, int _tw){
 	glBindTexture(GL_TEXTURE_2D, _tf);
-	dibujar_piso();	
+	dibujar_piso();
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glBindTexture(GL_TEXTURE_2D, _tw);
 	dibujar_paredes();
-
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

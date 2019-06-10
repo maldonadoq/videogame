@@ -30,7 +30,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->crear_enemigos(3);
 
     this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 0.0f),	// position
+		glm::vec4(0.0f, 35.0f, 0.0f, 0.0f),	// position
 		glm::vec4(0.0f, 0.0f, 0.0f , 1.0f),	// ambient
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular

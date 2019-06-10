@@ -106,4 +106,6 @@ void TModelo::dibujar() const{
 			glVertex3f(tvertice.x, tvertice.y, tvertice.z);
 		}
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

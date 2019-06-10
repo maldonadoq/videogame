@@ -121,7 +121,7 @@ TMapa::TMapa(){
 	ParCoord2D pc2d;
 	auto it = m_puertas.begin();
 	glm::vec3 centro_puerta;
-	glm::vec2 dim_puerta(10, 30);
+	glm::vec2 dim_puerta(10, 15);
 	int dx1, dy1, dx2, dy2;
 	glm::vec2 centro1, centro2;
 	Orientacion orient;
@@ -136,7 +136,7 @@ TMapa::TMapa(){
 		dy2 = pc2d.c2.y - i_inicio;
 		centro1 = glm::vec2(dx1 * m_cuarto_dim.x, dy1 * m_cuarto_dim.z);
 		centro2 = glm::vec2(dx2 * m_cuarto_dim.x, dy2 * m_cuarto_dim.z);
-		centro_puerta = glm::vec3((centro1.x + centro2.x)/2, 0, (centro1.y + centro2.y)/2);
+		centro_puerta = glm::vec3((centro1.x + centro2.x)/2, dim_puerta.y/2.0f, (centro1.y + centro2.y)/2);
 		if (centro1.x - centro2.x == 0)
 		{
 			orient = x;

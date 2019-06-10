@@ -5,8 +5,8 @@ TGestor::TGestor(){
 	this->m_mapa = NULL;
 	this->m_fuerza = glm::vec3(0.0f, -9.81f, 0.0f);
 
-	// m_muebles.push_back(new TModelo(4, "data/modelo/table/table.obj", "data/modelo/table/table.jpg", GL_BGR_EXT, GL_RGB));
-	m_muebles.push_back(new TModelo(3, "data/modelo/chest/chest.obj", "data/modelo/chest/chest.jpg", GL_BGR_EXT, GL_RGB));
+	m_muebles.push_back(new TModelo(4, "data/modelo/table/table.obj", "data/modelo/table/table.jpg", GL_BGR_EXT, GL_RGB));
+	// m_muebles.push_back(new TModelo(3, "data/modelo/chest/chest.obj", "data/modelo/chest/chest.jpg", GL_BGR_EXT, GL_RGB));
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -102,14 +102,14 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 }
 
 void TGestor::crear_enemigos(unsigned _n){
-	m_enemigos.push_back(new TOvni(RandomPosition(m_mapa->m_cuarto_dim.x/2, 15, m_mapa->m_cuarto_dim.z/2)));
+	m_enemigos.push_back(new TOvni(RandomPosition(m_mapa->m_cuarto_dim.x/2, 13, m_mapa->m_cuarto_dim.z/2)));
 	m_enemigos.push_back(new TMonstruo(RandomPosition(m_mapa->m_cuarto_dim.x/2, 3, m_mapa->m_cuarto_dim.z/2)));
 }
 
 void TGestor::dibujar_enemigos(){
 	// mover_enemigos();
 	for(unsigned i=0; i<m_enemigos.size(); i++){
-		// m_enemigos[i]->mover(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro, m_dt);
+		m_enemigos[i]->mover(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro, m_dt);
 		m_enemigos[i]->dibujar(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro);
 		m_enemigos[i]->cargar(m_dt);
 		m_enemigos[i]->disparar(m_jugador->m_posicion, m_dt);

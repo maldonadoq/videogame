@@ -10,8 +10,10 @@ TOvni::TOvni(glm::vec3 _pos): TEnemigo(_pos){
 
 glm::vec3 TOvni::mover(glm::vec3 _dim, glm::vec3 _centro, float _dt){
     // std::cout << "ovni moviendose\n";
+    // revisar la colision
+    float td = m_modelo->m_dim;
     glm::vec3 _pos = m_posicion + (m_direccion*_dt);
-    if(cuarto_colision(_dim, _centro, _pos)){
+    if(cuarto_colision(_dim - glm::vec3(td, td, td), _centro, _pos)){
         m_posicion = _pos;
     }
     else{
