@@ -8,7 +8,7 @@ TMonstruo::TMonstruo(glm::vec3 _pos): TEnemigo(_pos){
     this->m_posicion += m_modelo->m_dim/2.0f;
 }
 
-glm::vec3 TMonstruo::mover(glm::vec3 _dim, glm::vec3 _centro, float _dt){
+void TMonstruo::mover(glm::vec3 _dim, glm::vec3 _centro, float _dt){
     // std::cout << "monster moviendose\n";
     glm::vec3 _pos = m_posicion + (m_direccion*_dt);
     float td = m_modelo->m_dim;
