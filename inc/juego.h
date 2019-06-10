@@ -29,14 +29,12 @@ private:
 
 	TAudio *m_audio;
 	glm::vec3 m_etime;
-	// glm::vec3 m_delta;
 	glm::vec3 m_mouse;
 
 	GLsizei m_ancho;
 	GLsizei m_alto;
 
 	int   m_origen;
-
 	int filas, columnas;	
 	
 	TJugador *m_jugador;

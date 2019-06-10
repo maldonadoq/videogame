@@ -1,5 +1,12 @@
 #include "../inc/juego.h"
 
+TMaterial line_material = {
+	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+	glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+	100.0f
+};
+
 TJuego::TJuego(int &argc, char **argv){
 
 	this->m_ancho = 700;
@@ -8,10 +15,10 @@ TJuego::TJuego(int &argc, char **argv){
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(m_ancho, m_alto);
-    glutCreateWindow("Juego!");    
+    glutCreateWindow("Juego!");
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
-    this->m_jugador = new TJugador(glm::vec3(0,5,0));
+    this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
 
     this->m_mapa = new TMapa();
     this->m_gestor = new TGestor();
@@ -23,7 +30,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->crear_enemigos(3);
 
     this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 1.0f),	// position
+		glm::vec4(0.0f, 20.0f, 0.0f, 0.0f),	// position
 		glm::vec4(0.0f, 0.0f, 0.0f , 1.0f),	// ambient
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
@@ -50,21 +57,33 @@ void TJuego::initGL(){
 	glShadeModel(GL_SMOOTH);
 	// glShadeModel(GL_FLAT);
 	// glMatrixMode(GL_PROJECTION);
+
 	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS);
+    // glDepthFunc(GL_LEQUAL);
+
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glLoadIdentity();
 
-    glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glm::value_ptr(m_luz.m_ambient));
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+	// glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glm::value_ptr(m_luz.m_ambient));
 
 	glLightfv(GL_LIGHT0, GL_POSITION, glm::value_ptr(m_luz.m_position));
 	glLightfv(GL_LIGHT0, GL_AMBIENT , glm::value_ptr(m_luz.m_ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE , glm::value_ptr(m_luz.m_diffuse));
 	glLightfv(GL_LIGHT0, GL_SPECULAR, glm::value_ptr(m_luz.m_specular));
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT,   glm::value_ptr(line_material.m_ambient));
+	glMaterialfv(GL_FRONT, GL_DIFFUSE,   glm::value_ptr(line_material.m_diffuse));
+	glMaterialfv(GL_FRONT, GL_SPECULAR,  glm::value_ptr(line_material.m_specular));
+	glMaterialfv(GL_FRONT, GL_SHININESS, &line_material.m_shininess);
 
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
@@ -99,18 +118,11 @@ void TJuego::dibujar(){
 	    );
     }
 
-	//imprimir posicion del jugador
-	/*
-	std::cout << "Posicion del jugador: " << m_jugador->m_posicion.x << ", "; 
-	std::cout << m_jugador->m_posicion.z << "\n";*/
-
     dibujar_luz(m_luz, 1);
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
-
 	m_gestor->dibujar_enemigos();
-	//m_gestor->dibujar_enemigo(m_jugador->m_direccion,m_etime[0]);
 
     glutSwapBuffers();
     glFlush();
@@ -137,7 +149,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 		}
         case SPACE:{
 			m_jugador->m_saltar = true;
-			m_jugador->set_posicion_inicial();
+			m_jugador->restart();
 			break;
 		}
         default:
@@ -158,7 +170,7 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
 }
 
 void TJuego::mouse(int button, int state, int x, int y){	
-	if (/*state == GLUT_DOWN &&*/button == GLUT_LEFT_BUTTON){
+	if (/*state == GLUT_DOWN &&*/button == GLUT_RIGHT_BUTTON){
 		if(state == GLUT_UP){
 			m_camara->m_angulo += m_camara->m_delta_mangle;
 			m_origen = -1;
@@ -167,10 +179,8 @@ void TJuego::mouse(int button, int state, int x, int y){
 			m_origen = x;
 		}
 	}
-	else if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON){
-		TBala tb = {0.4f, m_jugador->m_posicion, m_camara->m_direccion};
-		// std::cout << "crear bala\n";
-		// std::cout << "balas: " << m_jugador->m_balas.size() << "\n";
+	else if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
+		TBala tb = {0.2f, m_jugador->m_posicion+(m_camara->m_direccion*3.0f), m_camara->m_direccion};
 		m_audio->play_sound(0);
 		m_jugador->anhadir_bala(tb);
 	}
@@ -215,7 +225,9 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 		}		
 		default:
 			break;
-	}	
+	}
+
+	// glutPostRedisplay();
 }
 
 void TJuego::soltar_tecla_especial(int c, int x, int y){
