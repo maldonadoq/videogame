@@ -7,7 +7,6 @@ TGestor::TGestor(){
 
 	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["monster"]	= new TModelo(3, "data/modelo/monster/monster.obj",	"data/modelo/monster/monster.jpg",	GL_BGR_EXT,		GL_RGB);
-	m_modelos["wolf"]		= new TModelo(4, "data/modelo/wolf/wolf.obj",		"data/modelo/wolf/wolf.jpg",		GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["cat"]		= new TModelo(4, "data/modelo/cat/cat.obj",			"data/modelo/cat/cat.jpg",			GL_BGR_EXT,		GL_RGB);
 
 	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
