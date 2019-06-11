@@ -19,6 +19,7 @@ TJuego::TJuego(int &argc, char **argv){
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
     this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
+	this->m_jugador->set_camara(m_camara);
 
     this->m_mapa = new TMapa();
     this->m_gestor = new TGestor();
@@ -27,10 +28,10 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor->set_mapa(this->m_mapa);   
 	
 
-    this->m_gestor->crear_enemigos(3);
+    this->m_gestor->init();
 
     this->m_luz = {
-		glm::vec4(0.0f, 20.0f, 0.0f, 0.0f),	// position
+		glm::vec4(0.0f, 35.0f, 0.0f, 0.0f),	// position
 		glm::vec4(0.0f, 0.0f, 0.0f , 1.0f),	// ambient
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f), // diffuse
 		glm::vec4(1.0f, 1.0f, 1.0f , 1.0f)	// specular
@@ -122,6 +123,7 @@ void TJuego::dibujar(){
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_items();
 	m_gestor->dibujar_enemigos();
 
     glutSwapBuffers();

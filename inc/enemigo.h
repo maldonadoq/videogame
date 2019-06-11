@@ -24,7 +24,7 @@ public:
 
     int m_vida;
     
-    TEnemigo(glm::vec3 _pos);
+    TEnemigo(glm::vec3);
 	TEnemigo();
     virtual ~TEnemigo();
 	
@@ -38,8 +38,7 @@ public:
 	void dibujar_balas(glm::vec3, glm::vec3);
 	int  colision(glm::vec3, float);
 
-	virtual glm::vec3 mover(glm::vec3, glm::vec3, float) = 0;
-	// virtual void disparar(glm::vec3) = 0;
+	virtual void mover(glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
 
 	friend std::ostream& operator<< (std::ostream & out, const TEnemigo &p){

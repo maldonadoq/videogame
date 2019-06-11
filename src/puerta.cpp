@@ -108,5 +108,7 @@ void TPuerta::dibujar(int _tid)
                 glVertex3f(m_centro.x, m_centro.y + m_dim.y/2, m_centro.z + m_dim.x/2);
             }
         }
-    glEnd();   
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

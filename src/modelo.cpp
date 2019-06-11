@@ -71,7 +71,7 @@ TModelo::TModelo(int _type, std::string _filename, std::string _textures, int _B
 	}
 
 	for(unsigned i=0; i<m_vertice.size(); i++){
-		m_vertice[i].y -= (tmin[1] + (tmax[1] - tmin[1])/2);
+		m_vertice[i].y -= (tmin[1] + (tmax[1] - tmin[1])/2.0f);
 	}
 
 	this->m_dim = 0.0f;
@@ -79,8 +79,9 @@ TModelo::TModelo(int _type, std::string _filename, std::string _textures, int _B
 		m_dim += (tmax[i] - tmin[i]);
 	}
 
-	m_dim = (float)m_dim/6;
+	m_dim = (float)m_dim/3;
 	// std::cout << "dim: " << m_dim << "\n";
+	// std::cout << _filename << " load!\n";
 }
 
 void TModelo::dibujar() const{
@@ -106,4 +107,6 @@ void TModelo::dibujar() const{
 			glVertex3f(tvertice.x, tvertice.y, tvertice.z);
 		}
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

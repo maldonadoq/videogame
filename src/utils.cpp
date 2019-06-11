@@ -1,7 +1,6 @@
 #include "../inc/utils.h"
 
 GLfloat emit[]    = {1.0, 1.0, 1.0, 1.0};
-GLfloat no_emit[] = {0.7, 0.7, 0.7, 1.0};
 
 void dibujar_luz(TLuz _l, float _r){	
 	glPushMatrix();
@@ -9,7 +8,6 @@ void dibujar_luz(TLuz _l, float _r){
      	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
      	glColor3f(1.0f, 1.0f, 1.0f);
      	glutSolidSphere(_r,15,15);
-     	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, no_emit);  
 	glPopMatrix();
 }
 
@@ -18,7 +16,7 @@ bool cuarto_colision(glm::vec3 _dim, glm::vec3 _centro, glm::vec3 _pos){
 	float tz = _dim.z/2;
 	if(
 		((_pos.x > (_centro.x-tx)) and (_pos.x < (_centro.x+tx))) and
-		((_pos.y > (_centro.y-_dim.y)) and (_pos.y < (_centro.y+_dim.y))) and
+		((_pos.y > _centro.y) and (_pos.y < (_centro.y+_dim.y))) and
 		((_pos.z > (_centro.z-tz)) and (_pos.z < (_centro.z+tz)))
 	){
 		return true;
