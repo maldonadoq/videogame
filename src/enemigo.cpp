@@ -20,7 +20,7 @@ void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro){
 		float emit[]    = {0.0, 1.0, 0.0, 1.0};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 			glColor3f(0,1,0);
-			glutWireSphere(m_modelo->m_dim, 8, 8);
+			glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
 		// glutSolidSphere(m_dim, 8, 8);
 

@@ -24,7 +24,7 @@ public:
 
     int m_vida;
     
-    TEnemigo(glm::vec3 _pos);
+    TEnemigo(glm::vec3);
 	TEnemigo();
     virtual ~TEnemigo();
 	

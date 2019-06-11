@@ -8,7 +8,7 @@
 class TOvni: public TEnemigo{
 public:
     TOvni();
-    TOvni(glm::vec3);
+    TOvni(glm::vec3, TModelo *);
     ~TOvni(){};
 
     glm::vec3 mover(glm::vec3, glm::vec3, float);
