@@ -5,8 +5,15 @@ TGestor::TGestor(){
 	this->m_mapa = NULL;
 	this->m_fuerza = glm::vec3(0.0f, -9.81f, 0.0f);
 
-	m_muebles.push_back(new TModelo(4, "data/modelo/table/table.obj", "data/modelo/table/table.jpg", GL_BGR_EXT, GL_RGB));
-	// m_muebles.push_back(new TModelo(3, "data/modelo/chest/chest.obj", "data/modelo/chest/chest.jpg", GL_BGR_EXT, GL_RGB));
+	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["monster"]	= new TModelo(3, "data/modelo/monster/monster.obj",	"data/modelo/monster/monster.jpg",	GL_BGR_EXT,		GL_RGB);
+	m_modelos["wolf"]		= new TModelo(4, "data/modelo/wolf/wolf.obj",		"data/modelo/wolf/wolf.jpg",		GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["cat"]		= new TModelo(4, "data/modelo/cat/cat.obj",			"data/modelo/cat/cat.jpg",			GL_BGR_EXT,		GL_RGB);
+
+	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["table"]		= new TModelo(4, "data/modelo/table/table.obj",		"data/modelo/table/table.jpg",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
+	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -15,14 +22,12 @@ void TGestor::set_mapa(TMapa *_mapa){
 
 void TGestor::set_jugador(TJugador *_jugador){
 	this->m_jugador = _jugador;
+	// this->m_jugador->set_modelo(m_modelos["cat"]);
 	// std::cout << "set: " << m_jugador->m_posicion.x << "," << m_jugador->m_posicion.y << "," << m_jugador->m_posicion.z << "\n";
 }
 
 void TGestor::dibujar_mapa(){
 	this->m_mapa->dibujar();
-	for(unsigned i=0; i<m_muebles.size(); i++){
-		m_muebles[i]->dibujar();
-	}
 }
 
 void TGestor::saltar_jugador(){
@@ -101,9 +106,20 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 	//}
 }
 
-void TGestor::crear_enemigos(unsigned _n){
-	m_enemigos.push_back(new TOvni(RandomPosition(m_mapa->m_cuarto_dim.x/2, 13, m_mapa->m_cuarto_dim.z/2)));
-	m_enemigos.push_back(new TMonstruo(RandomPosition(m_mapa->m_cuarto_dim.x/2, 3, m_mapa->m_cuarto_dim.z/2)));
+void TGestor::init(){
+	m_enemigos.push_back(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_enemigos.push_back(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
+
+	m_items.push_back(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));
+	m_items.push_back(new TItem(glm::vec3(12,4,-24), m_modelos["key"]));
+	m_items.push_back(new TItem(glm::vec3(-12,3,-24), m_modelos["table"]));
+	m_items.push_back(new TItem(glm::vec3(-12,4,24), m_modelos["heart"]));
+}
+
+void TGestor::dibujar_items(){
+	for(unsigned i=0; i<m_items.size(); i++){
+		m_items[i]->dibujar();
+	}
 }
 
 void TGestor::dibujar_enemigos(){
@@ -124,5 +140,5 @@ TGestor::~TGestor(){
 	m_mapa = NULL;
 	m_jugador = NULL;
 	m_enemigos.clear();
-	m_muebles.clear();
+	m_modelos.clear();
 }
