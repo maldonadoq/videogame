@@ -21,11 +21,24 @@ void TJugador::mover(glm::vec3 _pos){
 }
 
 void TJugador::dibujar(){
-
+	/*glPushMatrix();
+		glRotatef(m_camara->m_direccion.x, 1, 0, 0);
+		glRotatef(m_camara->m_direccion.z, 0, 0, 1);
+		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
+		m_modelo->dibujar();
+	glPopMatrix();*/
 }
 
 void TJugador::barra_vida(){
 	
+}
+
+void TJugador::set_modelo(TModelo *_model){
+	this->m_modelo = _model;
+}
+
+void TJugador::set_camara(TCamara *_camara){
+	this->m_camara = _camara;
 }
 
 void TJugador::restart(){

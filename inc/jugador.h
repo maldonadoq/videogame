@@ -6,10 +6,12 @@
 #include <iostream>
 #include <vector>
 #include "modelo.h"
+#include "camara.h"
 #include "bala.h"
 
 class TJugador{
 public:
+	TCamara *m_camara;
 	TModelo * m_modelo;
 	glm::vec3 m_direccion;
 
@@ -37,6 +39,8 @@ public:
 	glm::vec3 get_posicion();
 	void disparar(float, glm::vec3);
 	void barra_vida();
+	void set_modelo(TModelo *);
+	void set_camara(TCamara *);
 
 	friend std::ostream& operator<< (std::ostream & out, const TJugador &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";
