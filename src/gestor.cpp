@@ -13,6 +13,7 @@ TGestor::TGestor(){
 	m_modelos["table"]		= new TModelo(4, "data/modelo/table/table.obj",		"data/modelo/table/table.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
+	// m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart1.jpg",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -95,6 +96,7 @@ void TGestor::dibujar_jugador(glm::vec3 _dir){
 	}
 
 	dibujar_balas_jugador();
+	
 	this->m_jugador->dibujar();
 }
 
@@ -128,6 +130,13 @@ void TGestor::dibujar_enemigos(){
 		m_enemigos[i]->dibujar(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro);
 		m_enemigos[i]->cargar(m_dt);
 		m_enemigos[i]->disparar(m_jugador->m_posicion, m_dt);
+	}
+}
+
+void TGestor::dibujar_string(float x, float y, const std::string &s) {
+    glRasterPos2f(x, y);
+    for (char c: s){
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 	}
 }
 

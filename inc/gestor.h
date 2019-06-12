@@ -40,6 +40,7 @@ public:
 	void dibujar_jugador(glm::vec3);
 	void dibujar_enemigos();
 	void dibujar_items();
+	void dibujar_string(float, float , const std::string &);
 
 	void set_dt(float);
 	~TGestor();
