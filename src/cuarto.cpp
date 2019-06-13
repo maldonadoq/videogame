@@ -133,20 +133,20 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
 	_enemigo->m_posicion += m_centro;
-	std::cout << "pos en: " << vec3_to_str(_enemigo->m_posicion) << "\n";
+	// std::cout << "pos en: " << vec3_to_str(_enemigo->m_posicion) << "\n";
 	this->m_enemigos.push_back(_enemigo);
 }
 
 void TCuarto::set_item(TItem *_item){
 	_item->m_posicion += m_centro;
-	std::cout << "pos it: " << vec3_to_str(_item->m_posicion) << "\n";
+	// std::cout << "pos it: " << vec3_to_str(_item->m_posicion) << "\n";
 	this->m_items.push_back(_item);
 }
 
 void TCuarto::set_jugador(TJugador *_jugador){
 	assert(_jugador != NULL);
 	_jugador->m_posicion += m_centro;
-	std::cout << "pos ju: " << vec3_to_str(_jugador->m_posicion) << "\n";
+	// std::cout << "pos ju: " << vec3_to_str(_jugador->m_posicion) << "\n";
 	this->m_jugador = _jugador;
 }
 
