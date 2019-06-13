@@ -97,7 +97,7 @@ void TGestor::dibujar_jugador(glm::vec3 _dir){
 		saltar_jugador();
 	}
 
-	dibujar_balas_jugador();
+	// dibujar_balas_jugador();
 	
 	this->m_jugador->dibujar();
 }
@@ -113,6 +113,14 @@ void TGestor::init(){
 	srand(time(NULL));
 	int si = m_mapa->m_vec_tcuartos.size();
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
+
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));

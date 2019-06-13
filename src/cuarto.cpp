@@ -127,34 +127,26 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	dibujar_paredes();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	if(m_jugador != NULL){
-		dibujar_enemigos(_dt);
-		dibujar_items();
-	}
+	dibujar_enemigos(_dt);
+	dibujar_items();
 }
 
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
-	std::cout << "enemigo\npos in: " << vec3_to_str(_enemigo->m_posicion) << "\n";
 	_enemigo->m_posicion += m_centro;
-	std::cout << "centro: " << vec3_to_str(m_centro) << "\n";
-	std::cout << "pos en: " << vec3_to_str(_enemigo->m_posicion) << "\n\n";
+	std::cout << "pos en: " << vec3_to_str(_enemigo->m_posicion) << "\n";
 	this->m_enemigos.push_back(_enemigo);
 }
 
 void TCuarto::set_item(TItem *_item){
-	std::cout << "item\npos in: " << vec3_to_str(_item->m_posicion) << "\n";
 	_item->m_posicion += m_centro;
-	std::cout << "centro: " << vec3_to_str(m_centro) << "\n";
-	std::cout << "pos en: " << vec3_to_str(_item->m_posicion) << "\n\n";
+	std::cout << "pos it: " << vec3_to_str(_item->m_posicion) << "\n";
 	this->m_items.push_back(_item);
 }
 
 void TCuarto::set_jugador(TJugador *_jugador){
 	assert(_jugador != NULL);
-	std::cout << "jugador\npos in: " << vec3_to_str(_jugador->m_posicion) << "\n";
 	_jugador->m_posicion += m_centro;
-	std::cout << "centro: " << vec3_to_str(m_centro) << "\n";
-	std::cout << "pos en: " << vec3_to_str(_jugador->m_posicion) << "\n\n";
+	std::cout << "pos ju: " << vec3_to_str(_jugador->m_posicion) << "\n";
 	this->m_jugador = _jugador;
 }
 
@@ -165,12 +157,18 @@ void TCuarto::dibujar_items(){
 }
 
 void TCuarto::dibujar_enemigos(float _dt){
-	// mover_enemigos();
-	for(unsigned i=0; i<m_enemigos.size(); i++){
-		m_enemigos[i]->mover(m_dim, m_centro, _dt);
-		m_enemigos[i]->dibujar(m_dim, m_centro);
-		m_enemigos[i]->cargar(_dt);
-		m_enemigos[i]->disparar(m_jugador->m_posicion, _dt);
+	if(m_jugador != NULL){
+		for(unsigned i=0; i<m_enemigos.size(); i++){
+			m_enemigos[i]->mover(m_dim, m_centro, _dt);
+			m_enemigos[i]->dibujar(m_dim, m_centro);
+			m_enemigos[i]->cargar(_dt);
+			m_enemigos[i]->disparar(m_jugador->m_posicion, _dt);
+		}
+	}
+	else{
+		for(unsigned i=0; i<m_enemigos.size(); i++){
+			m_enemigos[i]->dibujar(m_dim, m_centro);
+		}
 	}
 }
 
