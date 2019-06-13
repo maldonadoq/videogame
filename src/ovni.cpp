@@ -2,8 +2,8 @@
 
 TOvni::TOvni(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_vida = 5;
-    this->m_direccion = 10.0f*RandomVect();
     this->m_modelo = _model;
+    this->m_direccion = 10.0f*RandomVect();
     this->m_tiempo_disparar = 0.0f;
 }
 

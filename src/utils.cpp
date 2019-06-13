@@ -24,3 +24,8 @@ bool cuarto_colision(glm::vec3 _dim, glm::vec3 _centro, glm::vec3 _pos){
 
 	return false;
 }
+
+
+string vec3_to_str(glm::vec3 _vec){
+	return "["+to_string(_vec.x)+","+to_string(_vec.y)+","+to_string(_vec.z)+"]";
+}

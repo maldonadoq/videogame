@@ -12,9 +12,6 @@ TMapa::TMapa(){
 	this->m_cuarto_dim = glm::vec3(100,20,100);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	this->m_cuarto_actual = new TCuarto(m_centro, m_cuarto_dim);
-	this->m_cuarto_actual->m_state = true;
-
 	this->texturas_id[0] = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[1] = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
 	this->texturas_id[2] = TextureManager::Inst()->LoadTexture("data/texturas/floor3.png",  GL_BGR_EXT, GL_RGB);
@@ -172,13 +169,13 @@ void TMapa::dibujar_cuartos()
 
 }
 
-void TMapa::dibujar(){
+void TMapa::dibujar(float _dt){
 	//dibujar_mundo();
 
 	//assert(m_cuarto_actual != NULL);
 	//this->m_cuarto_actual->dibujar(texturas_id);
 	for (int i = 0; i < m_vec_tcuartos.size(); ++i){
-		m_vec_tcuartos[i].dibujar(texturas_id[i], texturas_id[i+m_num_cuartos]);
+		m_vec_tcuartos[i].dibujar(texturas_id[i], texturas_id[i+m_num_cuartos], _dt);
 	}	
 	for (int i = 0; i < m_vec_tpuertas.size(); ++i)
 	{

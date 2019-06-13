@@ -38,7 +38,7 @@ public:
 	TMapa(int, int);
 	TMapa();
 
-	void dibujar();
+	void dibujar(float);
 	void dibujar_cuartos();
 
 	~TMapa();

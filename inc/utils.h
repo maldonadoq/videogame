@@ -3,6 +3,10 @@
 
 #include <GL/glut.h>
 #include <glm/glm.hpp>
+#include <string>
+
+using std::string;
+using std::to_string;
 
 struct TLuz
 {
@@ -23,5 +27,6 @@ struct TMaterial
 
 void dibujar_luz(TLuz, float);
 bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3);
+string vec3_to_str(glm::vec3);
 
 #endif

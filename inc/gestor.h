@@ -19,8 +19,6 @@ class TGestor{
 private:
 	float m_dt;
 	TJugador *m_jugador;
-	vector<TEnemigo *> m_enemigos;
-	vector<TItem *> m_items;
 	std::map<std::string ,TModelo *> m_modelos;
 	TMapa *m_mapa;
 
@@ -38,8 +36,6 @@ public:
 	void dibujar_mapa();
 	void dibujar_balas_jugador();
 	void dibujar_jugador(glm::vec3);
-	void dibujar_enemigos();
-	void dibujar_items();
 	void dibujar_string(float, float , const std::string &);
 
 	void set_dt(float);
