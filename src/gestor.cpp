@@ -11,13 +11,14 @@ TGestor::TGestor(){
 	m_modelos["poly"]		= new TModelo(3, "data/modelo/poly/poly.obj",		"data/modelo/poly/poly.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["ogre"]		= new TModelo(4, "data/modelo/ogre/ogre.obj",		"data/modelo/ogre/ogre.png",		GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
 
 	m_modelos["barrel"]		= new TModelo(4, "data/modelo/barrel/barrel.obj",	"data/modelo/barrel/barrel.jpg",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["table"]		= new TModelo(4, "data/modelo/table/table.obj",		"data/modelo/table/table.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
-	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,	GL_RGB);
+	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -128,6 +129,8 @@ void TGestor::init(){
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-10), m_modelos["ogre"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-33,2,-15), m_modelos["robbi"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(33,2,-15), m_modelos["robbi"]));
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,4,24), m_modelos["key"]));
@@ -138,7 +141,10 @@ void TGestor::init(){
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,24), m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(6,2,24), m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,-24), m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,34), m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,-34), m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,24), m_modelos["barrel"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,4), m_modelos["barrel"]));
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_jugador(m_jugador);
 }
