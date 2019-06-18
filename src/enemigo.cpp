@@ -15,6 +15,16 @@ TEnemigo::TEnemigo(glm::vec3 _pos){
 void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
+		/*
+		float anglex = glm::angle(glm::vec2(0,m_modelo->m_dir.x), glm::vec2(0,m_direccion.x));
+		float anglez = glm::angle(glm::vec2(0,m_modelo->m_dir.z), glm::vec2(0,m_direccion.z));
+		// std::cout << "x: " << anglex << "\n";
+		// std::cout << "z: " << anglez << "\n\n";
+		glTranslatef(0.0f, 0.0f, 0.0f);
+		glRotatef(anglex, 1, 0, 0);
+		glRotatef(anglez, 0, 0, 1);
+		*/
+
 		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
 		
 		if(_col){

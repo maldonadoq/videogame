@@ -24,6 +24,7 @@ private:
 
 	int m_texture;
 public:
+	glm::vec3 m_dir;
 	float m_dim;
 	
 	TModelo(int, std::string, std::string, int, int);

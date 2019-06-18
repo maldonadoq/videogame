@@ -102,30 +102,21 @@ int THydra::colision(glm::vec3 _pos, float _r){
     return ty;
 }
 
-void THydra::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
-    dibujar_balas(_dim, _centro);
-
-    float emit[]    = {0.0, 1.0, 0.0, 1.0};
+void THydra::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){    
     if(!m_split){
-        glPushMatrix();
-            glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-            if(_col){
-                glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
-                    glColor3f(0,1,0);
-                    glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
-                glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, hno_emit);
-            }
-            m_modelo->dibujar();
-        glPopMatrix();
+        TEnemigo::dibujar(_dim, _centro, _col);
     }
     else{
+        dibujar_balas(_dim, _centro);
+        float emit[]    = {0.0, 1.0, 0.0, 1.0};
+        
         for(unsigned i=0; i<m_thydra.size(); i++){
             glPushMatrix();
                 glTranslatef(m_thydra[i].m_pos.x, m_thydra[i].m_pos.y, m_thydra[i].m_pos.z);
                 if(_col){
                     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
                         glColor3f(0,1,0);
-                        glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+                        glutWireSphere(m_tmodel.m_dim/2.0f, 8, 8);
                     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, hno_emit);
                 }
                 m_tmodel.dibujar();

@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <vector>
 #include "bala.h"
 #include "utils.h"

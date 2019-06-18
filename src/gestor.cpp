@@ -5,7 +5,7 @@ TGestor::TGestor(){
 	this->m_mapa = NULL;
 	this->m_fuerza = glm::vec3(0.0f, -9.81f, 0.0f);
 
-	m_modelos["monster"]	= new TModelo(3, "data/modelo/monster/monster.obj",	"data/modelo/monster/monster.jpg",	GL_BGR_EXT,		GL_RGB);
+	/*m_modelos["monster"]	= new TModelo(3, "data/modelo/monster/monster.obj",	"data/modelo/monster/monster.jpg",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["cat"]		= new TModelo(4, "data/modelo/cat/cat.obj",			"data/modelo/cat/cat.jpg",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["poly"]		= new TModelo(3, "data/modelo/poly/poly.obj",		"data/modelo/poly/poly.png",		GL_BGR_EXT,		GL_RGB);
@@ -18,9 +18,11 @@ TGestor::TGestor(){
 	m_modelos["table"]		= new TModelo(4, "data/modelo/table/table.obj",		"data/modelo/table/table.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
-	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);*/
 
-	// m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);	
+	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
