@@ -11,7 +11,7 @@ public:
     int m_tipo;
     TItem(glm::vec3, TModelo *);
 
-    void dibujar();
+    void dibujar(bool);
     ~TItem();
 };
 

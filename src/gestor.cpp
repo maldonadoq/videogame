@@ -19,6 +19,8 @@ TGestor::TGestor(){
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);
+
+	// m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -70,6 +72,8 @@ void TGestor::dibujar_balas_jugador(){
 				m_jugador->m_balas[i].m_radio
 			);
 
+			// cout << ttype << "| ";
+
 			if(ttype > 0){
 				tcolision = true;
 				m_jugador->m_balas.erase(m_jugador->m_balas.begin()+i);
@@ -103,50 +107,42 @@ void TGestor::dibujar_jugador(glm::vec3 _dir){
 		saltar_jugador();
 	}
 
-	// dibujar_balas_jugador();
+	dibujar_balas_jugador();
 	
 	this->m_jugador->dibujar();
 }
 
 void TGestor::mover_jugador(glm::vec3 _dir){
 	glm::vec3 _pos = m_jugador->m_posicion+_dir;
-	//if(cuarto_colision(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro, _pos)){
+	if(cuarto_colision(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro, _pos)){
 		m_jugador->mover(_pos);
-	//}
+	}
 }
 
 void TGestor::init(){
-	srand(time(NULL));
+	/*srand(time(NULL));
 	int si = m_mapa->m_vec_tcuartos.size();
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(15.0f,15.0f,15.0f), m_modelos["ovni"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TOvni(glm::vec3(10.0f,15.0f,15.0f), m_modelos["ovni"]));
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,10), m_modelos["monster"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(23,0.5,-15), m_modelos["monster"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,10), m_modelos["poly"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,10), m_modelos["poly"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-10), m_modelos["ogre"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-10), m_modelos["ogre"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(-33,2,-15), m_modelos["robbi"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TMonstruo(glm::vec3(33,2,-15), m_modelos["robbi"]));
+
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,4,24), m_modelos["key"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,4,24), m_modelos["key"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,3,-24), m_modelos["table"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,4,-24), m_modelos["heart"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,4,24), m_modelos["heart"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,24), m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(6,2,24), m_modelos["rock"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,-24), m_modelos["rock"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,34), m_modelos["rock"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-6,2,-34), m_modelos["rock"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,24), m_modelos["barrel"]));
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,4), m_modelos["barrel"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,4), m_modelos["barrel"]));*/
 
-	m_mapa->m_vec_tcuartos[rand()%si].set_jugador(m_jugador);
+	m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[0];
+	m_mapa->m_cuarto_actual->set_jugador(m_jugador);
+	m_mapa->m_vec_tcuartos[0].set_enemigo(new THydra(glm::vec3(33,2,0), m_modelos["robbi"]));
+	m_mapa->m_vec_tcuartos[0].set_enemigo(new TOvni(glm::vec3(10.0f,15.0f,15.0f), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[0].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
 }
 
 void TGestor::dibujar_string(float x, float y, const std::string &s) {

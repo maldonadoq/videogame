@@ -35,10 +35,10 @@ public:
 	void set_position(glm::vec3);
 
 	void dibujar_balas(glm::vec3, glm::vec3);
-	int  colision(glm::vec3, float);
+	
+	virtual void dibujar(glm::vec3, glm::vec3, bool);
 
-	virtual void dibujar(glm::vec3, glm::vec3);
-
+	virtual int  colision(glm::vec3, float);
 	virtual void mover(glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
 

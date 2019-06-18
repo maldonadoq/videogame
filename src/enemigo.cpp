@@ -12,20 +12,18 @@ TEnemigo::TEnemigo(glm::vec3 _pos){
 	this->m_posicion = _pos;
 }
 
-void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro){
+void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
 		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
 		
-		float emit[]    = {0.0, 1.0, 0.0, 1.0};
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
-			glColor3f(0,1,0);
-			glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
-		// glutSolidSphere(m_dim, 8, 8);
-
-		// glScalef(0.2f, 0.2f, 0.2f);
-		// glRotatef(-90, 1, 0, 0);
+		if(_col){
+			float emit[]    = {0.0, 1.0, 0.0, 1.0};
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+				glColor3f(0,1,0);
+				glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
+		}
 		m_modelo->dibujar();
 	glPopMatrix();
 }
@@ -69,7 +67,6 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 	int ty = -1;
 
 	float dis = glm::distance(_pos, m_posicion);
-	//std::cout << dis << "," << (_r+m_dim) << "\t|";
 
 	if(dis < (m_modelo->m_dim + _r)){
 		ty = 1;
@@ -79,8 +76,6 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 			ty = 2;
 		}
 	}
-
-	// std::cout << ty << " ";
 
 	return ty;
 }

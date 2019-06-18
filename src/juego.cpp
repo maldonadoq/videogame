@@ -152,6 +152,10 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			m_jugador->restart();
 			break;
 		}
+		case C:{
+			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
+			break;
+		}
         default:
             break;
     }

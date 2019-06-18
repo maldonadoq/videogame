@@ -30,6 +30,7 @@ public:
 	TModelo();
 
 	void dibujar() const;
+	TModelo get_small();
 	~TModelo();
 };
 

@@ -9,6 +9,7 @@
 #include "modelo.h"
 #include "item.h"
 #include "ovni.h"
+#include "hydra.h"
 #include "monstruo.h"
 #include <glm/gtc/type_ptr.hpp>
 

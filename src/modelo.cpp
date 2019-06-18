@@ -110,3 +110,28 @@ void TModelo::dibujar() const{
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+TModelo TModelo::get_small(){
+	TModelo tmp;
+
+	tmp.m_type = m_type;
+	tmp.m_vertice = m_vertice;
+	tmp.m_uv = m_uv;
+	tmp.m_normal = m_normal;
+
+	tmp.m_vertice_idx = m_vertice_idx;
+	tmp.m_uv_idx = m_uv_idx;
+	tmp.m_normal_idx = m_normal_idx;
+	tmp.m_texture = m_texture;
+	tmp.m_dim = m_dim/2.0f;
+
+	for(unsigned i=0; i<tmp.m_vertice.size(); i++){
+		tmp.m_vertice[i] /= 2.0f;
+	}
+
+	return tmp;
+}
+
+TModelo::~TModelo(){
+	
+}
