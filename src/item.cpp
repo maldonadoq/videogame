@@ -1,6 +1,6 @@
 #include "../inc/item.h"
 
-GLfloat ino_emit[] = {1.0, 1.0, 1.0, 1.0};
+float ino_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
 TItem::TItem(glm::vec3 _pos, TModelo *_modelo){
     this->m_modelo = _modelo;

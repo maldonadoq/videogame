@@ -8,9 +8,11 @@
 #include "random.h"
 #include "modelo.h"
 #include "item.h"
+#include "utils.h"
 #include "ovni.h"
 #include "hydra.h"
 #include "monstruo.h"
+#include "sentinel.h"
 #include <glm/gtc/type_ptr.hpp>
 
 using std::cout;

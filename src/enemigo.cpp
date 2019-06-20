@@ -6,7 +6,7 @@ y disparar.
 
 #include "../inc/enemigo.h"
 
-GLfloat tno_emit[] = {1.0, 1.0, 1.0, 1.0};
+float eno_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
 TEnemigo::TEnemigo(glm::vec3 _pos){
 	this->m_posicion = _pos;
@@ -32,7 +32,7 @@ void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 				glColor3f(0,1,0);
 				glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 		}
 		m_modelo->dibujar();
 	glPopMatrix();
@@ -70,7 +70,7 @@ void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 			i--;
 		}
 	}
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 }
 
 int TEnemigo::colision(glm::vec3 _pos, float _r){

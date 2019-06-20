@@ -2,6 +2,7 @@
 #define _ITEM_H_
 
 #include "modelo.h"
+#include "utils.h"
 
 class TItem{
 private:

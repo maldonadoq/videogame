@@ -164,10 +164,9 @@ void TCuarto::dibujar_items(){
 
 void TCuarto::dibujar_enemigos(float _dt){
 	for(unsigned i=0; i<m_enemigos.size(); i++){
-		m_enemigos[i]->mover(m_dim, m_centro, _dt);
+		m_enemigos[i]->mover(m_jugador->m_posicion, m_dim, m_centro, _dt);
 		m_enemigos[i]->dibujar(m_dim, m_centro, m_colision);
 		m_enemigos[i]->cargar(_dt);
-		m_enemigos[i]->disparar(m_jugador->m_posicion, _dt);
 	}
 }
 

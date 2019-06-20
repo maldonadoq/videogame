@@ -21,7 +21,14 @@ enum teclas{
 	UP 		= 'u',
 	FIRST	= 'f',
 	A 		= 'a',
-	C 		= 'c'
+	C 		= 'c',
+	Q 		= 'q'
+};
+
+enum accion{
+	abrir = 1,
+	coger = 2,
+	saltar = 3
 };
 
 class TJuego{

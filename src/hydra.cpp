@@ -1,6 +1,6 @@
 #include "../inc/hydra.h"
 
-GLfloat hno_emit[] = {1.0, 1.0, 1.0, 1.0};
+float hno_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
 THydra::THydra(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_vida = 5;
@@ -11,13 +11,14 @@ THydra::THydra(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_split = false;
 }
 
-void THydra::mover(glm::vec3 _dim, glm::vec3 _centro, float _dt){
+void THydra::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt){
     // std::cout << "ovni moviendose\n";
     glm::vec3 _pos;
     if(!m_split){
         _pos = m_posicion + (m_direccion*_dt);
         if(cuarto_colision(_dim - glm::vec3(m_modelo->m_dim, m_modelo->m_dim/2.0f, m_modelo->m_dim), _centro, _pos)){
             m_posicion = _pos;
+            disparar(_jug, _dt);
         }
         else{
             restart();

@@ -23,6 +23,7 @@ TGestor::TGestor(){
 	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);	
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/sentinel/sentinel.obj",	"data/modelo/sentinel/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -39,14 +40,12 @@ void TGestor::dibujar_mapa(){
 }
 
 void TGestor::saltar_jugador(){
-	if(m_jugador->m_saltar){
-		m_jugador->m_velocidad += m_fuerza*m_dt;
-		m_jugador->m_posicion += m_jugador->m_velocidad*m_dt;
+	m_jugador->m_velocidad += m_fuerza*m_dt;
+	m_jugador->m_posicion += m_jugador->m_velocidad*m_dt;
 
-		if(m_jugador->m_posicion.y < m_jugador->m_piso){
-			m_jugador->m_saltar = false;
-			m_jugador->m_posicion.y = m_jugador->m_piso;
-		}
+	if(m_jugador->m_posicion.y < m_jugador->m_piso){
+		m_jugador->m_accion = -1;
+		m_jugador->m_posicion.y = m_jugador->m_piso;
 	}
 }
 
@@ -105,7 +104,7 @@ void TGestor::dibujar_jugador(glm::vec3 _dir){
 		mover_jugador(m_dt*_dir*m_jugador->m_mover);
 	}
 
-	if(m_jugador->m_saltar){
+	if(m_jugador->m_accion == 3){
 		saltar_jugador();
 	}
 
@@ -118,6 +117,12 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 	glm::vec3 _pos = m_jugador->m_posicion+_dir;
 	if(cuarto_colision(m_mapa->m_cuarto_actual->m_dim, m_mapa->m_cuarto_actual->m_centro, _pos)){
 		m_jugador->mover(_pos);
+	}
+	else{
+		if(m_jugador->m_accion == 1){
+			cout << "abrir!\n";
+			m_jugador->m_accion = -1;
+		}
 	}
 }
 
@@ -145,6 +150,7 @@ void TGestor::init(){
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new THydra(glm::vec3(33,2,0), m_modelos["robbi"]));
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new TOvni(glm::vec3(10.0f,15.0f,15.0f), m_modelos["ovni"]));
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new TMonstruo(glm::vec3(-23,0.5,-15), m_modelos["raptor"]));
+	m_mapa->m_vec_tcuartos[0].set_enemigo(new TSentinel(glm::vec3(23,0.5,15), m_modelos["sentinel"]));
 }
 
 void TGestor::dibujar_string(float x, float y, const std::string &s) {

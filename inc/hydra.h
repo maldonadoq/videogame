@@ -25,7 +25,7 @@ public:
     ~THydra(){};
 
     int  colision(glm::vec3, float);
-    void mover(glm::vec3, glm::vec3, float);
+    void mover(glm::vec3, glm::vec3, glm::vec3, float);
     void disparar(glm::vec3, float);
     void dibujar(glm::vec3, glm::vec3, bool);
     void set_tmodel();

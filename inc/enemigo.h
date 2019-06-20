@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/vector_angle.hpp>
 #include <vector>
 #include "bala.h"
@@ -40,7 +41,7 @@ public:
 	virtual void dibujar(glm::vec3, glm::vec3, bool);
 
 	virtual int  colision(glm::vec3, float);
-	virtual void mover(glm::vec3, glm::vec3, float) = 0;
+	virtual void mover(glm::vec3, glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
 
 	friend std::ostream& operator<< (std::ostream & out, const TEnemigo &p){
