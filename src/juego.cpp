@@ -173,8 +173,6 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
     glMatrixMode(GL_PROJECTION);
     
     glLoadIdentity();
-
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void TJuego::mouse(int button, int state, int x, int y){	
