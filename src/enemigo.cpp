@@ -15,23 +15,24 @@ TEnemigo::TEnemigo(glm::vec3 _pos){
 void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
-		/*
-		float anglex = glm::angle(glm::vec2(0,m_modelo->m_dir.x), glm::vec2(0,m_direccion.x));
-		float anglez = glm::angle(glm::vec2(0,m_modelo->m_dir.z), glm::vec2(0,m_direccion.z));
-		// std::cout << "x: " << anglex << "\n";
-		// std::cout << "z: " << anglez << "\n\n";
-		glTranslatef(0.0f, 0.0f, 0.0f);
-		glRotatef(anglex, 1, 0, 0);
-		glRotatef(anglez, 0, 0, 1);
-		*/
+		glm::vec2 a(m_direccion.x, m_direccion.z);
+		glm::vec2 b(m_modelo->m_dir.x, m_modelo->m_dir.z);
+		float angley = glm::orientedAngle(a, b)*180/PI;
 
 		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
+		glRotatef(angley, 0.0f, 1.0f, 0.0f);
 		
 		if(_col){
 			float emit[]    = {0.0, 1.0, 0.0, 1.0};
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 				glColor3f(0,1,0);
 				glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+
+				glColor3f(0,1,1);
+				glBegin(GL_LINES);
+					glVertex3f(0,0,0);
+					glVertex3f(m_modelo->m_dir.x, m_modelo->m_dir.y,10*m_modelo->m_dir.z);
+				glEnd();
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 		}
 		m_modelo->dibujar();
@@ -49,9 +50,9 @@ void TEnemigo::cargar(float _dt){
 void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	int i;
 	// std::cout << m_balas.size() << "| ";
-	float emit[]    = {0.0, 0.0, 1.0, 1.0};
+	float emit[]    = {m_color.x, m_color.y, m_color.z, 1.0};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
-	glColor3f(0,0,1);
+	glColor3f(m_color.x,m_color.y,m_color.z);
 
 	for(i=0; i<(int)m_balas.size(); i++){
 		glPushMatrix();
@@ -150,7 +151,7 @@ void TEnemigo::set_position(glm::vec3 _pos){
 }
 
 void TEnemigo::restart(){
-	m_direccion = 10.0f*RandomVect();
+	m_direccion = RandomVect();
 }
 
 TEnemigo::~TEnemigo(){

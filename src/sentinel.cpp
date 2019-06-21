@@ -8,6 +8,8 @@ TSentinel::TSentinel(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_modelo = _model;
     this->m_tiempo_disparar = 0.0f;
     this->m_posicion += (m_modelo->m_dim/2.0f);
+
+    this->m_color = glm::vec3(1.0f,0.0f,0.0f);
 }
 
 void TSentinel::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt){

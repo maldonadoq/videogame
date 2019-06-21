@@ -9,13 +9,15 @@ THydra::THydra(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_tiempo_disparar = 0.0f;
     this->m_posicion.y += (m_modelo->m_dim/2.0f);
     this->m_split = false;
+
+    this->m_color = glm::vec3(1.0f,1.0f,0.0f);
 }
 
 void THydra::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt){
     // std::cout << "ovni moviendose\n";
     glm::vec3 _pos;
     if(!m_split){
-        _pos = m_posicion + (m_direccion*_dt);
+        _pos = m_posicion + (10.0f*m_direccion*_dt);
         if(cuarto_colision(_dim - glm::vec3(m_modelo->m_dim, m_modelo->m_dim/2.0f, m_modelo->m_dim), _centro, _pos)){
             m_posicion = _pos;
             disparar(_jug, _dt);
@@ -34,6 +36,7 @@ void THydra::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt)
                 m_thydra[i].m_dir = 10.0f*RandomVect();
             }
         }
+        disparar(_jug, _dt);
     }
 }
 

@@ -6,19 +6,24 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/vector_angle.hpp>
 #include <vector>
+#include <math.h>
 #include "bala.h"
 #include "utils.h"
 #include "modelo.h"
 #include "random.h"
 
+using std::cout;
+using std::vector;
+
 class TEnemigo{
 protected:
 	float m_tiempo_disparar;
+	glm::vec3 m_color;		// balas
 public:
 	TModelo * m_modelo;
 	glm::vec3 m_direccion;
 
-    std::vector<TBala> m_balas;
+    vector<TBala> m_balas;
 	
 	glm::vec3 m_posicion_inicial;
 	glm::vec3 m_velocidad;

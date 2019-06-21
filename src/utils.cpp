@@ -41,3 +41,7 @@ void draw_circle(float _rad, int _segm) {
 		}
     glEnd();
 }
+
+void print_vec3(glm::vec3 _vec){
+	cout << "[" << _vec.x << "," << _vec.y << "," << _vec.z << "]\n";
+}
