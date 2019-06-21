@@ -16,11 +16,19 @@
 #include <iostream>
 
 enum teclas{
-	ESC = 27,
-	SPACE = ' ',
-	UP = 'u',
-	FIRST = 'f',
-	A = 'a'
+	ESC 	= 27,
+	SPACE	= ' ',
+	UP 		= 'u',
+	FIRST	= 'f',
+	A 		= 'a',
+	C 		= 'c',
+	Q 		= 'q'
+};
+
+enum accion{
+	abrir = 1,
+	coger = 2,
+	saltar = 3
 };
 
 class TJuego{
@@ -35,7 +43,7 @@ private:
 	GLsizei m_alto;
 
 	int   m_origen;
-	int filas, columnas;	
+	int filas, columnas;
 	
 	TJugador *m_jugador;
 	TGestor *m_gestor;

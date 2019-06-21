@@ -11,7 +11,7 @@ public:
     TOvni(glm::vec3, TModelo *);
     ~TOvni(){};
 
-    void mover(glm::vec3, glm::vec3, float);
+    void mover(glm::vec3, glm::vec3, glm::vec3, float);
     void disparar(glm::vec3, float);
 };
 

@@ -20,6 +20,8 @@ public:
 	vector<TEnemigo *> m_enemigos;
 	TJugador *m_jugador;
 
+	bool m_colision;
+
 	TCuarto(glm::vec3, glm::vec3);
 	TCuarto();
 	virtual ~TCuarto();

@@ -24,8 +24,8 @@ public:
 
 	float m_mover;
     int m_vida;
-    bool m_saltar;
 	float m_piso;
+	int m_accion;
 
 	TJugador(glm::vec3);
 	TJugador();

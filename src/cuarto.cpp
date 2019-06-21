@@ -14,6 +14,8 @@ TCuarto::TCuarto(){
 	this->m_jugador = NULL;
 	this->m_enemigos.clear();
 	this->m_items.clear();
+
+	this->m_colision = true;
 }
 
 TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
@@ -23,6 +25,8 @@ TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
 	this->m_jugador = NULL;
 	this->m_enemigos.clear();
 	this->m_items.clear();
+
+	this->m_colision = true;
 }
 
 void TCuarto::dibujar_paredes(){
@@ -127,8 +131,10 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	dibujar_paredes();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	dibujar_enemigos(_dt);
-	dibujar_items();
+	if(m_jugador != NULL){
+		dibujar_enemigos(_dt);
+		dibujar_items();
+	}
 }
 
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
@@ -152,23 +158,15 @@ void TCuarto::set_jugador(TJugador *_jugador){
 
 void TCuarto::dibujar_items(){
 	for(unsigned i=0; i<m_items.size(); i++){
-		m_items[i]->dibujar();
+		m_items[i]->dibujar(m_colision);
 	}
 }
 
 void TCuarto::dibujar_enemigos(float _dt){
-	if(m_jugador != NULL){
-		for(unsigned i=0; i<m_enemigos.size(); i++){
-			m_enemigos[i]->mover(m_dim, m_centro, _dt);
-			m_enemigos[i]->dibujar(m_dim, m_centro);
-			m_enemigos[i]->cargar(_dt);
-			m_enemigos[i]->disparar(m_jugador->m_posicion, _dt);
-		}
-	}
-	else{
-		for(unsigned i=0; i<m_enemigos.size(); i++){
-			m_enemigos[i]->dibujar(m_dim, m_centro);
-		}
+	for(unsigned i=0; i<m_enemigos.size(); i++){
+		m_enemigos[i]->mover(m_jugador->m_posicion, m_dim, m_centro, _dt);
+		m_enemigos[i]->dibujar(m_dim, m_centro, m_colision);
+		m_enemigos[i]->cargar(_dt);
 	}
 }
 
