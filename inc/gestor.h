@@ -36,7 +36,8 @@ public:
 	void dibujar_mapa();
 	void dibujar_balas_jugador();
 	void dibujar_jugador(glm::vec3);
-	void dibujar_string(float, float , const std::string &);
+	void dibujar_leyenda();
+	
 
 	void set_dt(float);
 	~TGestor();

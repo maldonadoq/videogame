@@ -89,6 +89,9 @@ void TJuego::initGL(){
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
+bool test = false;
+int cont = 1;
+
 void TJuego::dibujar(){
 
 	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
@@ -101,6 +104,12 @@ void TJuego::dibujar(){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
+
+	if (test){
+		m_gestor->dibujar_leyenda();
+	}
+
+	glViewport(0,0,700,700);
     gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
 					m_camara->m_perspective[2], m_camara->m_perspective[3]);
     
@@ -123,7 +132,6 @@ void TJuego::dibujar(){
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
-
     glutSwapBuffers();
     glFlush();
 }
@@ -152,6 +160,16 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			m_jugador->restart();
 			break;
 		}
+		case L:{
+			if(cont%2!=0){
+				test = true;
+			}
+			else{
+				test = false;
+			}
+			cont++;
+		}
+
         default:
             break;
     }
@@ -166,7 +184,6 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
     
     glLoadIdentity();
 
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void TJuego::mouse(int button, int state, int x, int y){	

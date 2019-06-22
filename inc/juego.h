@@ -20,7 +20,8 @@ enum teclas{
 	SPACE = ' ',
 	UP = 'u',
 	FIRST = 'f',
-	A = 'a'
+	A = 'a',
+	L = 'l'//leyenda del jugador
 };
 
 class TJuego{
