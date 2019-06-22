@@ -1,4 +1,5 @@
 #include "../inc/gestor.h"
+#include <string>
 
 TGestor::TGestor(){
 	this->m_jugador = NULL;
@@ -150,12 +151,25 @@ void TGestor::init(){
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
 }
 
-void TGestor::dibujar_string(float x, float y, const std::string &s) {
-    glRasterPos2f(x, y);
-    for (char c: s){
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+void drawBitmapText(const std::string &s,float x,float y){  
+	glRasterPos2f(x, y);
+	for (char c: s){
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c);
 	}
 }
+
+void TGestor::dibujar_leyenda() {
+	glViewport(0,600,100,100);
+	glPushMatrix();
+		gluOrtho2D(0,100,0,100); 
+		string vida="Vida: "+to_string(m_jugador->m_vida);
+		string balas="Numero de Balas: " + to_string(m_jugador->m_balas.size());
+
+		drawBitmapText(vida,10,50);
+		drawBitmapText(balas,10,30);
+	glPopMatrix();
+}
+
 
 void TGestor::set_dt(float _dt){
 	this->m_dt = _dt;

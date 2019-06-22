@@ -22,13 +22,15 @@ enum teclas{
 	FIRST	= 'f',
 	A 		= 'a',
 	C 		= 'c',
-	Q 		= 'q'
+	Q 		= 'q',
+  L     = 'l'//leyenda del jugador
 };
 
 enum accion{
 	abrir = 1,
 	coger = 2,
 	saltar = 3
+
 };
 
 class TJuego{
