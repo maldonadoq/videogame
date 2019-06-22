@@ -2,7 +2,8 @@ SRCS	= main.cpp src/cuarto.cpp src/mapa.cpp src/juego.cpp \
 			src/tmanager.cpp src/jugador.cpp src/utils.cpp \
 			src/gestor.cpp src/enemigo.cpp src/random.cpp \
 			src/modelo.cpp src/generar_nivel.cpp src/puerta.cpp \
-			src/ovni.cpp src/monstruo.cpp src/item.cpp
+			src/ovni.cpp src/monstruo.cpp src/item.cpp src/hydra.cpp \
+			src/sentinel.cpp
 CC		= g++ -std=c++17
 OPTS	= -O3
 INCD	= inc

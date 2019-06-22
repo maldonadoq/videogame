@@ -2,6 +2,7 @@
 #define _ITEM_H_
 
 #include "modelo.h"
+#include "utils.h"
 
 class TItem{
 private:
@@ -11,7 +12,7 @@ public:
     int m_tipo;
     TItem(glm::vec3, TModelo *);
 
-    void dibujar();
+    void dibujar(bool);
     ~TItem();
 };
 

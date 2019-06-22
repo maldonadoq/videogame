@@ -3,20 +3,27 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/vector_angle.hpp>
 #include <vector>
+#include <math.h>
 #include "bala.h"
 #include "utils.h"
 #include "modelo.h"
 #include "random.h"
 
+using std::cout;
+using std::vector;
+
 class TEnemigo{
 protected:
 	float m_tiempo_disparar;
+	glm::vec3 m_color;		// balas
 public:
 	TModelo * m_modelo;
 	glm::vec3 m_direccion;
 
-    std::vector<TBala> m_balas;
+    vector<TBala> m_balas;
 	
 	glm::vec3 m_posicion_inicial;
 	glm::vec3 m_velocidad;
@@ -34,11 +41,12 @@ public:
 	void cargar(float);					// espera para disparar de nuevo
 	void set_position(glm::vec3);
 
-	void dibujar(glm::vec3, glm::vec3);
 	void dibujar_balas(glm::vec3, glm::vec3);
-	int  colision(glm::vec3, float);
+	
+	virtual void dibujar(glm::vec3, glm::vec3, bool);
 
-	virtual void mover(glm::vec3, glm::vec3, float) = 0;
+	virtual int  colision(glm::vec3, float);
+	virtual void mover(glm::vec3, glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
 
 	friend std::ostream& operator<< (std::ostream & out, const TEnemigo &p){

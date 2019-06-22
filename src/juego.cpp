@@ -156,10 +156,11 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
             break;
 		}
         case SPACE:{
-			m_jugador->m_saltar = true;
+			m_jugador->m_accion = saltar;
 			m_jugador->restart();
 			break;
 		}
+
 		case L:{
 			if(cont%2!=0){
 				test = true;
@@ -170,6 +171,15 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			cont++;
 		}
 
+
+		case C:{
+			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
+			break;
+		}
+		case Q:{
+			m_jugador->m_accion = abrir;
+			break;
+		}
         default:
             break;
     }
@@ -183,7 +193,6 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
     glMatrixMode(GL_PROJECTION);
     
     glLoadIdentity();
-
 }
 
 void TJuego::mouse(int button, int state, int x, int y){	

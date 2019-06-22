@@ -4,7 +4,9 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include <string>
+#include <iostream>
 
+using std::cout;
 using std::string;
 using std::to_string;
 
@@ -28,5 +30,9 @@ struct TMaterial
 void dibujar_luz(TLuz, float);
 bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3);
 string vec3_to_str(glm::vec3);
+
+#define PI 3.14159265
+void draw_circle(float, int);
+void print_vec3(glm::vec3);
 
 #endif

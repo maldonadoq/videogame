@@ -17,7 +17,7 @@ glm::vec3 RandomVect(){
 	float y = 0;
 	float z = (Random()*2.0f)-1;
 
-	return glm::vec3(x,y,z);
+	return glm::normalize(glm::vec3(x,y,z));
 }
 
 glm::vec3 RandomColor(){

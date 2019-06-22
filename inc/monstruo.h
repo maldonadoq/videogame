@@ -11,7 +11,8 @@ public:
     TMonstruo(glm::vec3, TModelo *);
     ~TMonstruo(){};
 
-    void mover(glm::vec3, glm::vec3, float);
+    void mover(glm::vec3, glm::vec3, glm::vec3, float);
+    void dibujar(glm::vec3, glm::vec3, bool);
     void disparar(glm::vec3, float);
 };
 

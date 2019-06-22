@@ -6,26 +6,35 @@ y disparar.
 
 #include "../inc/enemigo.h"
 
-GLfloat tno_emit[] = {1.0, 1.0, 1.0, 1.0};
+float eno_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
 TEnemigo::TEnemigo(glm::vec3 _pos){
 	this->m_posicion = _pos;
 }
 
-void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro){
+void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
-		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-		
-		float emit[]    = {0.0, 1.0, 0.0, 1.0};
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
-			glColor3f(0,1,0);
-			glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
-		// glutSolidSphere(m_dim, 8, 8);
+		glm::vec2 a(m_direccion.x, m_direccion.z);
+		glm::vec2 b(m_modelo->m_dir.x, m_modelo->m_dir.z);
+		float angley = glm::orientedAngle(a, b)*180/PI;
 
-		// glScalef(0.2f, 0.2f, 0.2f);
-		// glRotatef(-90, 1, 0, 0);
+		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
+		glRotatef(angley, 0.0f, 1.0f, 0.0f);
+		
+		if(_col){
+			float emit[]    = {0.0, 1.0, 0.0, 1.0};
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+				glColor3f(0,1,0);
+				glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+
+				glColor3f(0,1,1);
+				glBegin(GL_LINES);
+					glVertex3f(0,0,0);
+					glVertex3f(m_modelo->m_dir.x, m_modelo->m_dir.y,10*m_modelo->m_dir.z);
+				glEnd();
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
+		}
 		m_modelo->dibujar();
 	glPopMatrix();
 }
@@ -41,9 +50,9 @@ void TEnemigo::cargar(float _dt){
 void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	int i;
 	// std::cout << m_balas.size() << "| ";
-	float emit[]    = {0.0, 0.0, 1.0, 1.0};
+	float emit[]    = {m_color.x, m_color.y, m_color.z, 1.0};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
-	glColor3f(0,0,1);
+	glColor3f(m_color.x,m_color.y,m_color.z);
 
 	for(i=0; i<(int)m_balas.size(); i++){
 		glPushMatrix();
@@ -62,14 +71,13 @@ void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 			i--;
 		}
 	}
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tno_emit);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 }
 
 int TEnemigo::colision(glm::vec3 _pos, float _r){
 	int ty = -1;
 
 	float dis = glm::distance(_pos, m_posicion);
-	//std::cout << dis << "," << (_r+m_dim) << "\t|";
 
 	if(dis < (m_modelo->m_dim + _r)){
 		ty = 1;
@@ -79,8 +87,6 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 			ty = 2;
 		}
 	}
-
-	// std::cout << ty << " ";
 
 	return ty;
 }
@@ -145,7 +151,7 @@ void TEnemigo::set_position(glm::vec3 _pos){
 }
 
 void TEnemigo::restart(){
-	m_direccion = 10.0f*RandomVect();
+	m_direccion = RandomVect();
 }
 
 TEnemigo::~TEnemigo(){

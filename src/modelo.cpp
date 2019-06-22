@@ -80,6 +80,7 @@ TModelo::TModelo(int _type, std::string _filename, std::string _textures, int _B
 	}
 
 	m_dim = (float)m_dim/3;
+	m_dir = glm::vec3(0,0,1);
 	// std::cout << "dim: " << m_dim << "\n";
 	// std::cout << _filename << " load!\n";
 }
@@ -108,5 +109,24 @@ void TModelo::dibujar() const{
 		}
 	glEnd();
 
+	/*glBegin(GL_LINES);
+		glVertex3f(0,0,0);
+		glVertex3f(m_dir.x,m_dir.y,10*m_dir.z);
+	glEnd();*/
+
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+TModelo TModelo::get_small(){
+	TModelo tmp = *this;
+	tmp.m_dim = m_dim/2.0f;
+	for(unsigned i=0; i<tmp.m_vertice.size(); i++){
+		tmp.m_vertice[i] /= 2.0f;
+	}
+
+	return tmp;
+}
+
+TModelo::~TModelo(){
+	
 }
