@@ -114,7 +114,7 @@ TMapa::TMapa(){
 	}*/
 
 	//Inicializar puertas
-	m_vec_tpuertas = std::vector<TPuerta>(m_puertas.size() * 2);
+	m_vec_tpuertas = std::vector<TPuerta>(m_puertas.size());
 	ParCoord2D pc2d;
 	auto it = m_puertas.begin();
 	glm::vec3 centro_puerta;
@@ -137,22 +137,12 @@ TMapa::TMapa(){
 		if (centro1.x - centro2.x == 0)
 		{
 			orient = x;
-			centro_puerta.z += 0.1;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, primero);
-			++i;
-
-			centro_puerta.z -= 0.2;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, segundo);
+			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient);
 		}
 		else if (centro1.y - centro2.y == 0)
 		{
 			orient = z;
-			centro_puerta.x += 0.1;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, primero);
-			++i;
-
-			centro_puerta.x -= 0.2;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, segundo);
+			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient);
 		}
 	}
 
