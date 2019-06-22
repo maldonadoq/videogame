@@ -36,7 +36,7 @@ public:
     virtual ~TEnemigo();
 	
 	void anhadir_bala(TBala);
-	void barra_vida();
+	void barra_vida(glm::vec3);
 	void restart();
 	void cargar(float);					// espera para disparar de nuevo
 	void set_position(glm::vec3);

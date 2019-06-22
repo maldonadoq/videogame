@@ -27,12 +27,6 @@ void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 				glColor3f(0,1,0);
 				glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
-
-				glColor3f(0,1,1);
-				glBegin(GL_LINES);
-					glVertex3f(0,0,0);
-					glVertex3f(m_modelo->m_dir.x, m_modelo->m_dir.y,10*m_modelo->m_dir.z);
-				glEnd();
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 		}
 		m_modelo->dibujar();
@@ -91,58 +85,25 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 	return ty;
 }
 
-void TEnemigo::barra_vida(){
-	glPushMatrix();		
-		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-		glTranslatef(0.0f ,10.0f, 0.0f);
-		//glutSolidSphere(1,20,20);
-		//glutSolidCube(3);	
+void TEnemigo::barra_vida(glm::vec3 _jug){
+	glPushMatrix();
+		glm::vec3 tmp = glm::normalize((_jug - glm::vec3(m_posicion.x, _jug.y, m_posicion.z)));
+		float angley = glm::orientedAngle(glm::vec2(tmp.x, tmp.z), glm::vec2(m_modelo->m_dir.x, m_modelo->m_dir.z))*180/PI;
 
-		glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
-			// Top face (y = 1.0f)
-			// Define vertices in counter-clockwise (CCW) order with normal pointing out
-			glColor3f(0.0f, 1.0f, 0.0f);     // Green
-			glVertex3f( 1.0f, 1.0f, -1.0f);
-			glVertex3f(-1.0f, 1.0f, -1.0f);
-			glVertex3f(-1.0f, 1.0f,  1.0f);
-			glVertex3f( 1.0f, 1.0f,  1.0f);
-		
-			// Bottom face (y = -1.0f)
-			glColor3f(1.0f, 0.5f, 0.0f);     // Orange
-			glVertex3f( 1.0f, -1.0f,  1.0f);
-			glVertex3f(-1.0f, -1.0f,  1.0f);
-			glVertex3f(-1.0f, -1.0f, -1.0f);
-			glVertex3f( 1.0f, -1.0f, -1.0f);
-		
-			// Front face  (z = 1.0f)
-			glColor3f(1.0f, 0.0f, 0.0f);     // Red
-			glVertex3f( 1.0f,  1.0f, 1.0f);
-			glVertex3f(-1.0f,  1.0f, 1.0f);
-			glVertex3f(-1.0f, -1.0f, 1.0f);
-			glVertex3f( 1.0f, -1.0f, 1.0f);
-		
-			// Back face (z = -1.0f)
-			glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
-			glVertex3f( 1.0f, -1.0f, -1.0f);
-			glVertex3f(-1.0f, -1.0f, -1.0f);
-			glVertex3f(-1.0f,  1.0f, -1.0f);
-			glVertex3f( 1.0f,  1.0f, -1.0f);
-		
-			// Left face (x = -1.0f)
-			glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-			glVertex3f(-1.0f,  1.0f,  1.0f);
-			glVertex3f(-1.0f,  1.0f, -1.0f);
-			glVertex3f(-1.0f, -1.0f, -1.0f);
-			glVertex3f(-1.0f, -1.0f,  1.0f);
-		
-			// Right face (x = 1.0f)
-			glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
-			glVertex3f(1.0f,  1.0f, -1.0f);
-			glVertex3f(1.0f,  1.0f,  1.0f);
-			glVertex3f(1.0f, -1.0f,  1.0f);
-			glVertex3f(1.0f, -1.0f, -1.0f);
-		glEnd();  // End of drawing color-cube
-		
+		glTranslatef(m_posicion.x, m_posicion.y + (m_modelo->m_dim/2.0f) + 2.0f, m_posicion.z);
+		glRotatef(angley, 0.0f, 1.0f, 0.0f);
+
+		float emit[]    = {0.0f,1.0f,0.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+		glColor3f(0.0f,1.0f,0.0f);
+			glBegin(GL_QUADS);
+				// Front face  (z = 1.0f)
+				glVertex3f( 2.0f,  0.5f, 0.0f);
+				glVertex3f(-2.0f,  0.5f, 0.0f);
+				glVertex3f(-2.0f, -0.5f, 0.0f);
+				glVertex3f( 2.0f, -0.5f, 0.0f);
+			glEnd();
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 	glPopMatrix();
 }
 
