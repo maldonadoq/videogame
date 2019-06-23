@@ -63,6 +63,8 @@ TMapa::TMapa(){
 		}
 	}
 
+	std::vector<std::vector<TCuarto *> > tcuartos(m_cuartos.size(), std::vector<TCuarto *>(m_cuartos[0].size(), nullptr));
+
 	int i = i_inicio;
 	int j = j_inicio;
 	//crear el cuarto inicial y los anteriores al inicial
@@ -74,6 +76,7 @@ TMapa::TMapa(){
 			if (m_cuartos[i][j] != 0)
 			{
 				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim);
+				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
 				++cont_cuartos;
 			}
 			cuarto_centro.x -= m_cuarto_dim.x;
@@ -96,6 +99,7 @@ TMapa::TMapa(){
 			if (m_cuartos[i][j] != 0)
 			{
 				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim);
+				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
 				++cont_cuartos;
 			}
 			cuarto_centro.x += m_cuarto_dim.x;
@@ -122,11 +126,17 @@ TMapa::TMapa(){
 	int dx1, dy1, dx2, dy2;
 	glm::vec2 centro1, centro2;
 	Orientacion orient;
+	TCuarto* cuarto1;
+	TCuarto* cuarto2;
 	
 	for (int i = 0; i < m_vec_tpuertas.size(); ++i)
 	{
 		pc2d = *it;
 		++it;
+
+		cuarto1 = tcuartos[pc2d.c1.y][pc2d.c1.x];
+		cuarto2 = tcuartos[pc2d.c2.y][pc2d.c2.x];
+		
 		dx1 = pc2d.c1.x - j_inicio;
 		dy1 = pc2d.c1.y - i_inicio;
 		dx2 = pc2d.c2.x - j_inicio;
@@ -137,13 +147,15 @@ TMapa::TMapa(){
 		if (centro1.x - centro2.x == 0)
 		{
 			orient = x;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient);
 		}
 		else if (centro1.y - centro2.y == 0)
 		{
 			orient = z;
-			m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient);
 		}
+		m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, cuarto1, cuarto2);
+
+		cuarto1->m_puertas.push_back(&m_vec_tpuertas[i]);
+		cuarto2->m_puertas.push_back(&m_vec_tpuertas[i]);
 	}
 
 	/*

@@ -7,11 +7,14 @@ TPuerta::TPuerta()
     m_orient = x;
 }
 
-TPuerta::TPuerta(glm::vec3 _centro, glm::vec2 _dim, Orientacion _orient)
+TPuerta::TPuerta(glm::vec3 _centro, glm::vec2 _dim, Orientacion _orient,
+                 TCuarto* cuarto1, TCuarto* cuarto2)
 {
     this->m_centro = _centro;
     this->m_dim = _dim;
     this->m_orient = _orient;
+    this->m_cuarto1 = cuarto1;
+    this->m_cuarto2 = cuarto2;
 }
 
 void TPuerta::dibujar(int _tid)
@@ -19,6 +22,7 @@ void TPuerta::dibujar(int _tid)
     glBindTexture(GL_TEXTURE_2D, _tid);
 
     //Primer lado de la puerta
+    glm::vec3 centro_aux = this->m_centro;
     glBegin(GL_QUADS);
         if (m_orient == x)
         {
@@ -74,8 +78,6 @@ void TPuerta::dibujar(int _tid)
 
             glTexCoord2f(0, 1);
             glVertex3f(m_centro.x + m_dim.x/2, m_centro.y + m_dim.y/2, m_centro.z);
-        
-            this->m_centro.z += 0.1;
         }
         else if (m_orient == z)
         {
@@ -93,10 +95,9 @@ void TPuerta::dibujar(int _tid)
 
             glTexCoord2f(0, 0);
             glVertex3f(m_centro.x, m_centro.y - m_dim.y/2, m_centro.z + m_dim.x/2);
-        
-            this->m_centro.x += 0.1;
         }
     glEnd();    
+    this->m_centro = centro_aux;
 
     glBindTexture(GL_TEXTURE_2D, 0);
 }

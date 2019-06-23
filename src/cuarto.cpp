@@ -132,7 +132,7 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 
-	if(m_jugador != NULL){
+	if(m_jugador != nullptr){
 		dibujar_enemigos(_dt);
 		dibujar_items();
 	}
@@ -169,6 +169,70 @@ void TCuarto::dibujar_enemigos(float _dt){
 		m_enemigos[i]->dibujar(m_dim, m_centro, m_colision);
 		m_enemigos[i]->barra_vida(m_jugador->m_posicion);
 		m_enemigos[i]->cargar(_dt);
+	}
+}
+
+void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
+	glm::vec3* pos_jug = &(jugador->m_posicion);
+	glm::vec3 aux;
+	for (auto it = this->m_puertas.begin(); it != this->m_puertas.end(); ++it){
+		aux = (*it)->m_centro;
+		aux.y = pos_jug->y;
+		if (glm::distance(*pos_jug, aux) < 10.0f){  //estoy en area para entrar a otro cuarto
+			(*cuarto_actual)->m_jugador = nullptr;	
+			if ((*it)->m_cuarto1 == *cuarto_actual){
+				*cuarto_actual = (*it)->m_cuarto2;
+				(*it)->m_cuarto2->m_jugador = jugador;
+
+				if ((*it)->m_orient == x){
+					*pos_jug = glm::vec3((*it)->m_centro.x, pos_jug->y, (*it)->m_centro.z);
+					if ((*it)->m_cuarto1->m_centro.z < (*it)->m_cuarto2->m_centro.z){
+						pos_jug->z += 10;
+					}
+					else
+					{
+						pos_jug->z -= 10;
+					}
+				}
+				else{  //m_orient == z
+					*pos_jug = glm::vec3((*it)->m_centro.x, pos_jug->y, (*it)->m_centro.z);
+					if ((*it)->m_cuarto1->m_centro.x < (*it)->m_cuarto2->m_centro.x){
+						pos_jug->x += 10;
+					}
+					else
+					{
+						pos_jug->x -= 10;
+					}
+				}
+			}
+			else{  //m_cuarto2 == *cuarto_actual
+				*cuarto_actual = (*it)->m_cuarto1;
+				(*it)->m_cuarto1->m_jugador = jugador;
+
+				if ((*it)->m_orient == x){
+					*pos_jug = glm::vec3((*it)->m_centro.x, pos_jug->y, (*it)->m_centro.z);
+					if ((*it)->m_cuarto1->m_centro.z < (*it)->m_cuarto2->m_centro.z){
+						pos_jug->z -= 10;
+					}
+					else
+					{
+						pos_jug->z += 10;
+					}
+				}
+				else{  //m_orient == z
+					*pos_jug = glm::vec3((*it)->m_centro.x, pos_jug->y, (*it)->m_centro.z);
+					if ((*it)->m_cuarto1->m_centro.x < (*it)->m_cuarto2->m_centro.x){
+						pos_jug->x -= 10;
+					}
+					else
+					{
+						pos_jug->x += 10;
+					}
+				}
+			}		
+			
+			break;
+		}
 	}
 }
 
