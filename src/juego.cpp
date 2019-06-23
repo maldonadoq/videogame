@@ -9,7 +9,7 @@ TMaterial line_material = {
 
 TJuego::TJuego(int &argc, char **argv){
 
-	this->m_ancho = 700;
+	this->m_ancho = 1000;
 	this->m_alto  = 700;
 
 	glutInit(&argc, argv);
@@ -109,7 +109,7 @@ void TJuego::dibujar(){
 		m_gestor->dibujar_leyenda();
 	}
 
-	glViewport(0,0,700,700);
+	glViewport(0,0,m_ancho,m_alto);
     gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
 					m_camara->m_perspective[2], m_camara->m_perspective[3]);
     
@@ -169,9 +169,8 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 				test = false;
 			}
 			cont++;
+			break;
 		}
-
-
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
 			break;
@@ -189,7 +188,9 @@ void TJuego::remodelar(GLsizei _w, GLsizei _h){
     this->m_ancho = _w;
     this->m_alto  = _h;
 
-    glViewport(0, 0, m_ancho, m_alto);
+    this->m_camara->m_perspective[1] = _w/_h;
+
+    glViewport(0, 0, m_ancho, m_alto);    
     glMatrixMode(GL_PROJECTION);
     
     glLoadIdentity();

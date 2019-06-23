@@ -23,7 +23,8 @@ TGestor::TGestor(){
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);*/
 
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
-	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);	
+	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);
+	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/sentinel/sentinel.obj",	"data/modelo/sentinel/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -138,6 +139,8 @@ void TGestor::init(){
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
 
+	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,4,24), m_modelos["key"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,3,-24), m_modelos["table"]));
@@ -149,6 +152,7 @@ void TGestor::init(){
 	m_mapa->m_cuarto_actual->set_jugador(m_jugador);
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
 	m_mapa->m_vec_tcuartos[0].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+	m_mapa->m_vec_tcuartos[0].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
 }
 
 void drawBitmapText(const std::string &s,float x,float y){  
