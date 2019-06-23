@@ -23,7 +23,8 @@ enum teclas{
 	A 		= 'a',
 	C 		= 'c',
 	Q 		= 'q',
-  L     = 'l'//leyenda del jugador
+  	L       = 'l',//leyenda del jugador
+	E       = 'e' //abrir una puerta
 };
 
 enum accion{
