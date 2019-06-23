@@ -11,19 +11,13 @@ enum Orientacion{
     z
 };
 
-enum Lado{
-    primero,
-    segundo
-};
-
 class TPuerta{
 public:
     glm::vec3 m_centro;
     glm::vec2 m_dim;
     Orientacion m_orient;
-    Lado m_lado;
 
-	TPuerta(glm::vec3, glm::vec2, Orientacion, Lado);
+	TPuerta(glm::vec3, glm::vec2, Orientacion);
 	TPuerta();
 
 	void dibujar(int);

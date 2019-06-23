@@ -131,6 +131,7 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	dibujar_paredes();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+
 	if(m_jugador != NULL){
 		dibujar_enemigos(_dt);
 		dibujar_items();
