@@ -3,7 +3,7 @@
 float hno_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
 THydra::THydra(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
-    this->m_vida = 5;
+    this->m_vida = ehydra;
     this->m_modelo = _model;
     this->m_direccion = 10.0f*RandomVect();
     this->m_tiempo_disparar = 0.0f;
@@ -127,4 +127,8 @@ void THydra::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
             glPopMatrix();
         }
     }
+}
+
+float THydra::get_size(float _size){
+    return (_size/(float)ehydra)*m_vida;
 }

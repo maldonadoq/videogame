@@ -13,6 +13,7 @@ public:
 
     void mover(glm::vec3, glm::vec3, glm::vec3, float);
     void disparar(glm::vec3, float);
+    float get_size(float);
 };
 
 #endif

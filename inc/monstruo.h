@@ -14,6 +14,7 @@ public:
     void mover(glm::vec3, glm::vec3, glm::vec3, float);
     void dibujar(glm::vec3, glm::vec3, bool);
     void disparar(glm::vec3, float);
+    float get_size(float);
 };
 
 #endif

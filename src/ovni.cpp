@@ -1,7 +1,7 @@
 #include "../inc/ovni.h"
 
 TOvni::TOvni(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
-    this->m_vida = 5;
+    this->m_vida = eovni;
     this->m_modelo = _model;
     this->m_direccion = 10.0f*RandomVect();
     this->m_tiempo_disparar = 0.0f;
@@ -31,4 +31,8 @@ void TOvni::disparar(glm::vec3 _pos, float _dt){
 		m_balas.push_back(tb);
 		m_tiempo_disparar = 0.0f;
 	}
+}
+
+float TOvni::get_size(float _size){
+    return (_size/(float)eovni)*m_vida;
 }

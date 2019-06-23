@@ -166,11 +166,6 @@ TMapa::TMapa(){
 	}*/
 }
 
-void TMapa::dibujar_cuartos()
-{
-
-}
-
 void TMapa::dibujar(float _dt){
 	//dibujar_mundo();
 

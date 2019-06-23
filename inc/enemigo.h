@@ -15,6 +15,13 @@
 using std::cout;
 using std::vector;
 
+enum TEnemVida{
+	emonstruo	= 15,
+	ehydra		= 10,
+	eovni		= 12,
+	esentinel	= 8
+};
+
 class TEnemigo{
 protected:
 	float m_tiempo_disparar;
@@ -36,7 +43,7 @@ public:
     virtual ~TEnemigo();
 	
 	void anhadir_bala(TBala);
-	void barra_vida();
+	void barra_vida(glm::vec3);
 	void restart();
 	void cargar(float);					// espera para disparar de nuevo
 	void set_position(glm::vec3);
@@ -44,10 +51,11 @@ public:
 	void dibujar_balas(glm::vec3, glm::vec3);
 	
 	virtual void dibujar(glm::vec3, glm::vec3, bool);
-
 	virtual int  colision(glm::vec3, float);
+	
 	virtual void mover(glm::vec3, glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
+	virtual float get_size(float) = 0;
 
 	friend std::ostream& operator<< (std::ostream & out, const TEnemigo &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";
