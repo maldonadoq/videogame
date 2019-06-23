@@ -108,12 +108,6 @@ void TModelo::dibujar() const{
 			glVertex3f(tvertice.x, tvertice.y, tvertice.z);
 		}
 	glEnd();
-
-	/*glBegin(GL_LINES);
-		glVertex3f(0,0,0);
-		glVertex3f(m_dir.x,m_dir.y,10*m_dir.z);
-	glEnd();*/
-
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
