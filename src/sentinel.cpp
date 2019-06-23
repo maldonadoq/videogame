@@ -3,7 +3,7 @@
 int segm = 12;
 
 TSentinel::TSentinel(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
-    this->m_vida = 5;
+    this->m_vida = esentinel;
     this->m_direccion = 10.0f*RandomVect();
     this->m_modelo = _model;
     this->m_tiempo_disparar = 0.0f;
@@ -32,4 +32,8 @@ void TSentinel::disparar(glm::vec3 _pos, float _dt){
 
 		m_tiempo_disparar = 0.0f;
 	}
+}
+
+float TSentinel::get_size(float _size){
+    return (_size/(float)esentinel)*m_vida;
 }

@@ -90,19 +90,35 @@ void TEnemigo::barra_vida(glm::vec3 _jug){
 		glm::vec3 tmp = glm::normalize((_jug - glm::vec3(m_posicion.x, _jug.y, m_posicion.z)));
 		float angley = glm::orientedAngle(glm::vec2(tmp.x, tmp.z), glm::vec2(m_modelo->m_dir.x, m_modelo->m_dir.z))*180/PI;
 
-		glTranslatef(m_posicion.x, m_posicion.y + (m_modelo->m_dim/2.0f) + 2.0f, m_posicion.z);
+		glTranslatef(m_posicion.x-2, m_posicion.y + (m_modelo->m_dim/2.0f) + 2.0f, m_posicion.z);
 		glRotatef(angley, 0.0f, 1.0f, 0.0f);
 
-		float emit[]    = {0.0f,1.0f,0.0f, 1.0f};
+		float emit[]    = {1.0f,0.0f,0.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+		glColor3f(1.0f,0.0f,0.0f);
+			glBegin(GL_QUADS);
+				// Front face  (z = 1.0f)
+				glVertex3f( 4.0f,  0.25f, 0.0f);
+				glVertex3f(0.0f,  0.25f, 0.0f);
+				glVertex3f(0.0f, -0.25f, 0.0f);
+				glVertex3f( 4.0f, -0.25f, 0.0f);
+			glEnd();
+		
+		float l = get_size(4);
+		// cout << l << "\n";
+
+		emit[0] = 0.0f;
+		emit[1] = 1.0f;
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 		glColor3f(0.0f,1.0f,0.0f);
 			glBegin(GL_QUADS);
 				// Front face  (z = 1.0f)
-				glVertex3f( 2.0f,  0.5f, 0.0f);
-				glVertex3f(-2.0f,  0.5f, 0.0f);
-				glVertex3f(-2.0f, -0.5f, 0.0f);
-				glVertex3f( 2.0f, -0.5f, 0.0f);
+				glVertex3f( l,  0.25f, 0.1f);
+				glVertex3f(0.0f,  0.25f, 0.1f);
+				glVertex3f(0.0f, -0.25f, 0.1f);
+				glVertex3f( l, -0.25f, 0.1f);
 			glEnd();
+
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 	glPopMatrix();
 }
