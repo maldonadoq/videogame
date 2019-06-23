@@ -1,7 +1,7 @@
 #include "../inc/monstruo.h"
 
 TMonstruo::TMonstruo(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
-    this->m_vida = 5;
+    this->m_vida = emonstruo;
     this->m_direccion = 10.0f*RandomVect();
     this->m_modelo = _model;
     this->m_tiempo_disparar = 0.0f;
@@ -44,4 +44,8 @@ void TMonstruo::disparar(glm::vec3 _pos, float _dt){
 		m_balas.push_back(tb);
 		m_tiempo_disparar = 0.0f;
 	}
+}
+
+float TMonstruo::get_size(float _size){
+    return (_size/(float)emonstruo)*m_vida;
 }
