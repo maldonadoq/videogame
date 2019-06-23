@@ -3,12 +3,18 @@
 
 #include <GL/glut.h>
 #include <glm/glm.hpp>
+#include <vector>
+#include <list>
 #include "jugador.h"
 #include "enemigo.h"
 #include "item.h"
-#include <vector>
+#include "puerta.h"
+
 
 using std::vector;
+using std::list;
+
+class TPuerta;
 
 class TCuarto{
 private:
@@ -19,6 +25,7 @@ public:
 	vector<TItem *> m_items;
 	vector<TEnemigo *> m_enemigos;
 	TJugador *m_jugador;
+	list<TPuerta *> m_puertas;
 
 	bool m_colision;
 
@@ -38,6 +45,8 @@ public:
 
 	void dibujar_paredes();
 	void dibujar_piso();
+
+	void verificar_puertas(TJugador*, TCuarto**);
 };
 
 #endif

@@ -171,7 +171,9 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			cont++;
 		}
 
-
+		case E:{
+			m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual));
+		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
 			break;
