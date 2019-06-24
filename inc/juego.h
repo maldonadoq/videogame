@@ -18,13 +18,12 @@
 enum teclas{
 	ESC 	= 27,
 	SPACE	= ' ',
-	UP 		= 'u',
-	FIRST	= 'f',
-	A 		= 'a',
+	FIRST	= '1',
+	THIRD	= '2',
 	C 		= 'c',
-	Q 		= 'q',
-  	L       = 'l',//leyenda del jugador
-	E       = 'e' //abrir una puerta
+    L       = 'l',  //leyenda del jugador
+    E       = 'e',
+    TAB     = 9
 };
 
 enum accion{

@@ -73,7 +73,7 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 
 	float dis = glm::distance(_pos, m_posicion);
 
-	if(dis < (m_modelo->m_dim + _r)){
+	if(dis < (m_modelo->m_dim/2.0f + _r)){
 		ty = 1;
 		m_vida--;
 

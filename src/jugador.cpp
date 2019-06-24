@@ -10,6 +10,7 @@ TJugador::TJugador(glm::vec3 _pos){
 	this->m_piso = m_posicion.y;
 	this->m_dim = 5;
 	this->m_mover = 0.0f;
+	this->m_arma = 0;
 }
 
 TJugador::~TJugador(){
@@ -21,12 +22,17 @@ void TJugador::mover(glm::vec3 _pos){
 }
 
 void TJugador::dibujar(){
-	/*glPushMatrix();
-		glRotatef(m_camara->m_direccion.x, 1, 0, 0);
-		glRotatef(m_camara->m_direccion.z, 0, 0, 1);
-		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
-		m_modelo->dibujar();
-	glPopMatrix();*/
+	if(m_camara->m_person){
+
+		glm::vec2 a(m_camara->m_direccion.x, m_camara->m_direccion.z);
+		glm::vec2 b(m_modelo->m_dir.x, m_modelo->m_dir.z);
+		float angley = glm::orientedAngle(a, b)*180/PI;
+		glPushMatrix();
+			glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
+			glRotatef(angley, 0.0f, 1.0f, 0.0f);
+			m_modelo->dibujar();
+		glPopMatrix();
+	}
 }
 
 void TJugador::barra_vida(){
@@ -35,6 +41,7 @@ void TJugador::barra_vida(){
 
 void TJugador::set_modelo(TModelo *_model){
 	this->m_modelo = _model;
+	this->m_posicion.y += m_modelo->m_dim/2.0f;
 }
 
 void TJugador::set_camara(TCamara *_camara){
@@ -51,10 +58,21 @@ glm::vec3 TJugador::get_posicion(){
 	return this->m_posicion;
 }
 
-void TJugador::disparar(float _x, glm::vec3 _v){
-
-}
-
-void TJugador::anhadir_bala(TBala _bala){
-	this->m_balas.push_back(_bala);
+void TJugador::disparar(glm::vec3 _dir, float _dt){
+	switch (m_arma){
+		case asimple:{
+			TBala tb = {0.2f, m_posicion+(m_camara->m_direccion*3.0f), m_camara->m_direccion*_dt*50.0f};
+			m_balas.push_back(tb);
+			break;
+		}
+		case adoble:{
+			TBala tb = {0.2f, m_posicion+(m_camara->m_direccion*10.0f), m_camara->m_direccion*_dt*60.0f};
+			m_balas.push_back(tb);
+			tb = {0.2f, m_posicion+(m_camara->m_direccion), m_camara->m_direccion*_dt*60.0f};
+			m_balas.push_back(tb);
+			break;
+		}
+		default:
+			break;
+	}
 }
