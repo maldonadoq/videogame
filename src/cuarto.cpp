@@ -18,13 +18,14 @@ TCuarto::TCuarto(){
 	this->m_colision = true;
 }
 
-TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
+TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim, std::string tipo){
 	this->m_centro = _centro;
 	this->m_dim = m_dim;
 	this->m_escala = m_dim/10.0f;
 	this->m_jugador = NULL;
 	this->m_enemigos.clear();
 	this->m_items.clear();
+	this->m_tipo = tipo; 
 
 	this->m_colision = true;
 }
@@ -179,7 +180,8 @@ void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 		aux = (*it)->m_centro;
 		aux.y = pos_jug->y;
 		if (glm::distance(*pos_jug, aux) < 10.0f){  //estoy en area para entrar a otro cuarto
-			(*cuarto_actual)->m_jugador = nullptr;	
+			(*cuarto_actual)->m_jugador = nullptr;
+
 			if ((*it)->m_cuarto1 == *cuarto_actual){
 				*cuarto_actual = (*it)->m_cuarto2;
 				(*it)->m_cuarto2->m_jugador = jugador;

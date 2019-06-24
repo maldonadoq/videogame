@@ -9,7 +9,7 @@
 #include "enemigo.h"
 #include "item.h"
 #include "puerta.h"
-
+#include <string>
 
 using std::vector;
 using std::list;
@@ -26,10 +26,11 @@ public:
 	vector<TEnemigo *> m_enemigos;
 	TJugador *m_jugador;
 	list<TPuerta *> m_puertas;
+	std::string m_tipo;
 
 	bool m_colision;
 
-	TCuarto(glm::vec3, glm::vec3);
+	TCuarto(glm::vec3, glm::vec3, std::string);
 	TCuarto();
 	virtual ~TCuarto();
 

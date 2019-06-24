@@ -271,7 +271,7 @@ pero de preferencia van a estar alejados de la entrada.
         }
     }
 
-    /*
+    /* 
     std::cout << "cuartos =\n";
     imprimir_matriz_enteros(cuartos, anchura, altura);
     std::cout << "\n";*/

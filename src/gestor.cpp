@@ -25,6 +25,7 @@ TGestor::TGestor(){
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/sentinel/sentinel.obj",	"data/modelo/sentinel/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
+	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
 }
 
 void TGestor::set_mapa(TMapa *_mapa){
@@ -141,18 +142,64 @@ void TGestor::init(){
 
 	m_mapa->m_vec_tcuartos[rand()%si].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
 
-	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,3,24), m_modelos["chest"]));
+	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(12,2,24), m_modelos["chest"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,4,24), m_modelos["key"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,3,-24), m_modelos["table"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-12,4,24), m_modelos["heart"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(6,2,24), m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%si].set_item(new TItem(glm::vec3(-25,4,4), m_modelos["barrel"]));*/
 
-	m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[0];
-	m_mapa->m_cuarto_actual->set_jugador(m_jugador);
-	m_mapa->m_vec_tcuartos[0].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
-	m_mapa->m_vec_tcuartos[0].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
-	m_mapa->m_vec_tcuartos[0].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+	std::vector<std::string> lista_enemigos = {"raptor", "robbi", "sentinel"};
+	int idx_enemigo = 0;
+
+	for (int i = 0; i < m_mapa->m_vec_tcuartos.size(); ++i){
+		if (m_mapa->m_vec_tcuartos[i].m_tipo == "entrada"){
+			m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[i];
+			m_mapa->m_cuarto_actual->set_jugador(m_jugador);
+			m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
+			m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+			m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			
+		}
+		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "salida"){
+			//boss que impide salir
+		}
+		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "normal"){
+			if (lista_enemigos[idx_enemigo] == "raptor"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "robbi"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "sentinel"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			}
+			++idx_enemigo;
+			if (idx_enemigo == lista_enemigos.size()){
+				idx_enemigo = 0;
+			}
+		}
+		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "tesoro"){
+			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,2,0), m_modelos["chest"]));
+
+			if (lista_enemigos[idx_enemigo] == "raptor"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "robbi"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "sentinel"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			}
+			++idx_enemigo;
+			if (idx_enemigo == lista_enemigos.size()){
+				idx_enemigo = 0;
+			}
+		}
+		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "llave dorada"){
+			//boss, cuando lo matas aparece la llave dorada
+		}
+	}
 }
 
 void drawBitmapText(const std::string &s,float x,float y){  
