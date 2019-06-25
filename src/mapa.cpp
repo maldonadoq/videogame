@@ -33,6 +33,7 @@ TMapa::TMapa(){
 
 	std::random_device rd;
     std::mt19937 rng(rd());
+	//std::mt19937 rng(0);
 	generar_nivel_aleatorio(m_anchura, m_altura, m_num_cuartos, m_num_tesoros, m_cuartos, m_puertas, rng);
 
 	/*
@@ -67,6 +68,8 @@ TMapa::TMapa(){
 
 	int i = i_inicio;
 	int j = j_inicio;
+	std::string tipo;
+
 	//crear el cuarto inicial y los anteriores al inicial
 	//el cuarto inicial se inicializa con 'm_centro'
 	for ( ; i >= 0; --i)
@@ -75,7 +78,27 @@ TMapa::TMapa(){
 		{
 			if (m_cuartos[i][j] != 0)
 			{
-				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim);
+				if (m_cuartos[i][j] == 1)
+				{
+					tipo = "normal";
+				}
+				else if (m_cuartos[i][j] == 2)
+				{
+					tipo = "tesoro";
+				}
+				else if (m_cuartos[i][j] == 3)
+				{
+					tipo = "llave dorada";
+				}
+				else if (m_cuartos[i][j] == 4)
+				{
+					tipo = "entrada";
+				}
+				else if (m_cuartos[i][j] == 5)
+				{
+					tipo = "salida";
+				}
+				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim, tipo);
 				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
 				++cont_cuartos;
 			}
@@ -91,6 +114,7 @@ TMapa::TMapa(){
 	j = j_inicio + 1;
 	cuarto_centro = m_centro;
 	cuarto_centro.x += m_cuarto_dim.x;
+
 	//crear los cuartos siguientes al inicial
 	for ( ; i < m_altura; ++i)
 	{
@@ -98,7 +122,27 @@ TMapa::TMapa(){
 		{
 			if (m_cuartos[i][j] != 0)
 			{
-				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim);
+				if (m_cuartos[i][j] == 1)
+				{
+					tipo = "normal";
+				}
+				else if (m_cuartos[i][j] == 2)
+				{
+					tipo = "tesoro";
+				}
+				else if (m_cuartos[i][j] == 3)
+				{
+					tipo = "llave dorada";
+				}
+				else if (m_cuartos[i][j] == 4)
+				{
+					tipo = "entrada";
+				}
+				else if (m_cuartos[i][j] == 5)
+				{
+					tipo = "salida";
+				}
+				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim, tipo);
 				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
 				++cont_cuartos;
 			}
