@@ -7,6 +7,16 @@ el cuarto.
 
 #include "../inc/cuarto.h"
 
+/*
+	Constructor de la clase Cuarto
+	centro: centro del cuarto
+	dim: dimension del cuarto
+	escala: cuantas veces se repite la textura en las paredes
+	jugador: puntero hacia el jugador
+	enemigos: vector de enemigos presente en el cuarto
+	items: vector de items en el cuarto
+	colision: mostrar una esfera vacia alrededor del objetos
+*/
 TCuarto::TCuarto(){
 	this->m_centro = glm::vec3(0,0,0);
 	this->m_dim = glm::vec3(10,5,10);
@@ -29,6 +39,20 @@ TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim){
 	this->m_colision = true;
 }
 
+/*
+	Dibujar la paredes del cuarto
+	Se toma en cuenta el centro y la dimensión del cuarto
+	
+	z
+	-------------
+	|			|
+	|	centro	|dim
+	|	  -     |
+	|			|
+	|			|
+	------------- x
+	Dim
+*/
 void TCuarto::dibujar_paredes(){
 
 	float tx = m_dim.x/2;
@@ -102,6 +126,10 @@ void TCuarto::dibujar_paredes(){
 	glEnd();
 }
 
+/*
+	Dibujar el piso del cuarto
+	Similar a una pared en el cuarto
+*/
 void TCuarto::dibujar_piso(){
 	float tx = m_dim.x/2;
 	float tz = m_dim.z/2;
@@ -122,6 +150,13 @@ void TCuarto::dibujar_piso(){
 	glEnd();
 }
 
+/*
+	Metodo que llama a las funcion:
+		dibujar_pared
+		dibujar_piso
+	Aplica la textura para cada tipo
+	Si en el cuarto está el jugador, se dibujará los items y enemigos
+*/
 void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	glBindTexture(GL_TEXTURE_2D, _tf);
 	dibujar_piso();
@@ -138,31 +173,49 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	}
 }
 
+/*
+	Añadir un nuevo enemigo en el cuarto
+	y actualizar su posición en dicho cuarto
+*/
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
 	_enemigo->m_posicion += m_centro;
-	// std::cout << "pos en: " << vec3_to_str(_enemigo->m_posicion) << "\n";
 	this->m_enemigos.push_back(_enemigo);
 }
 
+/*
+	Añadir un nuevo item en el cuarto
+	y actualizar su posición en dicho cuarto
+*/
 void TCuarto::set_item(TItem *_item){
 	_item->m_posicion += m_centro;
-	// std::cout << "pos it: " << vec3_to_str(_item->m_posicion) << "\n";
 	this->m_items.push_back(_item);
 }
 
+/*
+	El jugador ingresa a dicho cuarto
+*/
 void TCuarto::set_jugador(TJugador *_jugador){
 	assert(_jugador != NULL);
 	_jugador->m_posicion += m_centro;
-	// std::cout << "pos ju: " << vec3_to_str(_jugador->m_posicion) << "\n";
 	this->m_jugador = _jugador;
 }
 
+/*
+	Dibujar los items en el cuarto
+*/
 void TCuarto::dibujar_items(){
 	for(unsigned i=0; i<m_items.size(); i++){
 		m_items[i]->dibujar(m_colision);
 	}
 }
 
+/*
+	función que dibuja a los enemigos en el cuarto
+		mueve a los enemigos (cada uno con su función de moverse propia)
+		dibuja el modelo del jugador
+		dibujar la barra de vida
+		carga el arma, para disparar de nuevo
+*/
 void TCuarto::dibujar_enemigos(float _dt){
 	for(unsigned i=0; i<m_enemigos.size(); i++){
 		m_enemigos[i]->mover(m_jugador->m_posicion, m_dim, m_centro, _dt);

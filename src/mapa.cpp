@@ -12,23 +12,23 @@ TMapa::TMapa(){
 	this->m_cuarto_dim = glm::vec3(100,20,100);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	this->texturas_id[0] = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[1] = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[2] = TextureManager::Inst()->LoadTexture("data/texturas/floor3.png",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[3] = TextureManager::Inst()->LoadTexture("data/texturas/floor4.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[4] = TextureManager::Inst()->LoadTexture("data/texturas/floor5.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[5] = TextureManager::Inst()->LoadTexture("data/texturas/floor6.jpg",  GL_BGR_EXT, GL_RGB);
-	this->texturas_id[6] = TextureManager::Inst()->LoadTexture("data/texturas/floor7.jpg",  GL_BGR_EXT, GL_RGB);
-
-	this->texturas_id[7]  = TextureManager::Inst()->LoadTexture("data/texturas/wall1.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[8]  = TextureManager::Inst()->LoadTexture("data/texturas/wall2.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[9]  = TextureManager::Inst()->LoadTexture("data/texturas/wall3.png",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[10]  = TextureManager::Inst()->LoadTexture("data/texturas/wall4.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[11]  = TextureManager::Inst()->LoadTexture("data/texturas/wall5.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[12]  = TextureManager::Inst()->LoadTexture("data/texturas/wall6.jpg",  GL_BGR_EXT, GL_RGB, true);
-	this->texturas_id[13]  = TextureManager::Inst()->LoadTexture("data/texturas/wall7.png",  GL_BGR_EXT, GL_RGB, true);
-
-	this->texturas_id[14]  = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas = vector<pair<int, int> >(7);
+	cuarto_texturas[0].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[0].second = TextureManager::Inst()->LoadTexture("data/texturas/wall1.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[1].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[1].second = TextureManager::Inst()->LoadTexture("data/texturas/wall2.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[2].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor3.png",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[2].second = TextureManager::Inst()->LoadTexture("data/texturas/wall3.png",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[3].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor4.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[3].second = TextureManager::Inst()->LoadTexture("data/texturas/wall4.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[4].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor5.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[4].second = TextureManager::Inst()->LoadTexture("data/texturas/wall5.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[5].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor6.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[5].second = TextureManager::Inst()->LoadTexture("data/texturas/wall6.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[6].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor7.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[6].second = TextureManager::Inst()->LoadTexture("data/texturas/wall7.png",  GL_BGR_EXT, GL_RGB, true);
+	
+	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
 
 	std::random_device rd;
@@ -171,12 +171,14 @@ void TMapa::dibujar(float _dt){
 
 	//assert(m_cuarto_actual != NULL);
 	//this->m_cuarto_actual->dibujar(texturas_id);
+	int nt;
 	for (int i = 0; i < m_vec_tcuartos.size(); ++i){
-		m_vec_tcuartos[i].dibujar(texturas_id[i], texturas_id[i+m_num_cuartos], _dt);
+		nt = i%cuarto_texturas.size();
+		m_vec_tcuartos[i].dibujar(cuarto_texturas[nt].first, cuarto_texturas[nt].second, _dt);
 	}	
 	for (int i = 0; i < m_vec_tpuertas.size(); ++i)
 	{
-		m_vec_tpuertas[i].dibujar(texturas_id[14]);
+		m_vec_tpuertas[i].dibujar(puerta_textura);
 	}
 }
 

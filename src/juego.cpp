@@ -18,7 +18,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutCreateWindow("Juego!");
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
-    this->m_jugador = new TJugador(glm::vec3(0.0f,4.0f,0.0f));
+    this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
 	this->m_jugador->set_camara(m_camara);
 
     this->m_mapa = new TMapa();
@@ -122,8 +122,8 @@ void TJuego::dibujar(){
     }
     else{
     	gluLookAt(
-			m_jugador->m_posicion.x-(m_camara->m_direccion.x*5), m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*5),
-	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+4.0f, m_jugador->m_posicion.z,
+			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
 	    	0, 1, 0
 	    );
     }
@@ -152,12 +152,12 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
             break;
 		}
 		case TAB:{
-			m_jugador->m_arma = (m_jugador->m_arma+1)%3;
+			m_jugador->m_arma = (m_jugador->m_arma+1)%4;
 			break;
 		}
         case SPACE:{
 			m_jugador->m_accion = saltar;
-			m_jugador->restart();
+			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
 			break;
 		}
 		case L:{

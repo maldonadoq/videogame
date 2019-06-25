@@ -29,6 +29,7 @@ struct TMaterial
 
 void dibujar_luz(TLuz, float);
 bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3);
+bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3, glm::vec2 &);
 string vec3_to_str(glm::vec3);
 
 #define PI 3.14159265

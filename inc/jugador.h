@@ -15,7 +15,8 @@
 enum TArma{
 	asimple = 0,
 	adoble = 1,
-	areloj = 2
+	areloj = 2,
+	arebote = 3
 };
 
 class TJugador{
@@ -24,10 +25,9 @@ public:
 	TCamara *m_camara;
 	TModelo * m_modelo;
 
-    std::vector<TBala> m_balas;
+    std::vector<TBala *> m_balas;
 	float m_dim;
 
-	glm::vec3 m_posicion_inicial;
 	glm::vec3 m_velocidad;
 	glm::vec3 m_posicion;
 
@@ -43,10 +43,8 @@ public:
 	void mover(glm::vec3);
 
 	void dibujar();
-	void restart();
 	glm::vec3 get_posicion();
 	void disparar(glm::vec3, float);
-	void barra_vida();
 	void set_modelo(TModelo *);
 	void set_camara(TCamara *);
 

@@ -19,7 +19,7 @@ public:
 		float _znear, float _zfar){
 		this->m_perspective = glm::vec4(_fovy, _ratio, _znear, _zfar);
 		this->m_posicion = glm::vec3(0,0,5);
-		this->m_direccion = glm::vec3(0,0,-1);
+		this->m_direccion = glm::vec3(0,0,1);
 		this->m_person = false;
 
 		this->m_angulo = 0.0f;
