@@ -25,6 +25,28 @@ bool cuarto_colision(glm::vec3 _dim, glm::vec3 _centro, glm::vec3 _pos){
 	return false;
 }
 
+bool cuarto_colision(glm::vec3 _dim, glm::vec3 _centro, glm::vec3 _pos, glm::vec2& _nor){
+	float tx = _dim.x/2;
+	float tz = _dim.z/2;
+
+	bool bx = (_pos.x > (_centro.x-tx)) and (_pos.x < (_centro.x+tx));
+	if(!bx){
+		_nor = glm::vec2(-1,1);
+		return false;
+	}
+
+	bool bz = (_pos.z > (_centro.z-tz)) and (_pos.z < (_centro.z+tz));
+	if(!bz){
+		_nor = glm::vec2(1,-1);
+		return false;
+	}
+
+	if((_pos.y > _centro.y) and (_pos.y < (_centro.y+_dim.y))){
+		return true;
+	}
+
+	return false;
+}
 
 string vec3_to_str(glm::vec3 _vec){
 	return "["+to_string(_vec.x)+","+to_string(_vec.y)+","+to_string(_vec.z)+"]";

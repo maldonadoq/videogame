@@ -25,7 +25,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_mapa(this->m_mapa);   
+    this->m_gestor->set_mapa(this->m_mapa);
 	
 
     this->m_gestor->init();
@@ -113,7 +113,7 @@ void TJuego::dibujar(){
     gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
 					m_camara->m_perspective[2], m_camara->m_perspective[3]);
     
-    if(!m_camara->m_up){
+    if(!m_camara->m_person){
     	gluLookAt(
 	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
 	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
@@ -122,8 +122,8 @@ void TJuego::dibujar(){
     }
     else{
     	gluLookAt(
-	    	m_camara->m_posicion.x, m_camara->m_posicion.y, m_camara->m_posicion.z,
-	    	m_camara->m_posicion.x+m_camara->m_direccion.x, m_camara->m_posicion.y+m_camara->m_direccion.y, m_camara->m_posicion.z+m_camara->m_direccion.z,
+			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
 	    	0, 1, 0
 	    );
     }
@@ -143,24 +143,23 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
             exit(0);
             break;
 		}
-		case UP:{
-			m_camara->m_up = true;
-			m_camara->m_posicion = m_jugador->m_posicion;
-			m_camara->m_posicion.y = 500;
-			m_camara->m_direccion = glm::vec3(0,-1,0);
+		case FIRST:{
+			m_camara->m_person = false;
             break;
 		}
-		case FIRST:{
-			m_camara->m_up = false;
-			m_camara->m_direccion = glm::vec3(0,0,0);
+		case THIRD:{
+			m_camara->m_person = true;
             break;
+		}
+		case TAB:{
+			m_jugador->m_arma = (m_jugador->m_arma+1)%4;
+			break;
 		}
         case SPACE:{
 			m_jugador->m_accion = saltar;
-			m_jugador->restart();
+			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
 			break;
 		}
-
 		case L:{
 			if(cont%2!=0){
 				test = true;
@@ -176,10 +175,6 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
-			break;
-		}
-		case Q:{
-			m_jugador->m_accion = abrir;
 			break;
 		}
         default:
@@ -209,10 +204,9 @@ void TJuego::mouse(int button, int state, int x, int y){
 			m_origen = x;
 		}
 	}
-	else if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
-		TBala tb = {0.2f, m_jugador->m_posicion+(m_camara->m_direccion*3.0f), m_camara->m_direccion};
-		m_audio->play_sound(0);
-		m_jugador->anhadir_bala(tb);
+	else if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){		
+		// m_audio->play_sound(0);
+		m_jugador->disparar(m_camara->m_direccion, m_etime[0]);
 	}
 }
 
@@ -244,13 +238,13 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = -0.5f;
+			m_camara->m_delta_tangle = 0.5f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = 0.5f;
+			m_camara->m_delta_tangle = -0.5f;
 			break;
 		}		
 		default:

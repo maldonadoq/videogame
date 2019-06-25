@@ -67,7 +67,7 @@ int THydra::colision(glm::vec3 _pos, float _r){
 
     if(!m_split){
         dis = glm::distance(_pos, m_posicion);
-        if(dis < (m_modelo->m_dim + _r)){
+        if(dis < (m_modelo->m_dim/2.0f + _r)){
             ty = 1;
             m_vida--;
 
@@ -87,7 +87,7 @@ int THydra::colision(glm::vec3 _pos, float _r){
     else{
         for(int i=0; i<(int)m_thydra.size(); i++){
             dis = glm::distance(_pos, m_thydra[i].m_pos);
-            if(dis < (m_tmodel.m_dim + _r)){
+            if(dis < (m_tmodel.m_dim/2.0f + _r)){
                 ty = 1;
                 m_thydra[i].m_vid--;
 

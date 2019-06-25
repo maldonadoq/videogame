@@ -8,10 +8,19 @@ y disparar.
 
 float eno_emit[]    = {1.0, 1.0, 1.0, 1.0};
 
+/*
+	Constructor de la clase Enemigo
+	posicion del enemigo
+*/
 TEnemigo::TEnemigo(glm::vec3 _pos){
 	this->m_posicion = _pos;
 }
 
+/*
+	Dibujar el enemigo, modelo y sus balas
+	Rotar el enmigo en dirección al jugador
+	Dibujar la dimension del jugador
+*/
 void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	dibujar_balas(_dim, _centro);
 	glPushMatrix();
@@ -33,14 +42,18 @@ void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 	glPopMatrix();
 }
 
-void TEnemigo::anhadir_bala(TBala _bala){
-	this->m_balas.push_back(_bala);
-}
-
+/*
+	Actualizar la variable disparar para que en cierto tiempo
+	dispare.
+*/
 void TEnemigo::cargar(float _dt){
 	m_tiempo_disparar += _dt;
 }
 
+/*
+	Dibujar las balas del enemigo, verificar las colisiones con la pared y si es asi,
+	eliminar la bala
+*/
 void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	int i;
 	// std::cout << m_balas.size() << "| ";
@@ -49,16 +62,7 @@ void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	glColor3f(m_color.x,m_color.y,m_color.z);
 
 	for(i=0; i<(int)m_balas.size(); i++){
-		glPushMatrix();
-			glTranslatef(
-				m_balas[i].m_posicion.x,
-				m_balas[i].m_posicion.y,
-				m_balas[i].m_posicion.z
-			);
-
-			glutSolidSphere(m_balas[i].m_radio,8,8);
-		glPopMatrix();
-		m_balas[i].m_posicion += m_balas[i].m_direccion;
+		m_balas[i].dibujar();		
 
 		if(!cuarto_colision(_dim, _centro, m_balas[i].m_posicion)){
 			m_balas.erase(m_balas.begin() + i);
@@ -68,12 +72,15 @@ void TEnemigo::dibujar_balas(glm::vec3 _dim, glm::vec3 _centro){
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eno_emit);
 }
 
+/*
+	Verificar la colision del enemigo contra alguien
+*/
 int TEnemigo::colision(glm::vec3 _pos, float _r){
 	int ty = -1;
 
 	float dis = glm::distance(_pos, m_posicion);
 
-	if(dis < (m_modelo->m_dim + _r)){
+	if(dis < (m_modelo->m_dim/2.0f + _r)){
 		ty = 1;
 		m_vida--;
 
@@ -85,6 +92,14 @@ int TEnemigo::colision(glm::vec3 _pos, float _r){
 	return ty;
 }
 
+/*
+	Dibuja un plano (QUAD) encima del jugador
+	que representa el estado del enemigo de acuerdo 
+	a sus vidas
+
+	Rotar ese plano siempre en dirección del jugador
+	[Billboard!!]
+*/
 void TEnemigo::barra_vida(glm::vec3 _jug){
 	glPushMatrix();
 		glm::vec3 tmp = glm::normalize((_jug - glm::vec3(m_posicion.x, _jug.y, m_posicion.z)));
