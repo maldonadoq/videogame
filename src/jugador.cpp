@@ -6,10 +6,10 @@ TJugador::TJugador(){
 
 TJugador::TJugador(glm::vec3 _pos){
 	this->m_posicion = _pos;
-	this->m_vida = 5;
 	this->m_piso = m_posicion.y;
+	this->m_vida = 5;	
 	this->m_dim = 5;
-	this->m_mover = 0.0f;
+	this->m_mover = 0.0f;	
 	this->m_arma = asimple;
 	// this->m_arma = arebote;
 }
@@ -39,6 +39,7 @@ void TJugador::dibujar(){
 void TJugador::set_modelo(TModelo *_model){
 	this->m_modelo = _model;
 	this->m_posicion.y += m_modelo->m_dim/2.0f;
+	this->m_piso = m_posicion.y;
 }
 
 void TJugador::set_camara(TCamara *_camara){
@@ -49,6 +50,15 @@ glm::vec3 TJugador::get_posicion(){
 	return this->m_posicion;
 }
 
+/*
+	Metodo que se llama cuando se hace click en el boton derecho
+	segun el tipo de arma que haya sido seleccionado con la tecla TAB
+	se añade un bala.
+		asimple: un solo disparo
+		adoble : dos disparos a la vez
+		areloj : disparo en direccion de las agujas del reloj
+		arebote: disparo simple, pero que rebota k veces en las paredes
+*/
 void TJugador::disparar(glm::vec3 _dir, float _dt){
 	switch (m_arma){
 		case asimple:{
@@ -80,4 +90,18 @@ void TJugador::disparar(glm::vec3 _dir, float _dt){
 		default:
 			break;
 	}
+}
+/*
+	Método para verificar si existe una colision de una bala con
+	el jugador, teniendo en cuenta la dimensión de la bala y el jugador
+*/
+bool TJugador::colision(glm::vec3 _pos, float _r){
+	float dis = glm::distance(_pos, m_posicion);
+
+	if(dis < (m_modelo->m_dim/2.0f + _r)){
+		m_vida--;
+		return true;
+	}
+
+	return false;
 }

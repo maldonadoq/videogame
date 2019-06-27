@@ -47,6 +47,7 @@ public:
 	void disparar(glm::vec3, float);
 	void set_modelo(TModelo *);
 	void set_camara(TCamara *);
+	bool colision(glm::vec3, float);
 
 	friend std::ostream& operator<< (std::ostream & out, const TJugador &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";

@@ -39,6 +39,7 @@ public:
 
 	void mover_jugador(glm::vec3);
 	void saltar_jugador();
+	void arrodillarse_jugador(bool);
 	
 	void dibujar_mapa();
 	void dibujar_balas_jugador();

@@ -28,6 +28,9 @@ TGestor::TGestor(){
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);*/
 
+	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);
+
 	m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
@@ -109,6 +112,9 @@ void TGestor::dibujar_balas_jugador(){
 					m_mapa->m_cuarto_actual->m_enemigos.erase(m_mapa->m_cuarto_actual->m_enemigos.begin() + j);
 					j--;
 				}
+				else if(ttype == 3){
+					m_efectos.push_back(new TMotor(m_mapa->m_cuarto_actual->m_enemigos[j]->m_posicion, 3.0f, 50));
+				}
 				break;
 			}
 		}
@@ -137,13 +143,22 @@ void TGestor::dibujar_jugador(glm::vec3 _dir){
 		mover_jugador(m_dt*_dir*m_jugador->m_mover);
 	}
 
-	if(m_jugador->m_accion == 3){
+	if(m_jugador->m_accion == 1){
 		saltar_jugador();
 	}
 
 	dibujar_balas_jugador();
 	
 	this->m_jugador->dibujar();
+}
+
+void TGestor::arrodillarse_jugador(bool _acc){
+	if(_acc){
+		m_jugador->m_posicion.y -= m_jugador->m_modelo->m_dim/2.0f;
+	}
+	else{
+		m_jugador->m_posicion.y = m_jugador->m_piso;
+	}
 }
 
 /*
@@ -165,9 +180,8 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 */
 void TGestor::init(){
 	std::vector<std::string> lista_enemigos = {"raptor", "robbi", "sentinel", "ovni"};
-	int idx_enemigo = 0;
-
-	for (int i = 0; i < m_mapa->m_vec_tcuartos.size(); ++i){
+	int idx_enemigo = 0, i;
+	for (i = 0; i < m_mapa->m_vec_tcuartos.size(); ++i){
 		if (m_mapa->m_vec_tcuartos[i].m_tipo == "entrada"){
 			m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[i];
 			m_mapa->m_cuarto_actual->set_jugador(m_jugador);
@@ -180,7 +194,7 @@ void TGestor::init(){
 			//boss que impide salir
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "normal"){
-			if (lista_enemigos[idx_enemigo] == "raptor"){m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
+			if (lista_enemigos[idx_enemigo] == "raptor"){
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "robbi"){
@@ -198,7 +212,7 @@ void TGestor::init(){
 			}
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "tesoro"){
-			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,2,0), m_modelos["chest"]));
+			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,0,0),4, m_modelos["chest"]));
 
 			if (lista_enemigos[idx_enemigo] == "raptor"){
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
@@ -221,6 +235,22 @@ void TGestor::init(){
 			//boss, cuando lo matas aparece la llave dorada
 		}
 	}
+
+	i = m_mapa->m_vec_tcuartos.size();
+	srand(time(NULL));
+
+	/*
+		0: heart
+		1: rock
+		4: chest
+	*/
+
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-14,6,0),0, m_modelos["heart"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,12),0, m_modelos["heart"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(21,6,14),0, m_modelos["heart"]));
+
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,-23),1, m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,23),1, m_modelos["rock"]));
 }
 
 void drawBitmapText(const std::string &s,float x,float y){  

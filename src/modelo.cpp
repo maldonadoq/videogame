@@ -113,9 +113,9 @@ void TModelo::dibujar() const{
 
 TModelo TModelo::get_small(){
 	TModelo tmp = *this;
-	tmp.m_dim = m_dim/2.0f;
+	tmp.m_dim = m_dim*0.75f;
 	for(unsigned i=0; i<tmp.m_vertice.size(); i++){
-		tmp.m_vertice[i] /= 2.0f;
+		tmp.m_vertice[i] *= 0.75f;;
 	}
 
 	return tmp;

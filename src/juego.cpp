@@ -89,7 +89,8 @@ void TJuego::initGL(){
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
-bool test = false;
+bool test = true;
+bool arrd = false;
 int cont = 1;
 
 void TJuego::dibujar(){
@@ -157,8 +158,13 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
         case SPACE:{
-			m_jugador->m_accion = saltar;
+			m_jugador->m_accion = 1;
 			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+			break;
+		}
+		case R:{
+			arrd = !arrd;
+			m_gestor->arrodillarse_jugador(arrd);
 			break;
 		}
 		case L:{
@@ -173,6 +179,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 		}
 		case E:{
 			m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual));
+			break;
 		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
