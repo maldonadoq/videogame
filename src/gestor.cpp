@@ -25,13 +25,17 @@ TGestor::TGestor(){
 	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["table"]		= new TModelo(4, "data/modelo/table/table.obj",		"data/modelo/table/table.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
-	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);*/
-
+	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);*/
+
+	m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/sentinel/sentinel.obj",	"data/modelo/sentinel/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
 	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
+
+	m_fuego_textura  = TextureManager::Inst()->LoadTexture("data/texturas/fire1.png",  GL_BGRA_EXT, GL_RGBA);
 }
 
 /*
@@ -101,6 +105,7 @@ void TGestor::dibujar_balas_jugador(){
 				i--;
 				
 				if(ttype == 2){
+					m_efectos.push_back(new TMotor(m_mapa->m_cuarto_actual->m_enemigos[j]->m_posicion, 3.0f, 50));
 					m_mapa->m_cuarto_actual->m_enemigos.erase(m_mapa->m_cuarto_actual->m_enemigos.begin() + j);
 					j--;
 				}
@@ -159,7 +164,7 @@ void TGestor::mover_jugador(glm::vec3 _dir){
 	Crear enemigos en cuartos aleatorios
 */
 void TGestor::init(){
-	std::vector<std::string> lista_enemigos = {"raptor", "robbi", "sentinel"};
+	std::vector<std::string> lista_enemigos = {"raptor", "robbi", "sentinel", "ovni"};
 	int idx_enemigo = 0;
 
 	for (int i = 0; i < m_mapa->m_vec_tcuartos.size(); ++i){
@@ -175,7 +180,7 @@ void TGestor::init(){
 			//boss que impide salir
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "normal"){
-			if (lista_enemigos[idx_enemigo] == "raptor"){
+			if (lista_enemigos[idx_enemigo] == "raptor"){m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "robbi"){
@@ -183,6 +188,9 @@ void TGestor::init(){
 			}
 			else if (lista_enemigos[idx_enemigo] == "sentinel"){
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "ovni"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(33,12,15), m_modelos["ovni"]));
 			}
 			++idx_enemigo;
 			if (idx_enemigo == lista_enemigos.size()){
@@ -200,6 +208,9 @@ void TGestor::init(){
 			}
 			else if (lista_enemigos[idx_enemigo] == "sentinel"){
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			}
+			else if (lista_enemigos[idx_enemigo] == "ovni"){
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(33,12,15), m_modelos["ovni"]));
 			}
 			++idx_enemigo;
 			if (idx_enemigo == lista_enemigos.size()){
@@ -229,6 +240,24 @@ void TGestor::dibujar_leyenda() {
 		drawBitmapText(vida,10,50);
 		drawBitmapText(balas,10,30);
 	glPopMatrix();
+}
+
+/*
+	Metodo que llama y dibujar los efectos como 
+		Explosion!!
+*/
+void TGestor::dibujar_efectos(){
+	for(int i=0; i<(int)m_efectos.size(); i++){
+		if(m_efectos[i]->size() != 0){
+			m_efectos[i]->render(m_jugador->m_posicion, m_fuego_textura);
+			m_efectos[i]->update(m_dt);
+		}
+		else{
+			delete m_efectos[i];
+			m_efectos.erase(m_efectos.begin() + i);
+			i--;
+		}
+	}
 }
 
 /*

@@ -132,6 +132,7 @@ void TJuego::dibujar(){
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_efectos();
     glutSwapBuffers();
     glFlush();
 }

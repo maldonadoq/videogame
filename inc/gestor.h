@@ -13,6 +13,7 @@
 #include "hydra.h"
 #include "monstruo.h"
 #include "sentinel.h"
+#include "motor.h"
 #include <glm/gtc/type_ptr.hpp>
 
 using std::cout;
@@ -20,12 +21,15 @@ using std::vector;
 
 class TGestor{
 private:
+	int m_fuego_textura;
 	float m_dt;
 	TJugador *m_jugador;
 	std::map<std::string ,TModelo *> m_modelos;
 	TMapa *m_mapa;
 
 	glm::vec3 m_fuerza;
+
+	vector<TMotor *> m_efectos;
 public:
 	TGestor();
 
@@ -40,7 +44,7 @@ public:
 	void dibujar_balas_jugador();
 	void dibujar_jugador(glm::vec3);
 	void dibujar_leyenda();
-	
+	void dibujar_efectos();
 
 	void set_dt(float);
 	~TGestor();

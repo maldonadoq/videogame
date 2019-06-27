@@ -20,6 +20,20 @@ glm::vec3 RandomVect(){
 	return glm::normalize(glm::vec3(x,y,z));
 }
 
+glm::vec3 RandomUnitVect(){
+	float x = (Random()*2.0f)-1;
+	float y = (Random()*2.0f)-1;
+	float z = (Random()*2.0f)-1;
+
+	return glm::normalize(glm::vec3(x,y,z));
+}
+
 glm::vec3 RandomColor(){
 	return glm::vec3(Random(), Random(), Random());
+}
+
+float RandomBeetwen(float a, float b){
+	float rnd = Random();
+	float diff = b-a;
+	return (rnd*diff) + a;
 }
