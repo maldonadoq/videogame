@@ -23,10 +23,9 @@ class TJugador{
 public:
 	int m_arma;
 	TCamara *m_camara;
-	TModelo * m_modelo;
+	TModelo *m_modelo;
 
     std::vector<TBala *> m_balas;
-	float m_dim;
 
 	glm::vec3 m_velocidad;
 	glm::vec3 m_posicion;

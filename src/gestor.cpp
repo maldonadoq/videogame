@@ -28,15 +28,20 @@ TGestor::TGestor(){
 	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);*/
 
-	m_modelos["heart"]		= new TModelo(4, "data/modelo/heart/heart.obj",		"data/modelo/heart/heart.png",		GL_BGR_EXT,		GL_RGB);
-	m_modelos["rock"]		= new TModelo(4, "data/modelo/rock/rock.obj",		"data/modelo/rock/rock.png",		GL_BGR_EXT,		GL_RGB);
-
 	m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
-	m_modelos["ovni"]		= new TModelo(3, "data/modelo/ufo/ufo.obj",			"data/modelo/ufo/ufo.png",			GL_BGRA_EXT,	GL_RGBA);
-	m_modelos["robbi"]		= new TModelo(3, "data/modelo/robbi/robbi.obj",		"data/modelo/robbi/robbi.png",		GL_BGR_EXT,		GL_RGB);
-	m_modelos["raptor"]		= new TModelo(4, "data/modelo/raptor/raptor.obj",	"data/modelo/raptor/raptor.png",	GL_BGR_EXT,		GL_RGB);
-	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/sentinel/sentinel.obj",	"data/modelo/sentinel/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
-	m_modelos["chest"]		= new TModelo(3, "data/modelo/chest/chest.obj",		"data/modelo/chest/chest.jpg",		GL_BGR_EXT,		GL_RGB);
+
+	m_modelos["ovni"]		= new TModelo(3, "data/modelo/enemies/ufo.obj",			"data/modelo/enemies/ufo.png",		GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["robbi"]		= new TModelo(3, "data/modelo/enemies/robbi.obj",		"data/modelo/enemies/robbi.png",	GL_BGR_EXT,		GL_RGB);
+	m_modelos["raptor"]		= new TModelo(4, "data/modelo/enemies/raptor.obj",		"data/modelo/enemies/raptor.png",	GL_BGR_EXT,		GL_RGB);
+	m_modelos["sentinel"]	= new TModelo(3, "data/modelo/enemies/sentinel.obj",	"data/modelo/enemies/sentinel.jpg",	GL_BGR_EXT,		GL_RGB);
+
+	m_modelos["heart"]		= new TModelo(4, "data/modelo/items/heart.obj",		"data/modelo/items/heart.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["rock"]		= new TModelo(4, "data/modelo/items/rock.obj",		"data/modelo/items/rock.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["chest"]		= new TModelo(3, "data/modelo/items/chest.obj",		"data/modelo/items/chest.jpg",		GL_BGR_EXT,		GL_RGB);
+
+	m_modelos["gdoble"]		= new TModelo(3, "data/modelo/guns/doble.obj",		"data/modelo/guns/doble.tga",		GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["grebote"]	= new TModelo(3, "data/modelo/guns/rebote.obj",		"data/modelo/guns/rebote.png",		GL_BGRA_EXT,	GL_RGBA);
+	m_modelos["greloj"]		= new TModelo(3, "data/modelo/guns/reloj.obj",		"data/modelo/guns/reloj.jpg",		GL_BGR_EXT,		GL_RGB);
 
 	m_fuego_textura  = TextureManager::Inst()->LoadTexture("data/texturas/fire1.png",  GL_BGRA_EXT, GL_RGBA);
 }
@@ -186,7 +191,7 @@ void TGestor::init(){
 			m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[i];
 			m_mapa->m_cuarto_actual->set_jugador(m_jugador);
 			m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
-			m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+			// m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
 			m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
 			
 		}
@@ -212,7 +217,7 @@ void TGestor::init(){
 			}
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "tesoro"){
-			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,0,0),4, m_modelos["chest"]));
+			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,0,0),2, m_modelos["chest"]));
 
 			if (lista_enemigos[idx_enemigo] == "raptor"){
 				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
@@ -242,7 +247,10 @@ void TGestor::init(){
 	/*
 		0: heart
 		1: rock
-		4: chest
+		2: chest
+		3: arma doble
+		4: arma reloj
+		5: arma rebote
 	*/
 
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-14,6,0),0, m_modelos["heart"]));
@@ -251,6 +259,10 @@ void TGestor::init(){
 
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,-23),1, m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,23),1, m_modelos["rock"]));
+
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,-23),3, m_modelos["gdoble"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,13),4, m_modelos["greloj"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,23),5, m_modelos["grebote"]));
 }
 
 void drawBitmapText(const std::string &s,float x,float y){  

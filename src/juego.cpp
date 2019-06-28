@@ -145,16 +145,16 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
             exit(0);
             break;
 		}
-		case FIRST:{
-			m_camara->m_person = false;
-            break;
-		}
-		case THIRD:{
-			m_camara->m_person = true;
+		case Q:{
+			m_camara->m_person = !m_camara->m_person;
             break;
 		}
 		case TAB:{
 			m_jugador->m_arma = (m_jugador->m_arma+1)%4;
+			break;
+		}
+		case ENTER:{
+			m_jugador->disparar(m_camara->m_direccion, m_etime[0]);
 			break;
 		}
         case SPACE:{
@@ -162,7 +162,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
 			break;
 		}
-		case R:{
+		case W:{
 			arrd = !arrd;
 			m_gestor->arrodillarse_jugador(arrd);
 			break;
@@ -232,14 +232,14 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 
 	switch(c){
 		case GLUT_KEY_UP:{
-			m_jugador->m_mover = 15.0f;
+			m_jugador->m_mover = 20.0f;
 			m_camara->m_posicion.x += 2;
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
-			m_jugador->m_mover = -15.0f;
+			m_jugador->m_mover = -20.0f;
 			m_camara->m_posicion.x -= 2;
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
@@ -257,7 +257,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 		}		
 		default:
 			break;
-	}
+	}  
 
 	// glutPostRedisplay();
 }

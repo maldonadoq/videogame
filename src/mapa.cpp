@@ -9,7 +9,7 @@
 TMapa::TMapa(){
 
 	//Inicializar cuartos
-	this->m_cuarto_dim = glm::vec3(100,20,100);
+	this->m_cuarto_dim = glm::vec3(200,20,200);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	cuarto_texturas = vector<pair<int, int> >(7);

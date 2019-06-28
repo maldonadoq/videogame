@@ -18,12 +18,12 @@
 enum teclas{
 	ESC 	= 27,	// terminar el juego
 	SPACE	= ' ',	// saltar
-	FIRST	= '1',	// primera persona
-	THIRD	= '2',	// tercera persona
+	Q		= 'q',	// primera o tercer persona
 	C 		= 'c',	// mostrar la dimension de la colision
     L       = 'l',  // leyenda del jugador
     E       = 'e',	// abrir puerta
-    R 		= 'r',	// arrodillarse
+    W 		= 'w',	// arrodillarse
+    ENTER	= 13, 	// disparar
     TAB     = 9		// cambiar de arma
 };
 

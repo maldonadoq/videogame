@@ -215,7 +215,28 @@ void TCuarto::dibujar_items(){
 
 			switch (t){
 				case 0:{
+					cout << "corazón con 4 vidas!\n";
 					m_jugador->m_vida += 4;
+					break;
+				}
+				case 1:{
+					cout << "roca!\n";
+					break;
+				}
+				case 2:{
+					cout << "chest!\n";
+					break;
+				}
+				case 3:{
+					cout << "!arma doble obtenida\n";
+					break;
+				}
+				case 4:{
+					cout << "arma que dispara en 12 direcciones!\n";
+					break;
+				}
+				case 5:{
+					cout << "arma con balas que rebotan!\n";
 					break;
 				}
 				default:
