@@ -43,18 +43,31 @@ void THydra::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt)
 void THydra::disparar(glm::vec3 _pos, float _dt){
     if(m_tiempo_disparar > 2.5f){
         glm::vec3 _dir;
+        float angley;
         TBala tb;
-        if(!m_split){
-            _dir = glm::normalize(_pos - m_posicion)*_dt*50.0f;
-            tb = {0.2f, m_posicion, _dir};
 
-            m_balas.push_back(tb);
+        if(!m_split){
+            _dir = glm::normalize(_pos - m_posicion);
+            angley = glm::orientedAngle(
+                        glm::vec2(m_direccion.x, m_direccion.z),
+                        glm::vec2(_dir.x, _dir.z)
+                     )*180/PI;
+
+            if((angley > -90) and (angley < 90)){
+                m_balas.push_back({0.2f, m_posicion, _dir*_dt*50.0f});
+            }
         }
         else{
             for(int i=0; i<(int)m_thydra.size(); i++){
-                _dir = glm::normalize(_pos - m_thydra[i].m_pos)*_dt*50.0f;
-                tb = {0.2f, m_thydra[i].m_pos, _dir};
-                m_balas.push_back(tb);
+                _dir = glm::normalize(_pos - m_thydra[i].m_pos);
+                angley = glm::orientedAngle(
+                            glm::vec2(m_thydra[i].m_dir.x, m_thydra[i].m_dir.z),
+                            glm::vec2(_dir.x, _dir.z)
+                         )*180/PI;
+
+                if((angley > -90) and (angley < 90)){
+                    m_balas.push_back({0.2f, m_thydra[i].m_pos, _dir*_dt*50.0f});
+                }                
             }
         }
         m_tiempo_disparar = 0.0f;
@@ -113,10 +126,16 @@ void THydra::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
         TEnemigo::dibujar(_dim, _centro, _col);
     }
     else{
+        float angley;
         float emit[]    = {0.0, 1.0, 0.0, 1.0};
         for(unsigned i=0; i<m_thydra.size(); i++){
+            angley = glm::orientedAngle(glm::vec2(m_thydra[i].m_dir.x, m_thydra[i].m_dir.z),
+                                        glm::vec2(m_tmodel.m_dir.x, m_tmodel.m_dir.z))*180/PI;
+
             glPushMatrix();
                 glTranslatef(m_thydra[i].m_pos.x, m_thydra[i].m_pos.y, m_thydra[i].m_pos.z);
+                glRotatef(angley, 0.0f, 1.0f, 0.0f);
+
                 if(_col){
                     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
                         glColor3f(0,1,0);

@@ -23,9 +23,10 @@ TEnemigo::TEnemigo(glm::vec3 _pos){
 */
 void TEnemigo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){	
 	glPushMatrix();
-		glm::vec2 a(m_direccion.x, m_direccion.z);
-		glm::vec2 b(m_modelo->m_dir.x, m_modelo->m_dir.z);
-		float angley = glm::orientedAngle(a, b)*180/PI;
+		float angley = glm::orientedAngle(
+							glm::vec2(m_direccion.x, m_direccion.z),
+							glm::vec2(m_modelo->m_dir.x, m_modelo->m_dir.z)
+						)*180/PI;
 
 		glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
 		glRotatef(angley, 0.0f, 1.0f, 0.0f);

@@ -15,6 +15,7 @@ TJuego::TJuego(int &argc, char **argv){
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(m_ancho, m_alto);
+    glutInitWindowPosition(50,20);
     glutCreateWindow("Juego!");
 
     this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
@@ -149,8 +150,8 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			m_camara->m_person = !m_camara->m_person;
             break;
 		}
-		case TAB:{
-			m_jugador->m_arma = (m_jugador->m_arma+1)%4;
+		case TAB:{			
+			m_jugador->cambiar_arma();
 			break;
 		}
 		case ENTER:{

@@ -118,7 +118,7 @@ void TGestor::dibujar_balas_jugador(){
 					j--;
 				}
 				else if(ttype == 3){
-					m_efectos.push_back(new TMotor(m_mapa->m_cuarto_actual->m_enemigos[j]->m_posicion, 3.0f, 50));
+					m_efectos.push_back(new TMotor(m_mapa->m_cuarto_actual->m_enemigos[j]->m_posicion, 3.0f, 10));
 				}
 				break;
 			}
@@ -278,9 +278,11 @@ void TGestor::dibujar_leyenda() {
 		gluOrtho2D(0,100,0,100); 
 		string vida="Vida: "+to_string(m_jugador->m_vida);
 		string balas="Numero de Balas: " + to_string(m_jugador->m_balas.size());
+		string arm="Arma: " + m_jugador->get_arma();
 
 		drawBitmapText(vida,10,50);
 		drawBitmapText(balas,10,30);
+		drawBitmapText(arm,10,10);
 	glPopMatrix();
 }
 

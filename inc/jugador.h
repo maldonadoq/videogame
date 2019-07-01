@@ -20,8 +20,10 @@ enum TArma{
 };
 
 class TJugador{
-public:
+private:
+	bool armas[4];
 	int m_arma;
+public:	
 	TCamara *m_camara;
 	TModelo *m_modelo;
 
@@ -47,6 +49,9 @@ public:
 	void set_modelo(TModelo *);
 	void set_camara(TCamara *);
 	bool colision(glm::vec3, float);
+	void cambiar_arma();
+	void set_arma(int);
+	string get_arma();
 
 	friend std::ostream& operator<< (std::ostream & out, const TJugador &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";

@@ -229,14 +229,17 @@ void TCuarto::dibujar_items(){
 				}
 				case 3:{
 					cout << "!arma doble obtenida\n";
+					m_jugador->set_arma(1);
 					break;
 				}
 				case 4:{
 					cout << "arma que dispara en 12 direcciones!\n";
+					m_jugador->set_arma(2);
 					break;
 				}
 				case 5:{
 					cout << "arma con balas que rebotan!\n";
+					m_jugador->set_arma(3);
 					break;
 				}
 				default:

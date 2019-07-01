@@ -1,5 +1,7 @@
 #include "../inc/jugador.h"
 
+string armas_nombre[4] = {"Revolver K47", "Zoraki 914", "Metralleta R-12", "QBZ-95"};
+
 TJugador::TJugador(){
 
 }
@@ -10,7 +12,11 @@ TJugador::TJugador(glm::vec3 _pos){
 	this->m_vida = 20;
 	this->m_mover = 0.0f;	
 	this->m_arma = asimple;
-	// this->m_arma = arebote;
+
+	this->armas[asimple] = true;
+	this->armas[adoble] = false;
+	this->armas[areloj] = false;
+	this->armas[arebote] = false;
 }
 
 TJugador::~TJugador(){
@@ -54,6 +60,33 @@ void TJugador::set_camara(TCamara *_camara){
 
 glm::vec3 TJugador::get_posicion(){
 	return this->m_posicion;
+}
+
+/*
+	Cambiar el tipo de arma que tenemos activadas
+*/
+void TJugador::cambiar_arma(){
+	do{
+		m_arma = (m_arma+1)%4;
+	}while(!armas[m_arma]);
+	// cout << armas_nombre[m_arma] << " elegida\n";
+}
+
+/*
+	Activar arma al encontrar se llama
+	cuando el jugador pasa sobre ese 
+	item de arma
+*/
+void TJugador::set_arma(int i){
+	armas[i] = true;
+}
+
+/*
+	Devuelve el tipo de arma que tiene 
+	el jugador
+*/
+string TJugador::get_arma(){
+	return armas_nombre[m_arma];
 }
 
 /*
