@@ -179,7 +179,7 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	y actualizar su posición en dicho cuarto
 */
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
-	glm::vec3 tmp = (m_dim/2.0f) - 5.0f;
+	glm::vec3 tmp = (m_dim/2.0f) - 10.0f;
 	_enemigo->m_posicion += m_centro + RandomPosition(tmp.x, 0, tmp.z);
 	this->m_enemigos.push_back(_enemigo);
 }
