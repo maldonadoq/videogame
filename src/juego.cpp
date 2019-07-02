@@ -7,17 +7,19 @@ TMaterial line_material = {
 	100.0f
 };
 
-TJuego::TJuego(int &argc, char **argv){
+int idx_menu = 0;
 
+TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
 
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(m_ancho, m_alto);
+    glutInitWindowPosition(50,20);
     glutCreateWindow("Juego!");
 
-    this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
+    this->m_camara = new TCamara(60, m_ancho/m_alto, 0.01f, 2500);
     this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
 	this->m_jugador->set_camara(m_camara);
 
@@ -42,13 +44,20 @@ TJuego::TJuego(int &argc, char **argv){
 
 	this->m_origen = -1;
 
-	this->m_audio = new TAudio();
+	// this->m_audio = new TAudio();
+	this->interfaz = true;
+	this->menu_tid = TextureManager::Inst()->LoadTexture("data/texturas/menu.png",  GL_BGRA_EXT, GL_RGBA);
+
+	this->m_botons.push_back(TBoton(glm::vec2(12, 16.5), "Inicio"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, 8.5), "Continuar"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, 0.5), "Creditos"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, -7.5), "Salir"));
 
     initGL();
 }
 
 TJuego::~TJuego(){
-
+	m_botons.clear();
 }
 
 void TJuego::initGL(){
@@ -89,10 +98,55 @@ void TJuego::initGL(){
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
-bool test = false;
+bool test = true;
+bool arrd = false;
 int cont = 1;
 
 void TJuego::dibujar(){
+	if(interfaz){
+		dibujar_ui();
+	}
+	else{
+		dibujar_juego();
+	}
+}
+
+void TJuego::dibujar_ui(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glViewport(0,0,m_ancho,m_alto);
+    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
+					m_camara->m_perspective[2], m_camara->m_perspective[3]);
+
+    gluLookAt(	0.0f, 0.0f, 50.0f,
+				0.0f, 0.0f,  0.0f,
+				0.0f, 1.0f,  0.0f);
+
+    glBindTexture(GL_TEXTURE_2D, menu_tid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(1, 1);	glVertex3f(-5,  10, -5.0f);
+        glTexCoord2f(0, 1);	glVertex3f(-25,10, -5.0f);
+        glTexCoord2f(0, 0);	glVertex3f(-25, -10, -5.0f);
+        glTexCoord2f(1, 0); glVertex3f(-5, -10, -5.0f);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, -1);
+
+    for(unsigned i=0; i<m_botons.size(); i++){
+    	if(i == idx_menu){
+    		m_botons[i].dibujar(glm::vec4(1,0,0,1), glm::vec2(8,3));
+    	}
+    	else{
+    		m_botons[i].dibujar(glm::vec4(1,1,1,1), glm::vec2(8,3));
+    	}
+    }
+
+	glutSwapBuffers();
+	glFlush();
+}
+
+void TJuego::dibujar_juego(){
 
 	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
 	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
@@ -132,6 +186,7 @@ void TJuego::dibujar(){
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_efectos();
     glutSwapBuffers();
     glFlush();
 }
@@ -139,25 +194,50 @@ void TJuego::dibujar(){
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
         case ESC:{
-        	delete this->m_audio;
-            exit(0);
+        	/*delete this->m_audio;
+            exit(0);*/
+            interfaz = !interfaz;
             break;
 		}
-		case FIRST:{
-			m_camara->m_person = false;
+		case Q:{
+			m_camara->m_person = !m_camara->m_person;
             break;
 		}
-		case THIRD:{
-			m_camara->m_person = true;
-            break;
+		case TAB:{			
+			m_jugador->cambiar_arma();
+			break;
 		}
-		case TAB:{
-			m_jugador->m_arma = (m_jugador->m_arma+1)%4;
+		case ENTER:{
+			if(interfaz){
+				switch(idx_menu){
+					case 0:
+					case 1:{
+						interfaz = false;
+						break;
+					}
+					case 2:{
+						cout << "Créditos\n";
+						break;
+					}
+					case 3:{
+						exit(0);
+						break;
+					}
+				}
+			}
+			else{
+				m_jugador->disparar(m_camara->m_direccion, m_etime[0]);
+			}
 			break;
 		}
         case SPACE:{
-			m_jugador->m_accion = saltar;
+			m_jugador->m_accion = 1;
 			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+			break;
+		}
+		case W:{
+			arrd = !arrd;
+			m_gestor->arrodillarse_jugador(arrd);
 			break;
 		}
 		case L:{
@@ -172,6 +252,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 		}
 		case E:{
 			m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual));
+			break;
 		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
@@ -223,16 +304,30 @@ void TJuego::mouse_motion(int x, int y){
 void TJuego::presionar_tecla_especial(int c, int x, int y){
 
 	switch(c){
-		case GLUT_KEY_UP:{
-			m_jugador->m_mover = 15.0f;
-			m_camara->m_posicion.x += 2;
+		case GLUT_KEY_UP:{			
+			if(interfaz){
+				idx_menu--;
+				if(idx_menu < 0){
+					idx_menu = m_botons.size()-1;
+				}
+			}
+			else{
+				m_jugador->m_mover = 20.0f;
+				m_camara->m_posicion.x += 2;
+			}
+			
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
-			m_jugador->m_mover = -15.0f;
-			m_camara->m_posicion.x -= 2;
+			if(interfaz){
+				idx_menu = (idx_menu+1)%(int)m_botons.size();
+			}
+			else{
+				m_jugador->m_mover = -20.0f;
+				m_camara->m_posicion.x -= 2;
+			}
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
 			break;
@@ -249,7 +344,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 		}		
 		default:
 			break;
-	}
+	}  
 
 	// glutPostRedisplay();
 }

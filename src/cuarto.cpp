@@ -205,8 +205,47 @@ void TCuarto::set_jugador(TJugador *_jugador){
 	Dibujar los items en el cuarto
 */
 void TCuarto::dibujar_items(){
-	for(unsigned i=0; i<m_items.size(); i++){
+	int t, i;
+	for(i=0; i<(int)m_items.size(); i++){
 		m_items[i]->dibujar(m_colision);
+		t = m_items[i]->colision(m_jugador->m_posicion);
+		if(t >= 0){
+			m_items.erase(m_items.begin() + i);
+			i--;
+
+			switch (t){
+				case 0:{
+					cout << "corazón con 4 vidas!\n";
+					m_jugador->m_vida += 4;
+					break;
+				}
+				case 1:{
+					cout << "roca!\n";
+					break;
+				}
+				case 2:{
+					cout << "chest!\n";
+					break;
+				}
+				case 3:{
+					cout << "!arma doble obtenida\n";
+					m_jugador->set_arma(1);
+					break;
+				}
+				case 4:{
+					cout << "arma que dispara en 12 direcciones!\n";
+					m_jugador->set_arma(2);
+					break;
+				}
+				case 5:{
+					cout << "arma con balas que rebotan!\n";
+					m_jugador->set_arma(3);
+					break;
+				}
+				default:
+					break;
+			}
+		}
 	}
 }
 
@@ -220,7 +259,10 @@ void TCuarto::dibujar_items(){
 void TCuarto::dibujar_enemigos(float _dt){
 	for(unsigned i=0; i<m_enemigos.size(); i++){
 		m_enemigos[i]->mover(m_jugador->m_posicion, m_dim, m_centro, _dt);
+
+		m_enemigos[i]->dibujar_balas(m_dim, m_centro, m_jugador);
 		m_enemigos[i]->dibujar(m_dim, m_centro, m_colision);
+		
 		m_enemigos[i]->barra_vida(m_jugador->m_posicion);
 		m_enemigos[i]->cargar(_dt);
 	}

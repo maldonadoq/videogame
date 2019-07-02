@@ -12,32 +12,27 @@
 #include "audio.h"
 #include "jugador.h"
 #include "enemigo.h"
+#include "boton.h"
+#include "tmanager.h"
 
 #include <iostream>
 
 enum teclas{
-	ESC 	= 27,
-	SPACE	= ' ',
-	FIRST	= '1',
-	THIRD	= '2',
-	C 		= 'c',
-    L       = 'l',  //leyenda del jugador
-    E       = 'e',
-    TAB     = 9
-};
-
-enum accion{
-	abrir = 1,
-	coger = 2,
-	saltar = 3
-
+	ESC 	= 27,	// terminar el juego
+	SPACE	= ' ',	// saltar
+	Q		= 'q',	// primera o tercer persona
+	C 		= 'c',	// mostrar la dimension de la colision
+    L       = 'l',  // leyenda del jugador
+    E       = 'e',	// abrir puerta
+    W 		= 'w',	// arrodillarse
+    ENTER	= 13, 	// disparar
+    TAB     = 9		// cambiar de arma
 };
 
 class TJuego{
 private:
 	void initGL();
 
-	TAudio *m_audio;
 	glm::vec3 m_etime;
 	glm::vec3 m_mouse;
 
@@ -50,11 +45,18 @@ private:
 	TJugador *m_jugador;
 	TGestor *m_gestor;
 	TMapa *m_mapa;
+
+	bool interfaz;
+	vector<TBoton> m_botons;
+
+	int menu_tid;
 public:
 	TJuego(int &, char **);
 	virtual ~TJuego();
 
 	void dibujar();
+	void dibujar_juego();
+	void dibujar_ui();
 	void remodelar(GLsizei, GLsizei);
 	void presionar_tecla(unsigned char, int, int);
 	void presionar_tecla_especial(int, int, int);

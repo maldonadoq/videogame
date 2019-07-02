@@ -9,10 +9,10 @@
 TMapa::TMapa(){
 
 	//Inicializar cuartos
-	this->m_cuarto_dim = glm::vec3(100,20,100);
+	this->m_cuarto_dim = glm::vec3(200,20,200);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	cuarto_texturas = vector<pair<int, int> >(7);
+	cuarto_texturas = vector<pair<int, int> >(12);
 	cuarto_texturas[0].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
 	cuarto_texturas[0].second = TextureManager::Inst()->LoadTexture("data/texturas/wall1.jpg",  GL_BGR_EXT, GL_RGB, true);
 	cuarto_texturas[1].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor2.jpg",  GL_BGR_EXT, GL_RGB);
@@ -27,6 +27,17 @@ TMapa::TMapa(){
 	cuarto_texturas[5].second = TextureManager::Inst()->LoadTexture("data/texturas/wall6.jpg",  GL_BGR_EXT, GL_RGB, true);
 	cuarto_texturas[6].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor7.jpg",  GL_BGR_EXT, GL_RGB);
 	cuarto_texturas[6].second = TextureManager::Inst()->LoadTexture("data/texturas/wall7.png",  GL_BGR_EXT, GL_RGB, true);
+
+	cuarto_texturas[7].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor8.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[7].second = TextureManager::Inst()->LoadTexture("data/texturas/wall8.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[8].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor9.png",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[8].second = TextureManager::Inst()->LoadTexture("data/texturas/wall9.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[9].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor10.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[9].second = TextureManager::Inst()->LoadTexture("data/texturas/wall10.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[10].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor11.jpg",  GL_BGRA_EXT, GL_RGBA);
+	cuarto_texturas[10].second = TextureManager::Inst()->LoadTexture("data/texturas/wall11.jpg",  GL_BGR_EXT, GL_RGB, true);
+	cuarto_texturas[11].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor12.jpg",  GL_BGR_EXT, GL_RGB);
+	cuarto_texturas[11].second = TextureManager::Inst()->LoadTexture("data/texturas/wall12.jpg",  GL_BGR_EXT, GL_RGB, true);
 	
 	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 

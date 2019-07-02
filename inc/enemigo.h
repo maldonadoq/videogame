@@ -7,6 +7,7 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <vector>
 #include <math.h>
+#include "jugador.h"
 #include "bala.h"
 #include "utils.h"
 #include "modelo.h"
@@ -41,17 +42,17 @@ public:
     TEnemigo(glm::vec3);
 	TEnemigo();
     virtual ~TEnemigo();
-	
-	void barra_vida(glm::vec3);
+		
 	void restart();
 	void cargar(float);					// espera para disparar de nuevo
 	void set_position(glm::vec3);
 
-	void dibujar_balas(glm::vec3, glm::vec3);
+	void dibujar_balas(glm::vec3, glm::vec3, TJugador *);
 	
+	virtual void barra_vida(glm::vec3);
 	virtual void dibujar(glm::vec3, glm::vec3, bool);
-	virtual int  colision(glm::vec3, float);
 	
+	virtual int  colision(glm::vec3, float);
 	virtual void mover(glm::vec3, glm::vec3, glm::vec3, float) = 0;
 	virtual void disparar(glm::vec3, float) = 0;
 	virtual float get_size(float) = 0;

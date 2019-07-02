@@ -7,12 +7,13 @@
 class TItem{
 private:
     TModelo *m_modelo;
+    int m_tipo;
 public:
     glm::vec3 m_posicion;
-    int m_tipo;
-    TItem(glm::vec3, TModelo *);
+    TItem(glm::vec3, int, TModelo *);
 
     void dibujar(bool);
+    int colision(glm::vec3);
     ~TItem();
 };
 
