@@ -26,7 +26,7 @@ void TSentinel::disparar(glm::vec3 _pos, float _dt){
 		    tmp.x = cos(theta);
 		    tmp.z = sin(theta);
 
-		    TBala tb = {0.2f, m_posicion, tmp*_dt*10.0f};
+		    TBala tb = {0.2f, m_posicion, tmp*_dt*20.0f};
             m_balas.push_back(tb);
 		}
 

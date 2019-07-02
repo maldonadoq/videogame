@@ -273,16 +273,18 @@ void drawBitmapText(const std::string &s,float x,float y){
 }
 
 void TGestor::dibujar_leyenda() {
-	glViewport(0,600,100,100);
+	glViewport(0,600,200,100);
 	glPushMatrix();
 		gluOrtho2D(0,100,0,100); 
 		string vida="Vida: "+to_string(m_jugador->m_vida);
 		string balas="Numero de Balas: " + to_string(m_jugador->m_balas.size());
 		string arm="Arma: " + m_jugador->get_arma();
+		string cuarto="Cuarto: " + m_mapa->m_cuarto_actual->m_tipo;
 
-		drawBitmapText(vida,10,50);
-		drawBitmapText(balas,10,30);
-		drawBitmapText(arm,10,10);
+		drawBitmapText(vida,10,70);
+		drawBitmapText(balas,10,50);
+		drawBitmapText(arm,10,30);
+		drawBitmapText(cuarto,10,10);
 	glPopMatrix();
 }
 

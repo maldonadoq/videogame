@@ -12,6 +12,8 @@
 #include "audio.h"
 #include "jugador.h"
 #include "enemigo.h"
+#include "boton.h"
+#include "tmanager.h"
 
 #include <iostream>
 
@@ -31,7 +33,6 @@ class TJuego{
 private:
 	void initGL();
 
-	TAudio *m_audio;
 	glm::vec3 m_etime;
 	glm::vec3 m_mouse;
 
@@ -44,11 +45,18 @@ private:
 	TJugador *m_jugador;
 	TGestor *m_gestor;
 	TMapa *m_mapa;
+
+	bool interfaz;
+	vector<TBoton> m_botons;
+
+	int menu_tid;
 public:
 	TJuego(int &, char **);
 	virtual ~TJuego();
 
 	void dibujar();
+	void dibujar_juego();
+	void dibujar_ui();
 	void remodelar(GLsizei, GLsizei);
 	void presionar_tecla(unsigned char, int, int);
 	void presionar_tecla_especial(int, int, int);

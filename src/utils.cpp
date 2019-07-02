@@ -67,3 +67,10 @@ void draw_circle(float _rad, int _segm) {
 void print_vec3(glm::vec3 _vec){
 	cout << "[" << _vec.x << "," << _vec.y << "," << _vec.z << "]\n";
 }
+
+void Font(string w, float x, float y){
+	glRasterPos2f(x, y);
+	for (char c: w){
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
+	}
+}
