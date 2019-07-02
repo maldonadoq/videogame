@@ -270,9 +270,10 @@ void TCuarto::dibujar_enemigos(float _dt){
 	}
 }
 
-void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
+bool TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 	glm::vec3* pos_jug = &(jugador->m_posicion);
 	glm::vec3 aux;
+	bool t = false;
 	for (auto it = this->m_puertas.begin(); it != this->m_puertas.end(); ++it){
 		aux = (*it)->m_centro;
 		aux.y = pos_jug->y;
@@ -328,11 +329,14 @@ void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 						pos_jug->x += 10;
 					}
 				}
-			}		
-			
+			}
+
+			t = true;
 			break;
 		}
 	}
+
+	return t;
 }
 
 TCuarto::~TCuarto(){

@@ -26,4 +26,4 @@ main: $(OBJS)
 
 # delete lib with clean 
 clean:
-	rm -f $(OBJS) *.out *.o
+	rm -f src/*.o *.o *.out
