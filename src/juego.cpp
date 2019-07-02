@@ -8,10 +8,15 @@ TMaterial line_material = {
 };
 
 int idx_menu = 0;
+ISoundEngine *SoundEngine = createIrrKlangDevice();
+ISoundSource *menu_music = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
+ISoundSource *game_music = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
 
 TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
+
+	srand(time(NULL));
 
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -96,7 +101,11 @@ void TJuego::initGL(){
 	glMaterialfv(GL_FRONT, GL_SHININESS, &line_material.m_shininess);
 
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	SoundEngine->play2D(menu_music, true);
 }
+
+bool fg = false;
+bool fm = false;
 
 bool test = true;
 bool arrd = false;
@@ -105,8 +114,18 @@ int cont = 1;
 void TJuego::dibujar(){
 	if(interfaz){
 		dibujar_ui();
+		if(fm){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(menu_music, true);
+			fm = false;
+		}
 	}
 	else{
+		if(fg){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(game_music, true);
+			fg = false;
+		}
 		dibujar_juego();
 	}
 }
@@ -194,9 +213,8 @@ void TJuego::dibujar_juego(){
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
         case ESC:{
-        	/*delete this->m_audio;
-            exit(0);*/
-            interfaz = !interfaz;
+            interfaz = true;
+            fm = true;
             break;
 		}
 		case Q:{
@@ -213,6 +231,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 					case 0:
 					case 1:{
 						interfaz = false;
+						fg =true;
 						break;
 					}
 					case 2:{

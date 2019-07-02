@@ -5,6 +5,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <irrKlang.h>
+using namespace irrklang;
+
 #include "mapa.h"
 #include "camara.h"
 #include "utils.h"
