@@ -2,6 +2,7 @@
 #define _RANDOM_H_
 
 #include <glm/glm.hpp>
+#include <time.h>
 
 int RandomInt(int, int);
 glm::vec3 RandomPosition(int, int, int);

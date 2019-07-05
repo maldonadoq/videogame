@@ -8,10 +8,18 @@ TMaterial line_material = {
 };
 
 int idx_menu = 0;
+ISoundEngine *SoundEngine = createIrrKlangDevice();
+ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
+ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door.wav");
+ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
+ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
 
 TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
+
+	srand(time(NULL));
 
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -96,7 +104,18 @@ void TJuego::initGL(){
 	glMaterialfv(GL_FRONT, GL_SHININESS, &line_material.m_shininess);
 
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	game_music->setDefaultVolume(0.5f);
+	menu_music->setDefaultVolume(0.7f);
+    
+    door_effect->setDefaultVolume(0.4f);
+    gun_effect->setDefaultVolume(0.4f);
+
+	SoundEngine->play2D(menu_music, true);
 }
+
+bool fg = false;
+bool fm = false;
 
 bool test = true;
 bool arrd = false;
@@ -105,8 +124,18 @@ int cont = 1;
 void TJuego::dibujar(){
 	if(interfaz){
 		dibujar_ui();
+		if(fm){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(menu_music, true);
+			fm = false;
+		}
 	}
 	else{
+		if(fg){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(game_music, true);
+			fg = false;
+		}
 		dibujar_juego();
 	}
 }
@@ -194,16 +223,16 @@ void TJuego::dibujar_juego(){
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
         case ESC:{
-        	/*delete this->m_audio;
-            exit(0);*/
-            interfaz = !interfaz;
+            interfaz = true;
+            fm = true;
             break;
 		}
 		case Q:{
 			m_camara->m_person = !m_camara->m_person;
             break;
 		}
-		case TAB:{			
+		case TAB:{
+			SoundEngine->play2D(gun_effect);
 			m_jugador->cambiar_arma();
 			break;
 		}
@@ -213,6 +242,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 					case 0:
 					case 1:{
 						interfaz = false;
+						fg =true;
 						break;
 					}
 					case 2:{
@@ -231,6 +261,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
         case SPACE:{
+        	SoundEngine->play2D(jump_effect);
 			m_jugador->m_accion = 1;
 			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
 			break;
@@ -251,7 +282,10 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
 		case E:{
-			m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual));
+			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual))){
+				SoundEngine->play2D(door_effect);
+				// cout << "Pasando la puerta\n";
+			}
 			break;
 		}
 		case C:{

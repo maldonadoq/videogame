@@ -79,6 +79,7 @@ void TJugador::cambiar_arma(){
 */
 void TJugador::set_arma(int i){
 	armas[i] = true;
+	m_arma = i;
 }
 
 /*
@@ -123,7 +124,7 @@ void TJugador::disparar(glm::vec3 _dir, float _dt){
 			break;
 		}
 		case arebote:{
-			m_balas.push_back(new TReal(0.2f, m_posicion+(m_camara->m_direccion*10.0f), m_camara->m_direccion*_dt*20.0f));
+			m_balas.push_back(new TReal(0.2f, m_posicion+(m_camara->m_direccion*10.0f), m_camara->m_direccion*_dt*40.0f));
 			break;
 		}
 		default:

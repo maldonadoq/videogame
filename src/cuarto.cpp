@@ -179,7 +179,8 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	y actualizar su posición en dicho cuarto
 */
 void TCuarto::set_enemigo(TEnemigo *_enemigo){
-	_enemigo->m_posicion += m_centro;
+	glm::vec3 tmp = (m_dim/2.0f) - 10.0f;
+	_enemigo->m_posicion += m_centro + RandomPosition(tmp.x, 0, tmp.z);
 	this->m_enemigos.push_back(_enemigo);
 }
 
@@ -188,7 +189,8 @@ void TCuarto::set_enemigo(TEnemigo *_enemigo){
 	y actualizar su posición en dicho cuarto
 */
 void TCuarto::set_item(TItem *_item){
-	_item->m_posicion += m_centro;
+	glm::vec3 tmp = (m_dim/2.0f) - 5.0f;
+	_item->m_posicion += m_centro + RandomPosition(tmp.x, 0, tmp.z);
 	this->m_items.push_back(_item);
 }
 
@@ -268,9 +270,10 @@ void TCuarto::dibujar_enemigos(float _dt){
 	}
 }
 
-void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
+bool TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 	glm::vec3* pos_jug = &(jugador->m_posicion);
 	glm::vec3 aux;
+	bool t = false;
 	for (auto it = this->m_puertas.begin(); it != this->m_puertas.end(); ++it){
 		aux = (*it)->m_centro;
 		aux.y = pos_jug->y;
@@ -326,11 +329,14 @@ void TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 						pos_jug->x += 10;
 					}
 				}
-			}		
-			
+			}
+
+			t = true;
 			break;
 		}
 	}
+
+	return t;
 }
 
 TCuarto::~TCuarto(){

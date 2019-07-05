@@ -190,9 +190,9 @@ void TGestor::init(){
 		if (m_mapa->m_vec_tcuartos[i].m_tipo == "entrada"){
 			m_mapa->m_cuarto_actual = &m_mapa->m_vec_tcuartos[i];
 			m_mapa->m_cuarto_actual->set_jugador(m_jugador);
-			m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
-			// m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
-			m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+			m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(0,0.5,0), m_modelos["raptor"]));
+			// m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(0,2,0), m_modelos["robbi"]));
+			m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(0,2,0), m_modelos["sentinel"]));
 			
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "salida"){
@@ -200,16 +200,16 @@ void TGestor::init(){
 		}
 		else if (m_mapa->m_vec_tcuartos[i].m_tipo == "normal"){
 			if (lista_enemigos[idx_enemigo] == "raptor"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(0,0.5,0), m_modelos["raptor"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "robbi"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(0,2,0), m_modelos["robbi"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "sentinel"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(0,2,0), m_modelos["sentinel"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "ovni"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(33,12,15), m_modelos["ovni"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(0,12,0), m_modelos["ovni"]));
 			}
 			++idx_enemigo;
 			if (idx_enemigo == lista_enemigos.size()){
@@ -220,16 +220,16 @@ void TGestor::init(){
 			m_mapa->m_vec_tcuartos[i].set_item(new TItem(glm::vec3(0,0,0),2, m_modelos["chest"]));
 
 			if (lista_enemigos[idx_enemigo] == "raptor"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(15,0.5,-15), m_modelos["raptor"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TMonstruo(glm::vec3(0,0.5,0), m_modelos["raptor"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "robbi"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(-33,2,15), m_modelos["robbi"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new THydra(glm::vec3(0,2,0), m_modelos["robbi"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "sentinel"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(33,2,15), m_modelos["sentinel"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TSentinel(glm::vec3(0,2,0), m_modelos["sentinel"]));
 			}
 			else if (lista_enemigos[idx_enemigo] == "ovni"){
-				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(33,12,15), m_modelos["ovni"]));
+				m_mapa->m_vec_tcuartos[i].set_enemigo(new TOvni(glm::vec3(0,12,0), m_modelos["ovni"]));
 			}
 			++idx_enemigo;
 			if (idx_enemigo == lista_enemigos.size()){
@@ -253,16 +253,16 @@ void TGestor::init(){
 		5: arma rebote
 	*/
 
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-14,6,0),0, m_modelos["heart"]));
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,12),0, m_modelos["heart"]));
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(21,6,14),0, m_modelos["heart"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),0, m_modelos["heart"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),0, m_modelos["heart"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),0, m_modelos["heart"]));
 
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,-23),1, m_modelos["rock"]));
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(-23,-1,23),1, m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,-1,0),1, m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,-1,0),1, m_modelos["rock"]));
 
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,-23),3, m_modelos["gdoble"]));
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,13),4, m_modelos["greloj"]));
-	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(23,6,23),5, m_modelos["grebote"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),3, m_modelos["gdoble"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),4, m_modelos["greloj"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),5, m_modelos["grebote"]));
 }
 
 void drawBitmapText(const std::string &s,float x,float y){  
