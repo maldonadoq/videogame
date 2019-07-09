@@ -22,7 +22,9 @@ class TMapa{
 private:
 	int puerta_textura;
 	vector<pair<int, int> > cuarto_texturas;
+	vector<int> sky_texturas;
 	glm::vec3 m_centro;
+	glm::vec3 m_mundo_dim;
 	
 	std::vector<std::vector<int> > m_cuartos;
     std::list<ParCoord2D> m_puertas;
@@ -42,6 +44,7 @@ public:
 	TMapa();
 
 	void dibujar(float);
+	void dibujar_mundo();
 	~TMapa();
 };
 

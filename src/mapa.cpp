@@ -6,11 +6,17 @@
 
 #include <iostream>
 
+
+glm::vec3 m_temp;
+
 TMapa::TMapa(){
 
 	//Inicializar cuartos
 	this->m_cuarto_dim = glm::vec3(200,20,200);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->m_mundo_dim = glm::vec3(1000,1000,1000);
+
+	m_temp = (m_centro - m_mundo_dim)/2.0f;
 
 	cuarto_texturas = vector<pair<int, int> >(12);
 	cuarto_texturas[0].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor1.jpg",  GL_BGR_EXT, GL_RGB);
@@ -38,6 +44,14 @@ TMapa::TMapa(){
 	cuarto_texturas[10].second = TextureManager::Inst()->LoadTexture("data/texturas/wall11.jpg",  GL_BGR_EXT, GL_RGB, true);
 	cuarto_texturas[11].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor12.jpg",  GL_BGR_EXT, GL_RGB);
 	cuarto_texturas[11].second = TextureManager::Inst()->LoadTexture("data/texturas/wall12.jpg",  GL_BGR_EXT, GL_RGB, true);
+
+	/*sky_texturas = vector<int>(6);
+	sky_texturas[0] = TextureManager::Inst()->LoadTexture("data/sky/front.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[1] = TextureManager::Inst()->LoadTexture("data/sky/back.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[2] = TextureManager::Inst()->LoadTexture("data/sky/left.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[3] = TextureManager::Inst()->LoadTexture("data/sky/right.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[4] = TextureManager::Inst()->LoadTexture("data/sky/up.tga",    GL_BGR_EXT, GL_RGB);
+	sky_texturas[5] = TextureManager::Inst()->LoadTexture("data/sky/down.tga",  GL_BGR_EXT, GL_RGB);*/
 	
 	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
@@ -222,10 +236,10 @@ TMapa::TMapa(){
 }
 
 void TMapa::dibujar(float _dt){
-	//dibujar_mundo();
+	// dibujar_mundo();
 
 	//assert(m_cuarto_actual != NULL);
-	//this->m_cuarto_actual->dibujar(texturas_id);
+	//this->m_cuarto_actual->dibujar(sky_texturas);
 	int nt;
 	for (int i = 0; i < m_vec_tcuartos.size(); ++i){
 		nt = i%cuarto_texturas.size();
@@ -235,6 +249,63 @@ void TMapa::dibujar(float _dt){
 	{
 		m_vec_tpuertas[i].dibujar(puerta_textura);
 	}
+}
+
+void TMapa::dibujar_mundo(){
+	// Draw Front side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[0]);
+	glBegin(GL_QUADS);	
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y, m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z+m_mundo_dim.z); 
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z);
+	glEnd();
+
+	// Draw Back side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[1]);
+	glBegin(GL_QUADS);		
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z); 
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z);
+	glEnd();
+
+	// Draw Left side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[2]);
+	glBegin(GL_QUADS);		
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z);	
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z+m_mundo_dim.z); 
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z);		
+	glEnd();
+
+	// Draw Right side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[3]);
+	glBegin(GL_QUADS);		
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y,	m_temp.z+m_mundo_dim.z); 
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y,	m_temp.z);
+	glEnd();
+
+	// Draw Up side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[4]);
+	glBegin(GL_QUADS);		
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z+m_mundo_dim.z); 
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z);
+	glEnd();
+
+	// Draw Down side
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[5]);
+	glBegin(GL_QUADS);		
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z+m_mundo_dim.z);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z); 
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, -1);
 }
 
 TMapa::~TMapa(){

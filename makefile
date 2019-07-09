@@ -9,7 +9,7 @@ CC		= g++ -std=c++17
 OBJS	= $(SRCS:.cpp=.o)
 
 INC 	= -I"irrklang/include"
-LIBS	= -lGL -lglut -lGLU -lfreeimage -lsfml-system -lsfml-audio -L"/usr/lib" irrklang/bin/linux-gcc-64/libIrrKlang.so -pthread
+LIBS	= -lGL -lglut -lGLU -lfreeimage -L"/usr/lib" irrklang/bin/linux-gcc-64/libIrrKlang.so -pthread
 
 all: main
 
