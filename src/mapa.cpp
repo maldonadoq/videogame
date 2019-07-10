@@ -15,7 +15,7 @@ TMapa::TMapa(){
 	//Inicializar cuartos
 	this->m_cuarto_dim = glm::vec3(200,20,200);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->m_mundo_dim = glm::vec3(2000,2000,2000);
+	this->m_mundo_dim = glm::vec3(4000,4000,4000);
 
 	m_temp = (m_centro - m_mundo_dim)/2.0f;
 
@@ -46,17 +46,36 @@ TMapa::TMapa(){
 	cuarto_texturas[11].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor12.jpg",  GL_BGR_EXT, GL_RGB);
 	cuarto_texturas[11].second = TextureManager::Inst()->LoadTexture("data/texturas/wall12.jpg",  GL_BGR_EXT, GL_RGB, true);
 
-	sky_texturas = vector<int>(6);
-	sky_texturas[0] = TextureManager::Inst()->LoadTexture("data/sky/front.tga", GL_BGR_EXT, GL_RGB);
-	sky_texturas[1] = TextureManager::Inst()->LoadTexture("data/sky/back.tga",  GL_BGR_EXT, GL_RGB);
-	sky_texturas[2] = TextureManager::Inst()->LoadTexture("data/sky/left.tga",  GL_BGR_EXT, GL_RGB);
-	sky_texturas[3] = TextureManager::Inst()->LoadTexture("data/sky/right.tga", GL_BGR_EXT, GL_RGB);
-	sky_texturas[4] = TextureManager::Inst()->LoadTexture("data/sky/up.tga",    GL_BGR_EXT, GL_RGB);
-	sky_texturas[5] = TextureManager::Inst()->LoadTexture("data/sky/down.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas = vector<vector<int> >(m_num_niveles, vector<int>(6));
+	sky_texturas[0][0] = TextureManager::Inst()->LoadTexture("data/sky/1/front.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[0][1] = TextureManager::Inst()->LoadTexture("data/sky/1/back.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[0][2] = TextureManager::Inst()->LoadTexture("data/sky/1/left.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[0][3] = TextureManager::Inst()->LoadTexture("data/sky/1/right.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[0][4] = TextureManager::Inst()->LoadTexture("data/sky/1/up.tga",    GL_BGR_EXT, GL_RGB);
+	sky_texturas[0][5] = TextureManager::Inst()->LoadTexture("data/sky/1/down.tga",  GL_BGR_EXT, GL_RGB);
+
+	sky_texturas[1][0] = TextureManager::Inst()->LoadTexture("data/sky/2/front.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[1][1] = TextureManager::Inst()->LoadTexture("data/sky/2/back.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[1][2] = TextureManager::Inst()->LoadTexture("data/sky/2/left.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[1][3] = TextureManager::Inst()->LoadTexture("data/sky/2/right.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[1][4] = TextureManager::Inst()->LoadTexture("data/sky/2/up.tga",    GL_BGR_EXT, GL_RGB);
+	sky_texturas[1][5] = TextureManager::Inst()->LoadTexture("data/sky/2/down.tga",  GL_BGR_EXT, GL_RGB);
+
+	sky_texturas[2][0] = TextureManager::Inst()->LoadTexture("data/sky/3/front.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[2][1] = TextureManager::Inst()->LoadTexture("data/sky/3/back.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[2][2] = TextureManager::Inst()->LoadTexture("data/sky/3/left.tga",  GL_BGR_EXT, GL_RGB);
+	sky_texturas[2][3] = TextureManager::Inst()->LoadTexture("data/sky/3/right.tga", GL_BGR_EXT, GL_RGB);
+	sky_texturas[2][4] = TextureManager::Inst()->LoadTexture("data/sky/3/up.tga",    GL_BGR_EXT, GL_RGB);
+	sky_texturas[2][5] = TextureManager::Inst()->LoadTexture("data/sky/3/down.tga",  GL_BGR_EXT, GL_RGB);
 	
 	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
 	crear_mapa();
+	this->nivel = 0;
+}
+
+void TMapa::new_level(){
+	nivel = (nivel+1)%m_num_niveles;
 }
 
 void TMapa::crear_mapa(){
@@ -308,7 +327,7 @@ void TMapa::dibujar(float _dt){
 
 void TMapa::dibujar_mundo(){
 	// Draw Front side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[0]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][0]);
 	glBegin(GL_QUADS);	
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z+m_mundo_dim.z);
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y, m_temp.z+m_mundo_dim.z);
@@ -317,7 +336,7 @@ void TMapa::dibujar_mundo(){
 	glEnd();
 
 	// Draw Back side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[1]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][1]);
 	glBegin(GL_QUADS);		
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z); 
@@ -326,7 +345,7 @@ void TMapa::dibujar_mundo(){
 	glEnd();
 
 	// Draw Left side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[2]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][2]);
 	glBegin(GL_QUADS);		
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z);	
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(m_temp.x,		  m_temp.y+m_mundo_dim.y,	m_temp.z+m_mundo_dim.z); 
@@ -335,7 +354,7 @@ void TMapa::dibujar_mundo(){
 	glEnd();
 
 	// Draw Right side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[3]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][3]);
 	glBegin(GL_QUADS);		
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y,		m_temp.z+m_mundo_dim.z);
@@ -344,7 +363,7 @@ void TMapa::dibujar_mundo(){
 	glEnd();
 
 	// Draw Up side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[4]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][4]);
 	glBegin(GL_QUADS);		
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x+m_mundo_dim.x, m_temp.y+m_mundo_dim.y, m_temp.z+m_mundo_dim.z); 
@@ -353,7 +372,7 @@ void TMapa::dibujar_mundo(){
 	glEnd();
 
 	// Draw Down side
-	glBindTexture(GL_TEXTURE_2D, sky_texturas[5]);
+	glBindTexture(GL_TEXTURE_2D, sky_texturas[nivel][5]);
 	glBegin(GL_QUADS);		
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(m_temp.x,		  m_temp.y,		m_temp.z+m_mundo_dim.z);

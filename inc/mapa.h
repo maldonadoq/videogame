@@ -23,7 +23,7 @@ class TMapa{
 private:
 	int puerta_textura;
 	vector<pair<int, int> > cuarto_texturas;
-	vector<int> sky_texturas;
+	vector<vector<int> > sky_texturas;
 	glm::vec3 m_centro;
 	glm::vec3 m_mundo_dim;
 	
@@ -35,6 +35,7 @@ private:
     int m_altura = 11;
     int m_num_cuartos = 12;
     int m_num_tesoros = 2;
+    int nivel;
 public:
 	glm::vec3 m_cuarto_dim;
 	TCuarto *m_cuarto_actual;
@@ -46,6 +47,7 @@ public:
 	TMapa();
 
 	void crear_mapa();
+	void new_level();
 	void dibujar(float);
 	void dibujar_mundo();
 	~TMapa();

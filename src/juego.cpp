@@ -46,7 +46,7 @@ TJuego::TJuego(int &argc, char **argv){
     glutInitWindowPosition(50,20);
     glutCreateWindow("Juego!");
 
-    this->m_camara = new TCamara(60, m_ancho/m_alto, 0.01f, 2500);
+    this->m_camara = new TCamara(60, m_ancho/m_alto, 0.01f, 10000);
     this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
 	this->m_jugador->set_camara(m_camara);
 
@@ -370,8 +370,10 @@ void TJuego::dibujar_juego(){
 		this->m_jugador->m_posicion.z = 0.0;
 
 		this->m_cont_n_niveles += 1;
-		if (this->m_cont_n_niveles == this->m_num_niveles){
+		this->m_mapa->new_level();
+		if (this->m_cont_n_niveles > this->m_num_niveles){
 			std::cout << "termino el juego - ganaste!\n";
+			interfaz = true;
 		}
 
 		this->salio = false;

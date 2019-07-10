@@ -12,18 +12,11 @@ TGestor::TGestor(){
 	this->m_mapa = NULL;
 	this->m_fuerza = glm::vec3(0.0f, -9.81f, 0.0f);
 
-	/*
-	m_modelos["monster"]	= new TModelo(3, "data/modelo/monster/monster.obj",	"data/modelo/monster/monster.tga",	GL_BGRA_EXT,	GL_RGBA);
-	m_modelos["ogre"]		= new TModelo(4, "data/modelo/ogre/ogre.obj",		"data/modelo/ogre/ogre.png",		GL_BGRA_EXT,	GL_RGBA);
-
-	m_modelos["barrel"]		= new TModelo(4, "data/modelo/barrel/barrel.obj",	"data/modelo/barrel/barrel.jpg",	GL_BGR_EXT,		GL_RGB);
-	m_modelos["key"]		= new TModelo(3, "data/modelo/key/key.obj",			"data/modelo/key/key.bmp",			GL_BGR_EXT,		GL_RGB);
-	*/
-
 	// player
 	m_modelos["iron"]		= new TModelo(3, "data/modelo/iron/iron.obj",			"data/modelo/iron/iron.png",		GL_BGR_EXT,		GL_RGB);
 
 	// enemies
+	m_modelos["ogre"]		= new TModelo(4, "data/modelo/enemies/ogre.obj",		"data/modelo/enemies/ogre.png",		GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["monster"]	= new TModelo(3, "data/modelo/enemies/monster.obj",		"data/modelo/enemies/monster.tga",	GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["ovni"]		= new TModelo(3, "data/modelo/enemies/ufo.obj",			"data/modelo/enemies/ufo.png",		GL_BGRA_EXT,	GL_RGBA);
 	m_modelos["robbi"]		= new TModelo(3, "data/modelo/enemies/robbi.obj",		"data/modelo/enemies/robbi.png",	GL_BGR_EXT,		GL_RGB);
@@ -34,6 +27,7 @@ TGestor::TGestor(){
 	// items
 	m_modelos["heart"]		= new TModelo(4, "data/modelo/items/heart.obj",		"data/modelo/items/heart.png",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["rock"]		= new TModelo(4, "data/modelo/items/rock.obj",		"data/modelo/items/rock.png",		GL_BGR_EXT,		GL_RGB);
+	m_modelos["barrel"]		= new TModelo(4, "data/modelo/items/barrel.obj",	"data/modelo/items/barrel.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["chest"]		= new TModelo(3, "data/modelo/items/chest.obj",		"data/modelo/items/chest.jpg",		GL_BGR_EXT,		GL_RGB);
 	m_modelos["key"]		= new TModelo(3, "data/modelo/items/key.obj",		"data/modelo/items/key.bmp",		GL_BGR_EXT,		GL_RGB);
 
@@ -260,6 +254,13 @@ void TGestor::init(){
 	i = m_mapa->m_vec_tcuartos.size();
 	srand(time(NULL));
 
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TMonstruo(glm::vec3(0,0.5,0), m_modelos["raptor"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TMonstruo(glm::vec3(0,0.5,0), m_modelos["raptor"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TMonstruo(glm::vec3(0,2,0), m_modelos["ogre"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TMonstruo(glm::vec3(0,2,0), m_modelos["ogre"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TOvni(glm::vec3(0,12,0), m_modelos["ovni"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_enemigo(new TOvni(glm::vec3(0,12,0), m_modelos["ovni"]));
+
 	/*
 		0: heart
 		1: rock
@@ -268,6 +269,7 @@ void TGestor::init(){
 		4: arma reloj
 		5: arma rebote
 		6: key
+		7: barrel
 	*/
 
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),0, m_modelos["heart"]));
@@ -276,6 +278,10 @@ void TGestor::init(){
 
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,-1,0),1, m_modelos["rock"]));
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,-1,0),1, m_modelos["rock"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,-1,0),1, m_modelos["rock"]));
+
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,3,0),7, m_modelos["barrel"]));
+	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,3,0),7, m_modelos["barrel"]));
 
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),3, m_modelos["gdoble"]));
 	m_mapa->m_vec_tcuartos[rand()%i].set_item(new TItem(glm::vec3(0,6,0),4, m_modelos["greloj"]));
