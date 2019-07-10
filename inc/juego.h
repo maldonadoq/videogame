@@ -13,7 +13,6 @@ using namespace irrklang;
 #include "camara.h"
 #include "utils.h"
 #include "gestor.h"
-#include "audio.h"
 #include "jugador.h"
 #include "enemigo.h"
 #include "boton.h"

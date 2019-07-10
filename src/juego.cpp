@@ -77,6 +77,9 @@ TJuego::TJuego(int &argc, char **argv){
 
 TJuego::~TJuego(){
 	m_botons.clear();
+	m_jugador = NULL;
+	m_gestor = NULL;
+	m_mapa = NULL;
 }
 
 void TJuego::initGL(){
