@@ -202,50 +202,6 @@ void TJuego::dibujar_ui(){
 	glFlush();
 }
 
-void TJuego::dibujar_juego(){
-
-	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
-	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
-	m_etime[1] = m_etime[2];
-
-	m_camara->actualizar(m_etime[0]);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-
-	if (test){
-		m_gestor->dibujar_leyenda();
-	}
-
-	glViewport(0,0,m_ancho,m_alto);
-    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
-					m_camara->m_perspective[2], m_camara->m_perspective[3]);
-    
-    if(!m_camara->m_person){
-    	gluLookAt(
-	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
-	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
-	    	0, 1, 0
-	    );
-    }
-    else{
-    	gluLookAt(
-			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
-	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
-	    	0, 1, 0
-	    );
-    }
-
-    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
-    m_gestor->set_dt(m_etime[0]);
-    m_gestor->dibujar_mapa();
-    m_gestor->dibujar_jugador(m_camara->m_direccion);
-	m_gestor->dibujar_efectos();
-    glutSwapBuffers();
-    glFlush();
-}
 
 /*
     -1 = unknown
