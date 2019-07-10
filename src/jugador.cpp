@@ -19,6 +19,7 @@ TJugador::TJugador(glm::vec3 _pos){
 	this->armas[arebote] = false;
 
 	this->m_llave = false;
+	this->m_colis = true;
 }
 
 TJugador::~TJugador(){
@@ -37,6 +38,17 @@ void TJugador::dibujar(){
 		glPushMatrix();
 			glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
 			glRotatef(angley, 0.0f, 1.0f, 0.0f);
+
+			if(m_colis){
+				float emit[]    = {0.0, 1.0, 0.0, 1.0};
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+					glColor3f(0,1,0);
+					glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+
+				emit[0] = 1;
+				emit[2] = 1;
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+			}
 			m_modelo->dibujar();
 		glPopMatrix();
 	}
