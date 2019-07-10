@@ -7,17 +7,36 @@ TMaterial line_material = {
 	100.0f
 };
 
-TJuego::TJuego(int &argc, char **argv){
+int idx_menu = 0;
+bool interfaz;
 
+ISoundEngine *SoundEngine = createIrrKlangDevice();
+ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
+ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door.wav");
+ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
+ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
+
+TListener listener;
+Controller controller;
+
+int gesture_idx = -1;
+bool gesture_state = 0;
+int gesture_sentido = 0;
+
+TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
+
+	srand(time(NULL));
 
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(m_ancho, m_alto);
+    glutInitWindowPosition(50,20);
     glutCreateWindow("Juego!");
 
-    this->m_camara = new TCamara(45, m_ancho/m_alto, 0.01f, 2500);
+    this->m_camara = new TCamara(60, m_ancho/m_alto, 0.01f, 2500);
     this->m_jugador = new TJugador(glm::vec3(0.0f,5.0f,0.0f));
 	this->m_jugador->set_camara(m_camara);
 
@@ -25,7 +44,7 @@ TJuego::TJuego(int &argc, char **argv){
     this->m_gestor = new TGestor();
 
     this->m_gestor->set_jugador(this->m_jugador);
-    this->m_gestor->set_mapa(this->m_mapa);   
+    this->m_gestor->set_mapa(this->m_mapa);
 	
 
     this->m_gestor->init();
@@ -42,13 +61,22 @@ TJuego::TJuego(int &argc, char **argv){
 
 	this->m_origen = -1;
 
-	this->m_audio = new TAudio();
+	// this->m_audio = new TAudio();
+	interfaz = true;
+	this->menu_tid = TextureManager::Inst()->LoadTexture("data/texturas/menu.png",  GL_BGRA_EXT, GL_RGBA);
+
+	this->m_botons.push_back(TBoton(glm::vec2(12, 16.5), "Inicio"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, 8.5), "Continuar"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, 0.5), "Creditos"));
+	this->m_botons.push_back(TBoton(glm::vec2(12, -7.5), "Salir"));
+
+	controller.addListener(listener);  
 
     initGL();
 }
 
 TJuego::~TJuego(){
-
+	m_botons.clear();
 }
 
 void TJuego::initGL(){
@@ -87,12 +115,178 @@ void TJuego::initGL(){
 	glMaterialfv(GL_FRONT, GL_SHININESS, &line_material.m_shininess);
 
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	game_music->setDefaultVolume(0.5f);
+	menu_music->setDefaultVolume(0.4f);
+    
+    door_effect->setDefaultVolume(0.3f);
+    gun_effect->setDefaultVolume(0.4f);
+    jump_effect->setDefaultVolume(0.2f);
+
+    std::thread(leap_gesture).detach();
 }
 
-bool test = false;
+bool fg = false;
+bool fm = true;
+
+bool test = true;
+bool arrd = false;
 int cont = 1;
 
 void TJuego::dibujar(){
+	if(interfaz){
+		dibujar_ui();
+		if(fm){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(menu_music, true);
+			fm = false;
+		}
+	}
+	else{
+		if(fg){
+			SoundEngine->stopAllSounds();
+			SoundEngine->play2D(game_music, true);
+			fg = false;
+		}
+		dibujar_juego();
+	}
+}
+
+void TJuego::dibujar_ui(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glViewport(0,0,m_ancho,m_alto);
+    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
+					m_camara->m_perspective[2], m_camara->m_perspective[3]);
+
+    gluLookAt(	0.0f, 0.0f, 50.0f,
+				0.0f, 0.0f,  0.0f,
+				0.0f, 1.0f,  0.0f);
+
+    glBindTexture(GL_TEXTURE_2D, menu_tid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(1, 1);	glVertex3f(-5,  10, -5.0f);
+        glTexCoord2f(0, 1);	glVertex3f(-25,10, -5.0f);
+        glTexCoord2f(0, 0);	glVertex3f(-25, -10, -5.0f);
+        glTexCoord2f(1, 0); glVertex3f(-5, -10, -5.0f);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, -1);
+
+    for(unsigned i=0; i<m_botons.size(); i++){
+    	if(i == idx_menu){
+    		m_botons[i].dibujar(glm::vec4(1,0,0,1), glm::vec2(8,3));
+    	}
+    	else{
+    		m_botons[i].dibujar(glm::vec4(1,1,1,1), glm::vec2(8,3));
+    	}
+    }
+
+	glutSwapBuffers();
+	glFlush();
+}
+
+/*
+    -1 = unknown
+    0 = circle
+    1 = swipe
+    2 = key tap
+    3 = screen tap
+    4 = fist
+*/
+void TJuego::leap_gesture(){
+	bool tmp;
+	while(true){
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		// cout << gesture_state << ": " << gesture_idx << "\n";
+		if(gesture_state){
+
+			switch(gesture_idx){
+				case 0:{
+					// cout << "circle\n";
+					break;
+				}
+				case 1:{
+					// cout << "swipe\n";
+					if(!interfaz){
+						if(gesture_sentido == 1){
+							// cout << "swipe left\n";
+							m_jugador->m_camara->m_delta_tangle = 1.0f;
+							tmp = true;
+						}
+						else if(gesture_sentido == 2){
+							// cout << "swipe right\n";
+							m_jugador->m_camara->m_delta_tangle = -1.0f;
+							tmp = true;
+						}
+						else if(gesture_sentido == 3){
+							// cout << "swipe down\n";
+							arrd = !arrd;
+							m_gestor->arrodillarse_jugador(arrd);
+						}
+						else if(gesture_sentido == 4){
+							// cout << "swipe up\n";
+							SoundEngine->play2D(jump_effect);
+							m_jugador->m_accion = 1;
+							m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+						}
+					}	
+					break;
+				}
+				case 2:{
+					// cout << "key tap\n";
+					if(interfaz){
+						idx_menu = (idx_menu+1)%(int)m_botons.size();
+					}
+					break;
+				}
+				case 3:{
+					// cout << "screen tap\n";
+					break;
+				}
+				case 4:{
+					// cout << "fist\n";
+					if(interfaz){
+						switch(idx_menu){
+							case 0:
+							case 1:{
+								interfaz = false;
+								fg =true;
+								break;
+							}
+							case 2:{
+								cout << "Créditos\n";
+								break;
+							}
+							case 3:{
+								exit(0);
+								break;
+							}
+						}
+					}
+					else{
+						m_jugador->m_mover = 0.0f;
+					}
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+
+			if(tmp){
+				std::this_thread::sleep_for(std::chrono::milliseconds(250));
+				m_jugador->m_camara->m_delta_tangle = 0.0f;
+				tmp = false;
+			}
+
+			gesture_state = false;
+		}
+	}
+}
+
+void TJuego::dibujar_juego(){
 
 	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
 	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
@@ -113,7 +307,7 @@ void TJuego::dibujar(){
     gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
 					m_camara->m_perspective[2], m_camara->m_perspective[3]);
     
-    if(!m_camara->m_up){
+    if(!m_camara->m_person){
     	gluLookAt(
 	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
 	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
@@ -122,16 +316,17 @@ void TJuego::dibujar(){
     }
     else{
     	gluLookAt(
-	    	m_camara->m_posicion.x, m_camara->m_posicion.y, m_camara->m_posicion.z,
-	    	m_camara->m_posicion.x+m_camara->m_direccion.x, m_camara->m_posicion.y+m_camara->m_direccion.y, m_camara->m_posicion.z+m_camara->m_direccion.z,
+			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
 	    	0, 1, 0
 	    );
     }
 
-    dibujar_luz(m_luz, 1);
+    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_efectos();
     glutSwapBuffers();
     glFlush();
 }
@@ -139,28 +334,54 @@ void TJuego::dibujar(){
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
         case ESC:{
-        	delete this->m_audio;
-            exit(0);
+            interfaz = true;
+            fm = true;
             break;
 		}
-		case UP:{
-			m_camara->m_up = true;
-			m_camara->m_posicion = m_jugador->m_posicion;
-			m_camara->m_posicion.y = 500;
-			m_camara->m_direccion = glm::vec3(0,-1,0);
+		case Q:{
+			m_camara->m_person = !m_camara->m_person;
             break;
 		}
-		case FIRST:{
-			m_camara->m_up = false;
-			m_camara->m_direccion = glm::vec3(0,0,0);
-            break;
-		}
-        case SPACE:{
-			m_jugador->m_accion = saltar;
-			m_jugador->restart();
+		case TAB:{
+			SoundEngine->play2D(gun_effect);
+			m_jugador->cambiar_arma();
 			break;
 		}
-
+		case ENTER:{
+			if(interfaz){
+				switch(idx_menu){
+					case 0:
+					case 1:{
+						interfaz = false;
+						fg =true;
+						break;
+					}
+					case 2:{
+						cout << "Créditos\n";
+						break;
+					}
+					case 3:{
+						exit(0);
+						break;
+					}
+				}
+			}
+			else{
+				m_jugador->disparar(m_camara->m_direccion, m_etime[0]);
+			}
+			break;
+		}
+        case SPACE:{
+        	SoundEngine->play2D(jump_effect);
+			m_jugador->m_accion = 1;
+			m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+			break;
+		}
+		case W:{
+			arrd = !arrd;
+			m_gestor->arrodillarse_jugador(arrd);
+			break;
+		}
 		case L:{
 			if(cont%2!=0){
 				test = true;
@@ -172,14 +393,14 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
 		case E:{
-			m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual));
+			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual))){
+				SoundEngine->play2D(door_effect);
+				// cout << "Pasando la puerta\n";
+			}
+			break;
 		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
-			break;
-		}
-		case Q:{
-			m_jugador->m_accion = abrir;
 			break;
 		}
         default:
@@ -209,10 +430,9 @@ void TJuego::mouse(int button, int state, int x, int y){
 			m_origen = x;
 		}
 	}
-	else if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
-		TBala tb = {0.2f, m_jugador->m_posicion+(m_camara->m_direccion*3.0f), m_camara->m_direccion};
-		m_audio->play_sound(0);
-		m_jugador->anhadir_bala(tb);
+	else if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){		
+		// m_audio->play_sound(0);
+		m_jugador->disparar(m_camara->m_direccion, m_etime[0]);
 	}
 }
 
@@ -229,33 +449,47 @@ void TJuego::mouse_motion(int x, int y){
 void TJuego::presionar_tecla_especial(int c, int x, int y){
 
 	switch(c){
-		case GLUT_KEY_UP:{
-			m_jugador->m_mover = 15.0f;
-			m_camara->m_posicion.x += 2;
+		case GLUT_KEY_UP:{			
+			if(interfaz){
+				idx_menu--;
+				if(idx_menu < 0){
+					idx_menu = m_botons.size()-1;
+				}
+			}
+			else{
+				m_jugador->m_mover = 30.0f;
+				m_camara->m_posicion.x += 2;
+			}
+			
 			// std::cout << "up\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_DOWN:{
-			m_jugador->m_mover = -15.0f;
-			m_camara->m_posicion.x -= 2;
+			if(interfaz){
+				idx_menu = (idx_menu+1)%(int)m_botons.size();
+			}
+			else{
+				m_jugador->m_mover = -30.0f;
+				m_camara->m_posicion.x -= 2;
+			}
 			// std::cout << "down\n";
 			// m_audio->play_sound(1);
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = -0.5f;
+			m_camara->m_delta_tangle = 0.7f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = 0.5f;
+			m_camara->m_delta_tangle = -0.7f;
 			break;
 		}		
 		default:
 			break;
-	}
+	}  
 
 	// glutPostRedisplay();
 }

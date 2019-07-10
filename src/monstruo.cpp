@@ -1,5 +1,7 @@
 #include "../inc/monstruo.h"
 
+float rcol = 40;
+
 TMonstruo::TMonstruo(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
     this->m_vida = emonstruo;
     this->m_direccion = 10.0f*RandomVect();
@@ -12,10 +14,10 @@ TMonstruo::TMonstruo(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
 
 void TMonstruo::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt){
     m_direccion = glm::normalize((_jug - glm::vec3(m_posicion.x, _jug.y, m_posicion.z)));
-    glm::vec3 _pos = m_posicion + (m_direccion*_dt*3.0f);
+    glm::vec3 _pos = m_posicion + (m_direccion*_dt*4.0f);
 
     if(cuarto_colision(_dim - glm::vec3(m_modelo->m_dim, m_modelo->m_dim/2.0f, m_modelo->m_dim), _centro, _pos)){
-        if(glm::distance(m_posicion, _jug) < (3*m_modelo->m_dim)){
+        if(glm::distance(m_posicion, _jug) < rcol){
             m_posicion = _pos;
             disparar(_jug, _dt);
         }
@@ -29,7 +31,7 @@ void TMonstruo::dibujar(glm::vec3 _dim, glm::vec3 _centro, bool _col){
 			float emit[]    = {0.0, 0.0, 1.0, 1.0};
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 			glColor3f(0,0,1);
-			draw_circle(m_modelo->m_dim*3.0f, 8);
+			draw_circle(rcol, 8);
 		}
     glPopMatrix();
     TEnemigo::dibujar(_dim, _centro, _col);

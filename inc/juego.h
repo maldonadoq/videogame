@@ -5,6 +5,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <irrKlang.h>
+using namespace irrklang;
+
+#include "listen.h"
 #include "mapa.h"
 #include "camara.h"
 #include "utils.h"
@@ -12,33 +16,29 @@
 #include "audio.h"
 #include "jugador.h"
 #include "enemigo.h"
+#include "boton.h"
+#include "tmanager.h"
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 enum teclas{
-	ESC 	= 27,
-	SPACE	= ' ',
-	UP 		= 'u',
-	FIRST	= 'f',
-	A 		= 'a',
-	C 		= 'c',
-	Q 		= 'q',
-  	L       = 'l',//leyenda del jugador
-	E       = 'e' //abrir una puerta
-};
-
-enum accion{
-	abrir = 1,
-	coger = 2,
-	saltar = 3
-
+	ESC 	= 27,	// terminar el juego
+	SPACE	= ' ',	// saltar
+	Q		= 'q',	// primera o tercer persona
+	C 		= 'c',	// mostrar la dimension de la colision
+    L       = 'l',  // leyenda del jugador
+    E       = 'e',	// abrir puerta
+    W 		= 'w',	// arrodillarse
+    ENTER	= 13, 	// disparar
+    TAB     = 9		// cambiar de arma
 };
 
 class TJuego{
 private:
 	void initGL();
 
-	TAudio *m_audio;
 	glm::vec3 m_etime;
 	glm::vec3 m_mouse;
 
@@ -48,9 +48,18 @@ private:
 	int   m_origen;
 	int filas, columnas;
 	
-	TJugador *m_jugador;
-	TGestor *m_gestor;
+	static TJugador *m_jugador;
+	static TGestor *m_gestor;
 	TMapa *m_mapa;
+
+	static vector<TBoton> m_botons;
+
+	int menu_tid;
+
+	static void leap_gesture();
+	void dibujar_juego();
+	void dibujar_ui();
+
 public:
 	TJuego(int &, char **);
 	virtual ~TJuego();
@@ -66,5 +75,9 @@ public:
 	TLuz m_luz;
 	TCamara *m_camara;
 };
+
+vector<TBoton> TJuego::m_botons;
+TJugador *TJuego::m_jugador;
+TGestor *TJuego::m_gestor;
 
 #endif

@@ -47,7 +47,7 @@ public:
 	void dibujar_paredes();
 	void dibujar_piso();
 
-	void verificar_puertas(TJugador*, TCuarto**);
+	bool verificar_puertas(TJugador*, TCuarto**);
 };
 
 #endif

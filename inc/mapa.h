@@ -8,6 +8,7 @@
 #include <vector>
 #include <random>
 #include <list>
+#include <utility>
 
 #include "../inc/tmanager.h"
 #include "../inc/generar_nivel.h"
@@ -15,11 +16,15 @@
 #include "jugador.h"
 #include "puerta.h"
 
+using std::pair;
 
 class TMapa{
 private:
-	int texturas_id[15];
+	int puerta_textura;
+	vector<pair<int, int> > cuarto_texturas;
+	vector<int> sky_texturas;
 	glm::vec3 m_centro;
+	glm::vec3 m_mundo_dim;
 	
 	std::vector<std::vector<int> > m_cuartos;
     std::list<ParCoord2D> m_puertas;
@@ -27,7 +32,7 @@ private:
 	int m_num_niveles = 3;
     int m_anchura = 9;
     int m_altura = 11;
-    int m_num_cuartos = 7;
+    int m_num_cuartos = 12;
     int m_num_tesoros = 2;
 public:
 	glm::vec3 m_cuarto_dim;
@@ -39,6 +44,7 @@ public:
 	TMapa();
 
 	void dibujar(float);
+	void dibujar_mundo();
 	~TMapa();
 };
 

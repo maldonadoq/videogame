@@ -3,6 +3,7 @@
 
 #include <GL/glut.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <iostream>
 
@@ -27,12 +28,15 @@ struct TMaterial
 	float m_shininess;
 };
 
-void dibujar_luz(TLuz, float);
+void dibujar_luz(glm::vec4, float, glm::vec4);
+void dibujar_cube(glm::vec4, float, glm::vec4);
 bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3);
+bool cuarto_colision(glm::vec3, glm::vec3, glm::vec3, glm::vec2 &);
 string vec3_to_str(glm::vec3);
 
 #define PI 3.14159265
 void draw_circle(float, int);
 void print_vec3(glm::vec3);
+void Font(string, float, float);
 
 #endif
