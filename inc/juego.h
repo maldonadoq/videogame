@@ -54,7 +54,12 @@ private:
 
 	static vector<TBoton> m_botons;
 
+	int m_num_niveles;
+	int m_cont_n_niveles;
+
 	int menu_tid;
+
+	bool salio;
 
 	static void leap_gesture();
 	void dibujar_juego();

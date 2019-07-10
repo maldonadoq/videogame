@@ -61,6 +61,10 @@ void TGestor::set_jugador(TJugador *_jugador){
 	this->m_jugador->set_modelo(m_modelos["iron"]);
 }
 
+void TGestor::crear_mapa(){
+	this->m_mapa->crear_mapa();
+}
+
 /*
 	Metodo que llamará a la función dibujar del mapa
 */

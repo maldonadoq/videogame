@@ -1,5 +1,6 @@
 #include "../inc/mapa.h"
 #include "../inc/tmanager.h"
+#include "../inc/puerta_salida.h"
 
 #include <assert.h>
 #include <FreeImage.h>
@@ -55,7 +56,10 @@ TMapa::TMapa(){
 	
 	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
+	crear_mapa();
+}
 
+void TMapa::crear_mapa(){
 	std::random_device rd;
     std::mt19937 rng(rd());
 	//std::mt19937 rng(0);
@@ -88,6 +92,7 @@ TMapa::TMapa(){
 			break;
 		}
 	}
+
 
 	std::vector<std::vector<TCuarto *> > tcuartos(m_cuartos.size(), std::vector<TCuarto *>(m_cuartos[0].size(), nullptr));
 
@@ -178,6 +183,7 @@ TMapa::TMapa(){
 		j = 0;
 	}
 
+
 	/*
 	std::cout << "Coordenadas de los centros de los cuartos\n";
 	for (int i = 0; i < m_vec_tcuartos.size(); ++i)
@@ -197,9 +203,10 @@ TMapa::TMapa(){
 	Orientacion orient;
 	TCuarto* cuarto1;
 	TCuarto* cuarto2;
+	glm::vec3 centro_puerta_salida;
+
 	
-	for (int i = 0; i < m_vec_tpuertas.size(); ++i)
-	{
+	for (int i = 0; i < m_vec_tpuertas.size(); ++i){
 		pc2d = *it;
 		++it;
 
@@ -213,19 +220,66 @@ TMapa::TMapa(){
 		centro1 = glm::vec2(dx1 * m_cuarto_dim.x, dy1 * m_cuarto_dim.z);
 		centro2 = glm::vec2(dx2 * m_cuarto_dim.x, dy2 * m_cuarto_dim.z);
 		centro_puerta = glm::vec3((centro1.x + centro2.x)/2, dim_puerta.y/2.0f, (centro1.y + centro2.y)/2);
-		if (centro1.x - centro2.x == 0)
-		{
+		if (centro1.x - centro2.x == 0){
 			orient = x;
+			if (cuarto1->m_tipo == "Salida"){
+				if (centro1.y < centro2.y){
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.z -= this->m_cuarto_dim.z;
+				}
+				else{
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.z += this->m_cuarto_dim.z;
+				}
+				this->m_puerta_salida = new TPuertaSalida(centro_puerta_salida, dim_puerta, orient, cuarto1);
+				cuarto1->m_puerta_salida = this->m_puerta_salida;
+			}
+			else if (cuarto2->m_tipo == "Salida"){
+				if (centro1.y < centro2.y){
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.z += this->m_cuarto_dim.z;
+				}
+				else{
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.z -= this->m_cuarto_dim.z;
+				}
+				this->m_puerta_salida = new TPuertaSalida(centro_puerta_salida, dim_puerta, orient, cuarto2);
+				cuarto2->m_puerta_salida = this->m_puerta_salida;
+			}
 		}
-		else if (centro1.y - centro2.y == 0)
-		{
+		else if (centro1.y - centro2.y == 0){
 			orient = z;
+			if (cuarto1->m_tipo == "Salida"){
+				if (centro1.x < centro2.x){
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.x -= this->m_cuarto_dim.x;
+				}
+				else{
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.x += this->m_cuarto_dim.x;
+				}
+				this->m_puerta_salida = new TPuertaSalida(centro_puerta_salida, dim_puerta, orient, cuarto1);
+				cuarto1->m_puerta_salida = this->m_puerta_salida;
+			}
+			else if (cuarto2->m_tipo == "Salida"){
+				if (centro1.x < centro2.x){
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.x += this->m_cuarto_dim.x;
+				}
+				else{
+					centro_puerta_salida = centro_puerta;
+					centro_puerta_salida.x -= this->m_cuarto_dim.x;
+				}
+				this->m_puerta_salida = new TPuertaSalida(centro_puerta_salida, dim_puerta, orient, cuarto2);
+				cuarto2->m_puerta_salida = this->m_puerta_salida;
+			}
 		}
 		m_vec_tpuertas[i] = TPuerta(centro_puerta, dim_puerta, orient, cuarto1, cuarto2);
 
 		cuarto1->m_puertas.push_back(&m_vec_tpuertas[i]);
 		cuarto2->m_puertas.push_back(&m_vec_tpuertas[i]);
 	}
+
 
 	/*
 	std::cout << "Coordenadas de los centros de las puertas:\n";
@@ -249,6 +303,7 @@ void TMapa::dibujar(float _dt){
 	{
 		m_vec_tpuertas[i].dibujar(puerta_textura);
 	}
+	m_puerta_salida->dibujar(puerta_textura);
 }
 
 void TMapa::dibujar_mundo(){

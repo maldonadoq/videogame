@@ -1,5 +1,5 @@
-#ifndef _PUERTA_H_
-#define _PUERTA_H_
+#ifndef _PUERTA_SALIDA_H_
+#define _PUERTA_SALIDA_H_
 
 #include <glm/glm.hpp>
 #include <FreeImage.h>
@@ -11,19 +11,17 @@
 class TCuarto;
 
 
-class TPuerta{
+class TPuertaSalida{
 public:
     glm::vec3 m_centro;
     glm::vec2 m_dim;
     Orientacion m_orient;
     TCuarto* m_cuarto1;
-    TCuarto* m_cuarto2;
 
-	TPuerta(glm::vec3, glm::vec2, Orientacion, TCuarto*, TCuarto*);
-	TPuerta();
+	TPuertaSalida(glm::vec3, glm::vec2, Orientacion, TCuarto*);
+	TPuertaSalida();
 
 	void dibujar(int);
 };
-
 
 #endif

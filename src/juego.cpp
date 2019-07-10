@@ -27,6 +27,8 @@ int gesture_sentido = 0;
 TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
+	this->m_num_niveles = 2;
+	this->m_cont_n_niveles = 0;
 
 	srand(time(NULL));
 
@@ -69,6 +71,8 @@ TJuego::TJuego(int &argc, char **argv){
 	this->m_botons.push_back(TBoton(glm::vec2(12, 8.5), "Continuar"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, 0.5), "Creditos"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, -7.5), "Salir"));
+
+	this->salio = false;
 
 	controller.addListener(listener);  
 
@@ -324,6 +328,32 @@ void TJuego::dibujar_juego(){
 
     dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
     m_gestor->set_dt(m_etime[0]);
+	if (this->salio == true){
+		this->m_gestor->crear_mapa();
+		this->m_gestor->init();
+		this->m_mapa->m_cuarto_actual = &(this->m_mapa->m_vec_tcuartos[0]);
+
+		//reset jugador
+		this->m_jugador->m_vida = 20;
+		this->m_jugador->m_mover = 0.0f;	
+		this->m_jugador->m_arma = asimple;
+
+		this->m_jugador->armas[asimple] = true;
+		this->m_jugador->armas[adoble] = false;
+		this->m_jugador->armas[areloj] = false;
+		this->m_jugador->armas[arebote] = false;
+
+		this->m_jugador->m_llave = false;
+		this->m_jugador->m_posicion.x = 0.0;
+		this->m_jugador->m_posicion.z = 0.0;
+
+		this->m_cont_n_niveles += 1;
+		if (this->m_cont_n_niveles == this->m_num_niveles){
+			std::cout << "termino el juego - ganaste!\n";
+		}
+
+		this->salio = false;
+	}
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
 	m_gestor->dibujar_efectos();
@@ -393,7 +423,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
 		case E:{
-			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual))){
+			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual), this->salio)){
 				SoundEngine->play2D(door_effect);
 				// cout << "Pasando la puerta\n";
 			}
