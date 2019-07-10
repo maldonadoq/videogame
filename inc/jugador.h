@@ -20,10 +20,10 @@ enum TArma{
 };
 
 class TJugador{
-private:
+public:
 	bool armas[4];
 	int m_arma;
-public:
+
 	TCamara *m_camara;
 	TModelo *m_modelo;
 

@@ -26,7 +26,7 @@ void TPuerta::dibujar(int _tid)
     glBegin(GL_QUADS);
         if (m_orient == x)
         {
-            this->m_centro.z += 0.1;
+            this->m_centro.z += 0.5;
             glNormal3f(0, 0, 1);
 
             glTexCoord2f(0, 1);
@@ -43,7 +43,7 @@ void TPuerta::dibujar(int _tid)
         }
         else if (m_orient == z)
         {
-            this->m_centro.x += 0.1;
+            this->m_centro.x += 0.5;
             glNormal3f(1, 0, 0);
             
             glTexCoord2f(0, 0);
@@ -64,7 +64,7 @@ void TPuerta::dibujar(int _tid)
     glBegin(GL_QUADS);
         if (m_orient == x)
         {
-            this->m_centro.z -= 0.2;
+            this->m_centro.z -= 1.0;
             glNormal3f(0, 0, -1);
             
             glTexCoord2f(0, 0);
@@ -81,7 +81,7 @@ void TPuerta::dibujar(int _tid)
         }
         else if (m_orient == z)
         {
-            this->m_centro.x -= 0.2;
+            this->m_centro.x -= 1.0;
             glNormal3f(-1, 0, 0);
 
             glTexCoord2f(0, 1);

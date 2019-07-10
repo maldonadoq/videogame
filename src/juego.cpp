@@ -35,6 +35,8 @@ int gesture_sentido = 0;
 TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
 	this->m_alto  = 700;
+	this->m_num_niveles = 2;
+	this->m_cont_n_niveles = 0;
 
 	srand(time(NULL));
 
@@ -77,6 +79,8 @@ TJuego::TJuego(int &argc, char **argv){
 	this->m_botons.push_back(TBoton(glm::vec2(12, 8.5), "Continuar"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, 0.5), "Creditos"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, -7.5), "Salir"));
+
+	this->salio = false;
 
 	controller.addListener(listener);  
 
@@ -351,6 +355,79 @@ void TJuego::leap_gesture(){
 	}
 }
 
+
+void TJuego::dibujar_juego(){
+
+	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
+	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
+	m_etime[1] = m_etime[2];
+
+	m_camara->actualizar(m_etime[0]);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+
+	if (test){
+		m_gestor->dibujar_leyenda();
+	}
+
+	glViewport(0,0,m_ancho,m_alto);
+    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
+					m_camara->m_perspective[2], m_camara->m_perspective[3]);
+    
+    if(!m_camara->m_person){
+    	gluLookAt(
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
+	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
+	    	0, 1, 0
+	    );
+    }
+    else{
+    	gluLookAt(
+			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
+	    	0, 1, 0
+	    );
+    }
+
+    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
+    m_gestor->set_dt(m_etime[0]);
+	if (this->salio == true){
+		this->m_gestor->crear_mapa();
+		this->m_gestor->init();
+		this->m_mapa->m_cuarto_actual = &(this->m_mapa->m_vec_tcuartos[0]);
+
+		//reset jugador
+		this->m_jugador->m_vida = 20;
+		this->m_jugador->m_mover = 0.0f;	
+		this->m_jugador->m_arma = asimple;
+
+		this->m_jugador->armas[asimple] = true;
+		this->m_jugador->armas[adoble] = false;
+		this->m_jugador->armas[areloj] = false;
+		this->m_jugador->armas[arebote] = false;
+
+		this->m_jugador->m_llave = false;
+		this->m_jugador->m_posicion.x = 0.0;
+		this->m_jugador->m_posicion.z = 0.0;
+
+		this->m_cont_n_niveles += 1;
+		if (this->m_cont_n_niveles == this->m_num_niveles){
+			std::cout << "termino el juego - ganaste!\n";
+		}
+
+		this->salio = false;
+	}
+    m_gestor->dibujar_mapa();
+    m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_efectos();
+    glutSwapBuffers();
+    glFlush();
+}
+
+
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 	switch (_t) {
         case ESC:{
@@ -413,7 +490,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 			break;
 		}
 		case E:{
-			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual))){
+			if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual), this->salio)){
 				SoundEngine->play2D(door_effect);
 				// cout << "Pasando la puerta\n";
 			}

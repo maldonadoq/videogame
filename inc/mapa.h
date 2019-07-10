@@ -15,6 +15,7 @@
 #include "cuarto.h"
 #include "jugador.h"
 #include "puerta.h"
+#include "puerta_salida.h"
 
 using std::pair;
 
@@ -39,10 +40,12 @@ public:
 	TCuarto *m_cuarto_actual;
 	std::vector<TCuarto> m_vec_tcuartos;
 	std::vector<TPuerta> m_vec_tpuertas;
+	TPuertaSalida* m_puerta_salida;
 
 	TMapa(int, int);
 	TMapa();
 
+	void crear_mapa();
 	void dibujar(float);
 	void dibujar_mundo();
 	~TMapa();

@@ -26,6 +26,7 @@ TCuarto::TCuarto(){
 	this->m_items.clear();
 
 	this->m_colision = true;
+	this->m_puerta_salida = nullptr;
 }
 
 TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim, std::string tipo){
@@ -38,6 +39,7 @@ TCuarto::TCuarto(glm::vec3 _centro, glm::vec3 m_dim, std::string tipo){
 	this->m_tipo = tipo; 
 
 	this->m_colision = true;
+	this->m_puerta_salida = nullptr;
 }
 
 /*
@@ -288,7 +290,8 @@ void TCuarto::dibujar_enemigos(float _dt){
 	}
 }
 
-bool TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
+bool TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual, bool &salio){
+	salio = false;
 	glm::vec3* pos_jug = &(jugador->m_posicion);
 	glm::vec3 aux;
 	bool t = false;
@@ -351,6 +354,15 @@ bool TCuarto::verificar_puertas(TJugador* jugador, TCuarto** cuarto_actual){
 
 			t = true;
 			break;
+		}
+	}
+	if (t == false && this->m_puerta_salida != nullptr && jugador->m_llave == true){
+		aux = this->m_puerta_salida->m_centro;
+		aux.y = pos_jug->y;
+		if (glm::distance(*pos_jug, aux) < 10.0f){  //estoy en area para salir
+			std::cout << "Sali!\n";
+			t = true;
+			salio = true;
 		}
 	}
 

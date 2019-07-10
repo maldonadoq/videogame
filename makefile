@@ -5,7 +5,7 @@ SRCS	= 	main.cpp src/juego.cpp src/cuarto.cpp src/mapa.cpp \
 			src/modelo.cpp src/generar_nivel.cpp src/puerta.cpp \
 			src/ovni.cpp src/monstruo.cpp src/boss.cpp src/hydra.cpp \
 			src/sentinel.cpp src/item.cpp src/bala.cpp src/motor.cpp \
-			src/boton.cpp src/listen.cpp
+			src/boton.cpp src/listen.cpp src/puerta_salida.cpp
 OBJS	= $(SRCS:.cpp=.o)
 
 LEAP_INC 		= -I"leap/include"

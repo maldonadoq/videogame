@@ -9,12 +9,14 @@
 #include "enemigo.h"
 #include "item.h"
 #include "puerta.h"
+#include "puerta_salida.h"
 #include <string>
 
 using std::vector;
 using std::list;
 
 class TPuerta;
+class TPuertaSalida;
 
 class TCuarto{
 private:
@@ -27,6 +29,7 @@ public:
 	TJugador *m_jugador;
 	list<TPuerta *> m_puertas;
 	std::string m_tipo;
+	TPuertaSalida *m_puerta_salida;
 
 	bool m_colision;
 
@@ -47,7 +50,7 @@ public:
 	void dibujar_paredes();
 	void dibujar_piso();
 
-	bool verificar_puertas(TJugador*, TCuarto**);
+	bool verificar_puertas(TJugador*, TCuarto**, bool&);
 };
 
 #endif

@@ -42,6 +42,7 @@ public:
 	void saltar_jugador();
 	void arrodillarse_jugador(bool);
 	
+	void crear_mapa();
 	void dibujar_mapa();
 	void dibujar_balas_jugador();
 	void dibujar_jugador(glm::vec3);

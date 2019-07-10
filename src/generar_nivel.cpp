@@ -176,6 +176,7 @@ void generar_nivel_aleatorio(int anchura, int altura, int n_cuartos, int n_tesor
                              std::list<ParCoord2D> &puertas, std::mt19937 &rng)
 {
     cuartos = std::vector<std::vector<int> >(altura, std::vector<int>(anchura, 0));
+    puertas = std::list<ParCoord2D>();
     
     std::uniform_int_distribution<int> uni1(0, anchura - 1);
     std::uniform_int_distribution<int> uni2(0, altura - 1);
@@ -271,8 +272,8 @@ pero de preferencia van a estar alejados de la entrada.
         }
     }
 
-    /* 
+    
     std::cout << "cuartos =\n";
     imprimir_matriz_enteros(cuartos, anchura, altura);
-    std::cout << "\n";*/
+    std::cout << "\n";
 }
