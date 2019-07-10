@@ -11,8 +11,8 @@ int idx_menu = 0;
 bool interfaz;
 
 ISoundEngine *SoundEngine = createIrrKlangDevice();
-ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
-ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
 ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door.wav");
 ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
 ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
@@ -117,10 +117,11 @@ void TJuego::initGL(){
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	game_music->setDefaultVolume(0.5f);
-	menu_music->setDefaultVolume(0.7f);
+	menu_music->setDefaultVolume(0.4f);
     
-    door_effect->setDefaultVolume(0.4f);
+    door_effect->setDefaultVolume(0.3f);
     gun_effect->setDefaultVolume(0.4f);
+    jump_effect->setDefaultVolume(0.2f);
 
     std::thread(leap_gesture).detach();
 }
@@ -321,7 +322,7 @@ void TJuego::dibujar_juego(){
 	    );
     }
 
-    dibujar_luz(m_luz, 1);
+    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
@@ -456,7 +457,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 				}
 			}
 			else{
-				m_jugador->m_mover = 20.0f;
+				m_jugador->m_mover = 30.0f;
 				m_camara->m_posicion.x += 2;
 			}
 			
@@ -469,7 +470,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 				idx_menu = (idx_menu+1)%(int)m_botons.size();
 			}
 			else{
-				m_jugador->m_mover = -20.0f;
+				m_jugador->m_mover = -30.0f;
 				m_camara->m_posicion.x -= 2;
 			}
 			// std::cout << "down\n";
@@ -477,13 +478,13 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = 0.5f;
+			m_camara->m_delta_tangle = 0.7f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = -0.5f;
+			m_camara->m_delta_tangle = -0.7f;
 			break;
 		}		
 		default:

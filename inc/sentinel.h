@@ -7,6 +7,8 @@
 #include "random.h"
 
 class TSentinel: public TEnemigo{
+private:
+	void ndirecciones(int, float);
 public:
     TSentinel();
     TSentinel(glm::vec3, TModelo *);

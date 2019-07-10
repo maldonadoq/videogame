@@ -167,6 +167,15 @@ void TCuarto::dibujar(int _tf, int _tw, float _dt){
 	dibujar_paredes();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	if(m_tipo == "Llave Dorada"){
+		dibujar_cube(glm::vec4(m_centro.x, m_centro.y + (m_dim.y*1.5f), m_centro.z, 0), 2, glm::vec4(1,0,0,1));
+	}
+	else if(m_tipo == "Salida"){
+		dibujar_cube(glm::vec4(m_centro.x, m_centro.y + (m_dim.y*1.5f), m_centro.z, 0), 2, glm::vec4(0,1,0,1));
+	}
+	else if(m_tipo == "Tesoro"){
+		dibujar_cube(glm::vec4(m_centro.x, m_centro.y + (m_dim.y*1.5f), m_centro.z, 0), 2, glm::vec4(0,0,1,1));
+	}
 
 	if(m_jugador != nullptr){
 		dibujar_enemigos(_dt);
@@ -212,21 +221,22 @@ void TCuarto::dibujar_items(){
 		m_items[i]->dibujar(m_colision);
 		t = m_items[i]->colision(m_jugador->m_posicion);
 		if(t >= 0){
-			m_items.erase(m_items.begin() + i);
-			i--;
-
 			switch (t){
 				case 0:{
 					cout << "corazón con 4 vidas!\n";
 					m_jugador->m_vida += 4;
 					break;
 				}
-				case 1:{
-					cout << "roca!\n";
-					break;
-				}
 				case 2:{
 					cout << "chest!\n";
+					if(m_items[i]->m_update == 1){
+						for(int h=0; h<4; h++){
+							/*TItem *_item = new TItem(glm::vec3(0,0,0),0, m_items[i]->m_inter);
+							_item->m_posicion = m_jugador->m_posicion + RandomPosition(10, 0, 10);
+							this->m_items.push_back(_item);*/
+							set_item(new TItem(glm::vec3(0,6,0),0, m_items[i]->m_inter));
+						}
+					}
 					break;
 				}
 				case 3:{
@@ -244,9 +254,17 @@ void TCuarto::dibujar_items(){
 					m_jugador->set_arma(3);
 					break;
 				}
+				case 6:{
+					cout << "llave dorada!\n";
+					m_jugador->m_llave = true;
+					break;
+				}
 				default:
 					break;
 			}
+
+			m_items.erase(m_items.begin() + i);
+			i--;
 		}
 	}
 }

@@ -14,7 +14,7 @@ TMapa::TMapa(){
 	//Inicializar cuartos
 	this->m_cuarto_dim = glm::vec3(200,20,200);
 	this->m_centro = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->m_mundo_dim = glm::vec3(1000,1000,1000);
+	this->m_mundo_dim = glm::vec3(2000,2000,2000);
 
 	m_temp = (m_centro - m_mundo_dim)/2.0f;
 
@@ -45,13 +45,13 @@ TMapa::TMapa(){
 	cuarto_texturas[11].first  = TextureManager::Inst()->LoadTexture("data/texturas/floor12.jpg",  GL_BGR_EXT, GL_RGB);
 	cuarto_texturas[11].second = TextureManager::Inst()->LoadTexture("data/texturas/wall12.jpg",  GL_BGR_EXT, GL_RGB, true);
 
-	/*sky_texturas = vector<int>(6);
+	sky_texturas = vector<int>(6);
 	sky_texturas[0] = TextureManager::Inst()->LoadTexture("data/sky/front.tga", GL_BGR_EXT, GL_RGB);
 	sky_texturas[1] = TextureManager::Inst()->LoadTexture("data/sky/back.tga",  GL_BGR_EXT, GL_RGB);
 	sky_texturas[2] = TextureManager::Inst()->LoadTexture("data/sky/left.tga",  GL_BGR_EXT, GL_RGB);
 	sky_texturas[3] = TextureManager::Inst()->LoadTexture("data/sky/right.tga", GL_BGR_EXT, GL_RGB);
 	sky_texturas[4] = TextureManager::Inst()->LoadTexture("data/sky/up.tga",    GL_BGR_EXT, GL_RGB);
-	sky_texturas[5] = TextureManager::Inst()->LoadTexture("data/sky/down.tga",  GL_BGR_EXT, GL_RGB);*/
+	sky_texturas[5] = TextureManager::Inst()->LoadTexture("data/sky/down.tga",  GL_BGR_EXT, GL_RGB);
 	
 	puerta_textura = TextureManager::Inst()->LoadTexture("data/texturas/puerta1.jpg",  GL_BGR_EXT, GL_RGB);
 
@@ -105,23 +105,23 @@ TMapa::TMapa(){
 			{
 				if (m_cuartos[i][j] == 1)
 				{
-					tipo = "normal";
+					tipo = "Normal";
 				}
 				else if (m_cuartos[i][j] == 2)
 				{
-					tipo = "tesoro";
+					tipo = "Tesoro";
 				}
 				else if (m_cuartos[i][j] == 3)
 				{
-					tipo = "llave dorada";
+					tipo = "Llave Dorada";
 				}
 				else if (m_cuartos[i][j] == 4)
 				{
-					tipo = "entrada";
+					tipo = "Entrada";
 				}
 				else if (m_cuartos[i][j] == 5)
 				{
-					tipo = "salida";
+					tipo = "Salida";
 				}
 				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim, tipo);
 				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
@@ -149,23 +149,23 @@ TMapa::TMapa(){
 			{
 				if (m_cuartos[i][j] == 1)
 				{
-					tipo = "normal";
+					tipo = "Normal";
 				}
 				else if (m_cuartos[i][j] == 2)
 				{
-					tipo = "tesoro";
+					tipo = "Tesoro";
 				}
 				else if (m_cuartos[i][j] == 3)
 				{
-					tipo = "llave dorada";
+					tipo = "Llave Dorada";
 				}
 				else if (m_cuartos[i][j] == 4)
 				{
-					tipo = "entrada";
+					tipo = "Entrada";
 				}
 				else if (m_cuartos[i][j] == 5)
 				{
-					tipo = "salida";
+					tipo = "Salida";
 				}
 				m_vec_tcuartos[cont_cuartos] = TCuarto(cuarto_centro, m_cuarto_dim, tipo);
 				tcuartos[i][j] = &m_vec_tcuartos[cont_cuartos];
@@ -236,7 +236,7 @@ TMapa::TMapa(){
 }
 
 void TMapa::dibujar(float _dt){
-	// dibujar_mundo();
+	dibujar_mundo();
 
 	//assert(m_cuarto_actual != NULL);
 	//this->m_cuarto_actual->dibujar(sky_texturas);

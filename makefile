@@ -3,9 +3,9 @@ SRCS	= 	main.cpp src/juego.cpp src/cuarto.cpp src/mapa.cpp \
 			src/tmanager.cpp src/jugador.cpp src/utils.cpp \
 			src/gestor.cpp src/enemigo.cpp src/random.cpp \
 			src/modelo.cpp src/generar_nivel.cpp src/puerta.cpp \
-			src/ovni.cpp src/monstruo.cpp src/item.cpp src/hydra.cpp \
-			src/sentinel.cpp src/bala.cpp src/motor.cpp src/boton.cpp \
-			src/listen.cpp
+			src/ovni.cpp src/monstruo.cpp src/boss.cpp src/hydra.cpp \
+			src/sentinel.cpp src/item.cpp src/bala.cpp src/motor.cpp \
+			src/boton.cpp src/listen.cpp
 OBJS	= $(SRCS:.cpp=.o)
 
 LEAP_INC 		= -I"leap/include"
