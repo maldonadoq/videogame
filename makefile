@@ -25,4 +25,4 @@ main: $(OBJS)
 
 # delete lib with clean 
 clean:
-	rm -f src/*.o *.out
+	rm -f src/*.o *.o *.out

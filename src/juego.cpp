@@ -17,6 +17,14 @@ ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door
 ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
 ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
 
+
+
+vector<TBoton> TJuego::m_botons;
+TJugador *TJuego::m_jugador;
+TGestor *TJuego::m_gestor;
+
+
+
 TListener listener;
 Controller controller;
 
