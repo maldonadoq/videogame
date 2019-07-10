@@ -1,5 +1,7 @@
 #include "../inc/listen.h"
 
+bool state;
+
 bool TListener::checkFist(const Hand& hand){
 
     float sum = 0;
@@ -30,6 +32,18 @@ bool TListener::checkFist(const Hand& hand){
     return r;
 }
 
+int TListener::checkFingers(const Hand& hand){
+    int n = 0;
+    const FingerList fingers = hand.fingers();
+    for (FingerList::const_iterator fl = fingers.begin(); fl != fingers.end(); ++fl){
+        const Finger finger = *fl;
+        if(finger.isExtended())
+            n++;
+    }
+
+    return n;
+}
+
 void TListener::onInit(const Controller& controller) {
     std::cout << "Initialized" << std::endl;
 }
@@ -52,11 +66,13 @@ void TListener::onExit(const Controller& controller) {
 }
 
 void TListener::onFrame(const Controller& controller) {
-    const Frame frame = controller.frame();    
+    const Frame frame = controller.frame();
+
+    state = false;
 
     // Get gestures
     const GestureList gestures = frame.gestures();
-    for (int g = 0; g < gestures.count(); ++g) {
+    for (int g = 0; g < gestures.count() and !state; ++g) {
         Gesture gesture = gestures[g];
 
         // std::cout << gesture.duration() << " ms\n";
@@ -66,17 +82,14 @@ void TListener::onFrame(const Controller& controller) {
                 gesture_idx = 0;
 
                 gesture_state = true;
-                std::string clockwiseness;                
+                state = true;
                 if (circle.pointable().direction().angleTo(circle.normal()) <= PI/2){
-                    clockwiseness = "clockwise";
                     gesture_sentido = 1;
                 }
                 else{
-                	clockwiseness = "counterclockwise";
                 	gesture_sentido = -1;
                 }
 
-                // std::cout << "circle - " << clockwiseness << "\n";
                 break;
             }
             
@@ -84,12 +97,9 @@ void TListener::onFrame(const Controller& controller) {
                 SwipeGesture swipe = gesture;
                 gesture_idx = 1;
                 gesture_state = true;
-                // std::cout << "swipe\n";
-
-                // std::cout << "direction: " << swipe.direction().x << " ";
-                if(swipe.direction().z < -0.7f)         gesture_sentido = 5;
-                else if(swipe.direction().z > 0.6f)     gesture_sentido = 6;
-                else if(swipe.direction().x < -0.7f)    gesture_sentido = 1;
+                state = true;
+                
+                if(swipe.direction().x < -0.7f)         gesture_sentido = 1;
                 else if(swipe.direction().x > 0.6f)     gesture_sentido = 2;
                 else if(swipe.direction().y < -0.7f)	gesture_sentido = 3;
                 else if(swipe.direction().y > 0.6f)	    gesture_sentido = 4;
@@ -99,14 +109,14 @@ void TListener::onFrame(const Controller& controller) {
                 KeyTapGesture tap = gesture;
                 gesture_idx = 2;
                 gesture_state = true;
-                // std::cout << "keytap\n";
+                state = true;
                 break;
             }
             case Gesture::TYPE_SCREEN_TAP:{
                 ScreenTapGesture screentap = gesture;
                 gesture_idx = 3;
                 gesture_state = true;
-                // std::cout << "screentap\n";
+                state = true;
                 break;
             }
             default:{            	
@@ -116,14 +126,29 @@ void TListener::onFrame(const Controller& controller) {
         }
     }
 
-    HandList hands = frame.hands();
-    Hand hand;
-    if (hands.count() == 1) {
-        hand = hands.frontmost();
-        if (checkFist(hand)) {
-            gesture_idx = 4;
-            // std::cout << "fist\n";
-            gesture_state = true;
+    if(!state){
+        HandList hands = frame.hands();
+        Hand hand;
+        if (hands.count() == 1) {
+            hand = hands.frontmost();
+            // std::cout << (hand.fingers()).count() << "\n";
+            int fing = checkFingers(hand);
+            if (checkFist(hand)) {
+                gesture_idx = 4;
+                gesture_state = true;
+            }
+            else if(fing == 1){
+                gesture_idx = 5;
+                gesture_state = true;
+            }
+            else if(fing == 2){
+                gesture_idx = 6;
+                gesture_state = true;
+            }
+            else if(fing == 3){
+                gesture_idx = 7;
+                gesture_state = true;
+            }
         }
     }
 }

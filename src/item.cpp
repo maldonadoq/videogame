@@ -36,9 +36,8 @@ void TItem::dibujar(bool _col){
     glPopMatrix();
 }
 
-int TItem::colision(glm::vec3 _pos){
-
-    if(glm::distance(_pos, m_posicion) < m_modelo->m_dim/2.0f){
+int TItem::colision(glm::vec3 _pos, float _r){
+    if(glm::distance(_pos, m_posicion) < (m_modelo->m_dim/2.0f + _r)){
         return m_tipo;
     }
 

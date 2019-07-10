@@ -32,6 +32,7 @@ public:
 
 private:
     bool checkFist(const Hand&);
+    int  checkFingers(const Hand&);
 };
 
 const std::string fingerNames[] = {"Thumb", "Index", "Middle", "Ring", "Pinky"};
