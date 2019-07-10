@@ -16,7 +16,7 @@ public:
     TItem(glm::vec3, int, int, TModelo *, TModelo *);
 
     void dibujar(bool);
-    int colision(glm::vec3);
+    int colision(glm::vec3, float);
     ~TItem();
 };
 

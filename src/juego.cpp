@@ -17,6 +17,14 @@ ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door
 ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
 ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
 
+
+
+vector<TBoton> TJuego::m_botons;
+TJugador *TJuego::m_jugador;
+TGestor *TJuego::m_gestor;
+
+
+
 TListener listener;
 Controller controller;
 
@@ -77,6 +85,9 @@ TJuego::TJuego(int &argc, char **argv){
 
 TJuego::~TJuego(){
 	m_botons.clear();
+	m_jugador = NULL;
+	m_gestor = NULL;
+	m_mapa = NULL;
 }
 
 void TJuego::initGL(){
@@ -187,6 +198,51 @@ void TJuego::dibujar_ui(){
 	glFlush();
 }
 
+void TJuego::dibujar_juego(){
+
+	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
+	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
+	m_etime[1] = m_etime[2];
+
+	m_camara->actualizar(m_etime[0]);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+
+	if (test){
+		m_gestor->dibujar_leyenda();
+	}
+
+	glViewport(0,0,m_ancho,m_alto);
+    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
+					m_camara->m_perspective[2], m_camara->m_perspective[3]);
+    
+    if(!m_camara->m_person){
+    	gluLookAt(
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
+	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
+	    	0, 1, 0
+	    );
+    }
+    else{
+    	gluLookAt(
+			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
+	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
+	    	0, 1, 0
+	    );
+    }
+
+    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
+    m_gestor->set_dt(m_etime[0]);
+    m_gestor->dibujar_mapa();
+    m_gestor->dibujar_jugador(m_camara->m_direccion);
+	m_gestor->dibujar_efectos();
+    glutSwapBuffers();
+    glFlush();
+}
+
 /*
     -1 = unknown
     0 = circle
@@ -194,11 +250,13 @@ void TJuego::dibujar_ui(){
     2 = key tap
     3 = screen tap
     4 = fist
+	5 = 1 finger
+	6 = 2 finger
 */
 void TJuego::leap_gesture(){
 	bool tmp;
 	while(true){
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
 		// cout << gesture_state << ": " << gesture_idx << "\n";
 		if(gesture_state){
 
@@ -270,65 +328,27 @@ void TJuego::leap_gesture(){
 					}
 					break;
 				}
+				case 5:{
+					m_jugador->m_mover = 30.0f;
+					break;
+				}
+				case 6:{
+					m_jugador->m_mover = -30.0f;
+					break;
+				}
+				case 7:{
+					m_jugador->m_mover = 0.0f;
+					m_jugador->m_camara->m_delta_tangle = 0.0f;
+					break;
+				}
 				default:{
 					break;
 				}
 			}
 
-			if(tmp){
-				std::this_thread::sleep_for(std::chrono::milliseconds(250));
-				m_jugador->m_camara->m_delta_tangle = 0.0f;
-				tmp = false;
-			}
-
 			gesture_state = false;
 		}
 	}
-}
-
-void TJuego::dibujar_juego(){
-
-	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
-	m_etime[0] = (m_etime[2] - m_etime[1])/1000.0f;	// delta time
-	m_etime[1] = m_etime[2];
-
-	m_camara->actualizar(m_etime[0]);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-
-	if (test){
-		m_gestor->dibujar_leyenda();
-	}
-
-	glViewport(0,0,m_ancho,m_alto);
-    gluPerspective( m_camara->m_perspective[0], m_camara->m_perspective[1],
-					m_camara->m_perspective[2], m_camara->m_perspective[3]);
-    
-    if(!m_camara->m_person){
-    	gluLookAt(
-	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y, m_jugador->m_posicion.z,
-	    	m_jugador->m_posicion.x+m_camara->m_direccion.x, m_jugador->m_posicion.y+m_camara->m_direccion.y, m_jugador->m_posicion.z+m_camara->m_direccion.z,
-	    	0, 1, 0
-	    );
-    }
-    else{
-    	gluLookAt(
-			m_jugador->m_posicion.x-(m_camara->m_direccion.x*20), m_jugador->m_posicion.y+12.0f, m_jugador->m_posicion.z-(m_camara->m_direccion.z*20),
-	    	m_jugador->m_posicion.x, m_jugador->m_posicion.y+5.0f, m_jugador->m_posicion.z,
-	    	0, 1, 0
-	    );
-    }
-
-    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
-    m_gestor->set_dt(m_etime[0]);
-    m_gestor->dibujar_mapa();
-    m_gestor->dibujar_jugador(m_camara->m_direccion);
-	m_gestor->dibujar_efectos();
-    glutSwapBuffers();
-    glFlush();
 }
 
 void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
@@ -401,6 +421,7 @@ void TJuego::presionar_tecla(unsigned char _t, int _x, int _y){
 		}
 		case C:{
 			m_mapa->m_cuarto_actual->m_colision = !m_mapa->m_cuarto_actual->m_colision;
+			m_jugador->m_colis = !m_jugador->m_colis;
 			break;
 		}
         default:

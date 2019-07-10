@@ -219,7 +219,7 @@ void TCuarto::dibujar_items(){
 	int t, i;
 	for(i=0; i<(int)m_items.size(); i++){
 		m_items[i]->dibujar(m_colision);
-		t = m_items[i]->colision(m_jugador->m_posicion);
+		t = m_items[i]->colision(m_jugador->m_posicion, m_jugador->m_modelo->m_dim/2);
 		if(t >= 0){
 			switch (t){
 				case 0:{

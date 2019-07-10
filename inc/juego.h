@@ -13,7 +13,6 @@ using namespace irrklang;
 #include "camara.h"
 #include "utils.h"
 #include "gestor.h"
-#include "audio.h"
 #include "jugador.h"
 #include "enemigo.h"
 #include "boton.h"
@@ -50,10 +49,9 @@ private:
 	
 	static TJugador *m_jugador;
 	static TGestor *m_gestor;
-	TMapa *m_mapa;
-
 	static vector<TBoton> m_botons;
 
+	TMapa *m_mapa;
 	int menu_tid;
 
 	static void leap_gesture();
@@ -75,9 +73,5 @@ public:
 	TLuz m_luz;
 	TCamara *m_camara;
 };
-
-vector<TBoton> TJuego::m_botons;
-TJugador *TJuego::m_jugador;
-TGestor *TJuego::m_gestor;
 
 #endif

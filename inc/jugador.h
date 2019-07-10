@@ -37,6 +37,7 @@ public:
 	float m_piso;
 	int m_accion;
 	bool m_llave;
+	bool m_colis;
 
 	TJugador(glm::vec3);
 	TJugador();

@@ -2,6 +2,9 @@
 
 string armas_nombre[4] = {"Revolver K47 [Normal]", "Zoraki 914 [2 Disparos]", "Metralleta R-12 [12 Disparos Reloj]", "QBZ-95 [Bala con Rebote]"};
 
+float no_juemit[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+float juemit[4] = {0.0f, 1.0f, 0.0f, 1.0f};
+
 TJugador::TJugador(){
 
 }
@@ -19,6 +22,7 @@ TJugador::TJugador(glm::vec3 _pos){
 	this->armas[arebote] = false;
 
 	this->m_llave = false;
+	this->m_colis = true;
 }
 
 TJugador::~TJugador(){
@@ -37,6 +41,14 @@ void TJugador::dibujar(){
 		glPushMatrix();
 			glTranslatef(m_posicion.x, m_posicion.y, m_posicion.z);
 			glRotatef(angley, 0.0f, 1.0f, 0.0f);
+
+			if(m_colis){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, juemit);
+					glColor3f(0,1,0);
+					glutWireSphere(m_modelo->m_dim/2.0f, 8, 8);
+
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, no_juemit);
+			}
 			m_modelo->dibujar();
 		glPopMatrix();
 	}
