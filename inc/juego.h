@@ -38,7 +38,7 @@ class TJuego{
 private:
 	void initGL();
 
-	glm::vec3 m_etime;
+	static glm::vec3 m_etime;
 	glm::vec3 m_mouse;
 
 	GLsizei m_ancho;
@@ -50,15 +50,14 @@ private:
 	static TJugador *m_jugador;
 	static TGestor *m_gestor;
 	static vector<TBoton> m_botons;
-
-	TMapa *m_mapa;
+	static TMapa *m_mapa;
 
 	int m_num_niveles;
 	int m_cont_n_niveles;
 
 	int menu_tid;
 
-	bool salio;
+	static bool salio;
 
 	static void leap_gesture();
 	void dibujar_juego();

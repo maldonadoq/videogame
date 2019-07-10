@@ -22,6 +22,9 @@ ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump
 vector<TBoton> TJuego::m_botons;
 TJugador *TJuego::m_jugador;
 TGestor *TJuego::m_gestor;
+glm::vec3 TJuego::m_etime;
+TMapa * TJuego::m_mapa;
+bool TJuego::salio;
 
 
 
@@ -216,7 +219,7 @@ void TJuego::dibujar_ui(){
 void TJuego::leap_gesture(){
 	bool tmp;
 	while(true){
-		std::this_thread::sleep_for(std::chrono::milliseconds(250));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		// cout << gesture_state << ": " << gesture_idx << "\n";
 		if(gesture_state){
 
@@ -259,10 +262,6 @@ void TJuego::leap_gesture(){
 					}
 					break;
 				}
-				case 3:{
-					// cout << "screen tap\n";
-					break;
-				}
 				case 4:{
 					// cout << "fist\n";
 					if(interfaz){
@@ -284,21 +283,15 @@ void TJuego::leap_gesture(){
 						}
 					}
 					else{
-						m_jugador->m_mover = 0.0f;
+						if(m_mapa->m_cuarto_actual->verificar_puertas(m_jugador, &(m_mapa->m_cuarto_actual), salio)){
+							SoundEngine->play2D(door_effect);
+							// cout << "Pasando la puerta\n";
+						}
 					}
 					break;
 				}
 				case 5:{
-					m_jugador->m_mover = 30.0f;
-					break;
-				}
-				case 6:{
-					m_jugador->m_mover = -30.0f;
-					break;
-				}
-				case 7:{
-					m_jugador->m_mover = 0.0f;
-					m_jugador->m_camara->m_delta_tangle = 0.0f;
+					m_jugador->disparar(m_jugador->m_camara->m_direccion, m_etime[0]);
 					break;
 				}
 				default:{
