@@ -291,7 +291,9 @@ void TJuego::leap_gesture(){
 					break;
 				}
 				case 5:{
-					m_jugador->disparar(m_jugador->m_camara->m_direccion, m_etime[0]);
+					if(!interfaz){
+						m_jugador->disparar(m_jugador->m_camara->m_direccion, m_etime[0]);
+					}
 					break;
 				}
 				default:{
