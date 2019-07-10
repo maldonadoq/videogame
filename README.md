@@ -13,7 +13,16 @@
 - Glut (OpenGL Utility Toolkit)
 - GLU (GLU is the OpenGL Utility Library)
 - GLM (OpenGL Mathematics (GLM) is a header only C++ mathematics library for graphics software)
-- SFML (Simple and Fast Multimedia Library)
+- IrrKlang (A high level 2D and 3D cross platform [Windows, MacOS, Linux] sound engine and audio library)
+- Leap Motion (Natural and intuitive technology is used to create new realities for people to live, work, and play) [Download](https://www.leapmotion.com/setup/desktop/)
+
+
+### Leap Motion Install
+```
+$ extraer .zip
+$ cd Leap folder
+$ sudo dpkg --install Leap-*-x64.deb
+```
 
 ### Makefile
 

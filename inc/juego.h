@@ -8,6 +8,7 @@
 #include <irrKlang.h>
 using namespace irrklang;
 
+#include "listen.h"
 #include "mapa.h"
 #include "camara.h"
 #include "utils.h"
@@ -19,6 +20,8 @@ using namespace irrklang;
 #include "tmanager.h"
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 enum teclas{
 	ESC 	= 27,	// terminar el juego
@@ -45,21 +48,23 @@ private:
 	int   m_origen;
 	int filas, columnas;
 	
-	TJugador *m_jugador;
-	TGestor *m_gestor;
+	static TJugador *m_jugador;
+	static TGestor *m_gestor;
 	TMapa *m_mapa;
 
-	bool interfaz;
-	vector<TBoton> m_botons;
+	static vector<TBoton> m_botons;
 
 	int menu_tid;
+
+	static void leap_gesture();
+	void dibujar_juego();
+	void dibujar_ui();
+
 public:
 	TJuego(int &, char **);
 	virtual ~TJuego();
 
 	void dibujar();
-	void dibujar_juego();
-	void dibujar_ui();
 	void remodelar(GLsizei, GLsizei);
 	void presionar_tecla(unsigned char, int, int);
 	void presionar_tecla_especial(int, int, int);
@@ -70,5 +75,9 @@ public:
 	TLuz m_luz;
 	TCamara *m_camara;
 };
+
+vector<TBoton> TJuego::m_botons;
+TJugador *TJuego::m_jugador;
+TGestor *TJuego::m_gestor;
 
 #endif

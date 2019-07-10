@@ -7,6 +7,17 @@ TItem::TItem(glm::vec3 _pos, int _tipo, TModelo *_modelo){
     this->m_posicion = _pos;
     this->m_posicion.y += m_modelo->m_dim/2.0f;
     this->m_tipo = _tipo;
+    this->m_update = -1;
+    this->m_inter = NULL;
+}
+
+TItem::TItem(glm::vec3 _pos, int _tipo, int _update, TModelo *_modelo, TModelo *_inter){
+    this->m_modelo = _modelo;
+    this->m_posicion = _pos;
+    this->m_posicion.y += m_modelo->m_dim/2.0f;
+    this->m_tipo = _tipo;
+    this->m_update = _update;
+    this->m_inter = _inter;
 }
 
 void TItem::dibujar(bool _col){

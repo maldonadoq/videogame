@@ -1,6 +1,6 @@
 #include "../inc/jugador.h"
 
-string armas_nombre[4] = {"Revolver K47", "Zoraki 914", "Metralleta R-12", "QBZ-95"};
+string armas_nombre[4] = {"Revolver K47 [Normal]", "Zoraki 914 [2 Disparos]", "Metralleta R-12 [12 Disparos Reloj]", "QBZ-95 [Bala con Rebote]"};
 
 TJugador::TJugador(){
 
@@ -17,6 +17,8 @@ TJugador::TJugador(glm::vec3 _pos){
 	this->armas[adoble] = false;
 	this->armas[areloj] = false;
 	this->armas[arebote] = false;
+
+	this->m_llave = false;
 }
 
 TJugador::~TJugador(){
@@ -88,6 +90,10 @@ void TJugador::set_arma(int i){
 */
 string TJugador::get_arma(){
 	return armas_nombre[m_arma];
+}
+
+string TJugador::get_llave(){
+	return (m_llave)? "True": "False";
 }
 
 /*

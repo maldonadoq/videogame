@@ -13,6 +13,7 @@
 #include "hydra.h"
 #include "monstruo.h"
 #include "sentinel.h"
+#include "boss.h"
 #include "motor.h"
 #include <glm/gtc/type_ptr.hpp>
 

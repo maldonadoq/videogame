@@ -14,7 +14,7 @@ TMonstruo::TMonstruo(glm::vec3 _pos, TModelo *_model): TEnemigo(_pos){
 
 void TMonstruo::mover(glm::vec3 _jug, glm::vec3 _dim, glm::vec3 _centro, float _dt){
     m_direccion = glm::normalize((_jug - glm::vec3(m_posicion.x, _jug.y, m_posicion.z)));
-    glm::vec3 _pos = m_posicion + (m_direccion*_dt*3.0f);
+    glm::vec3 _pos = m_posicion + (m_direccion*_dt*4.0f);
 
     if(cuarto_colision(_dim - glm::vec3(m_modelo->m_dim, m_modelo->m_dim/2.0f, m_modelo->m_dim), _centro, _pos)){
         if(glm::distance(m_posicion, _jug) < rcol){

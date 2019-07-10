@@ -8,12 +8,21 @@ TMaterial line_material = {
 };
 
 int idx_menu = 0;
+bool interfaz;
+
 ISoundEngine *SoundEngine = createIrrKlangDevice();
-ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
-ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *menu_music  = SoundEngine->addSoundSourceFromFile("data/audio/mountain.wav");
+ISoundSource *game_music  = SoundEngine->addSoundSourceFromFile("data/audio/menu.wav");
 ISoundSource *door_effect = SoundEngine->addSoundSourceFromFile("data/audio/door.wav");
 ISoundSource *gun_effect  = SoundEngine->addSoundSourceFromFile("data/audio/gun.wav");
 ISoundSource *jump_effect = SoundEngine->addSoundSourceFromFile("data/audio/jump.wav");
+
+TListener listener;
+Controller controller;
+
+int gesture_idx = -1;
+bool gesture_state = 0;
+int gesture_sentido = 0;
 
 TJuego::TJuego(int &argc, char **argv){
 	this->m_ancho = 1000;
@@ -53,13 +62,15 @@ TJuego::TJuego(int &argc, char **argv){
 	this->m_origen = -1;
 
 	// this->m_audio = new TAudio();
-	this->interfaz = true;
+	interfaz = true;
 	this->menu_tid = TextureManager::Inst()->LoadTexture("data/texturas/menu.png",  GL_BGRA_EXT, GL_RGBA);
 
 	this->m_botons.push_back(TBoton(glm::vec2(12, 16.5), "Inicio"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, 8.5), "Continuar"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, 0.5), "Creditos"));
 	this->m_botons.push_back(TBoton(glm::vec2(12, -7.5), "Salir"));
+
+	controller.addListener(listener);  
 
     initGL();
 }
@@ -106,16 +117,17 @@ void TJuego::initGL(){
 	// glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	game_music->setDefaultVolume(0.5f);
-	menu_music->setDefaultVolume(0.7f);
+	menu_music->setDefaultVolume(0.4f);
     
-    door_effect->setDefaultVolume(0.4f);
+    door_effect->setDefaultVolume(0.3f);
     gun_effect->setDefaultVolume(0.4f);
+    jump_effect->setDefaultVolume(0.2f);
 
-	SoundEngine->play2D(menu_music, true);
+    std::thread(leap_gesture).detach();
 }
 
 bool fg = false;
-bool fm = false;
+bool fm = true;
 
 bool test = true;
 bool arrd = false;
@@ -175,6 +187,105 @@ void TJuego::dibujar_ui(){
 	glFlush();
 }
 
+/*
+    -1 = unknown
+    0 = circle
+    1 = swipe
+    2 = key tap
+    3 = screen tap
+    4 = fist
+*/
+void TJuego::leap_gesture(){
+	bool tmp;
+	while(true){
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		// cout << gesture_state << ": " << gesture_idx << "\n";
+		if(gesture_state){
+
+			switch(gesture_idx){
+				case 0:{
+					// cout << "circle\n";
+					break;
+				}
+				case 1:{
+					// cout << "swipe\n";
+					if(!interfaz){
+						if(gesture_sentido == 1){
+							// cout << "swipe left\n";
+							m_jugador->m_camara->m_delta_tangle = 1.0f;
+							tmp = true;
+						}
+						else if(gesture_sentido == 2){
+							// cout << "swipe right\n";
+							m_jugador->m_camara->m_delta_tangle = -1.0f;
+							tmp = true;
+						}
+						else if(gesture_sentido == 3){
+							// cout << "swipe down\n";
+							arrd = !arrd;
+							m_gestor->arrodillarse_jugador(arrd);
+						}
+						else if(gesture_sentido == 4){
+							// cout << "swipe up\n";
+							SoundEngine->play2D(jump_effect);
+							m_jugador->m_accion = 1;
+							m_jugador->m_velocidad = glm::vec3(0.0f, 10.0f, 0.0f);
+						}
+					}	
+					break;
+				}
+				case 2:{
+					// cout << "key tap\n";
+					if(interfaz){
+						idx_menu = (idx_menu+1)%(int)m_botons.size();
+					}
+					break;
+				}
+				case 3:{
+					// cout << "screen tap\n";
+					break;
+				}
+				case 4:{
+					// cout << "fist\n";
+					if(interfaz){
+						switch(idx_menu){
+							case 0:
+							case 1:{
+								interfaz = false;
+								fg =true;
+								break;
+							}
+							case 2:{
+								cout << "Créditos\n";
+								break;
+							}
+							case 3:{
+								exit(0);
+								break;
+							}
+						}
+					}
+					else{
+						m_jugador->m_mover = 0.0f;
+					}
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+
+			if(tmp){
+				std::this_thread::sleep_for(std::chrono::milliseconds(250));
+				m_jugador->m_camara->m_delta_tangle = 0.0f;
+				tmp = false;
+			}
+
+			gesture_state = false;
+		}
+	}
+}
+
 void TJuego::dibujar_juego(){
 
 	m_etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
@@ -211,7 +322,7 @@ void TJuego::dibujar_juego(){
 	    );
     }
 
-    dibujar_luz(m_luz, 1);
+    dibujar_luz(m_luz.m_position, 1, glm::vec4(1,1,1,1));
     m_gestor->set_dt(m_etime[0]);
     m_gestor->dibujar_mapa();
     m_gestor->dibujar_jugador(m_camara->m_direccion);
@@ -346,7 +457,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 				}
 			}
 			else{
-				m_jugador->m_mover = 20.0f;
+				m_jugador->m_mover = 30.0f;
 				m_camara->m_posicion.x += 2;
 			}
 			
@@ -359,7 +470,7 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 				idx_menu = (idx_menu+1)%(int)m_botons.size();
 			}
 			else{
-				m_jugador->m_mover = -20.0f;
+				m_jugador->m_mover = -30.0f;
 				m_camara->m_posicion.x -= 2;
 			}
 			// std::cout << "down\n";
@@ -367,13 +478,13 @@ void TJuego::presionar_tecla_especial(int c, int x, int y){
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			m_camara->m_delta_tangle = 0.5f;
+			m_camara->m_delta_tangle = 0.7f;
 			// std::cout << "left\n";			
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
 			// std::cout << "right\n";
-			m_camara->m_delta_tangle = -0.5f;
+			m_camara->m_delta_tangle = -0.7f;
 			break;
 		}		
 		default:

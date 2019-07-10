@@ -23,7 +23,7 @@ class TJugador{
 private:
 	bool armas[4];
 	int m_arma;
-public:	
+public:
 	TCamara *m_camara;
 	TModelo *m_modelo;
 
@@ -36,6 +36,7 @@ public:
     int m_vida;
 	float m_piso;
 	int m_accion;
+	bool m_llave;
 
 	TJugador(glm::vec3);
 	TJugador();
@@ -52,6 +53,7 @@ public:
 	void cambiar_arma();
 	void set_arma(int);
 	string get_arma();
+	string get_llave();
 
 	friend std::ostream& operator<< (std::ostream & out, const TJugador &p){
        out << "[" << p.m_posicion.x << "," << p.m_posicion.y << "," << p.m_posicion.z << "]";

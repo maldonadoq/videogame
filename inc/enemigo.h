@@ -20,7 +20,8 @@ enum TEnemVida{
 	emonstruo	= 15,
 	ehydra		= 10,
 	eovni		= 12,
-	esentinel	= 8
+	esentinel	= 8,
+	eboss		= 40
 };
 
 class TEnemigo{
