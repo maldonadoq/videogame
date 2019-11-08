@@ -31,3 +31,5 @@ $ cd videogame	// ir a la carpeta del juego
 $ make			// correr la sentencia make
 $ ./main		// ejecutar el programa
 ```
+
+[![Alt text](https://img.youtube.com/vi/dLtg0ikdKG8/0.jpg)](https://www.youtube.com/watch?v=dLtg0ikdKG8)
